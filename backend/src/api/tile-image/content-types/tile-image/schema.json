@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tile_images",
+  "info": {
+    "singularName": "tile-image",
+    "pluralName": "tile-images",
+    "displayName": "TileImage"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "media": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}
