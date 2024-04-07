@@ -10,12 +10,13 @@
   "dependencies": {
     "@apollo/client": "^3.9.10",
     "@vue/apollo-option": "^4.0.0",
+    "@yeger/vue-masonry-wall": "^5.0.9",
     "core-js": "^3.8.3",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
     "react": "^18.2.0",
     "vue": "^3.2.13",
-    "vue-masonry": "^0.16.0"
+    "vue-router": "4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
