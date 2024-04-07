@@ -10,7 +10,6 @@ RUN yarn config set network-timeout 600000 -g && yarn install
 ENV PATH /opt/node_modules/.bin:$PATH
 
 WORKDIR /opt/app
-COPY .strapi .
 COPY package.json .
 COPY yarn.lock .
 COPY types .
