@@ -19,9 +19,9 @@ COPY favicon.png .
 COPY jsconfig.json .
 COPY server.js .
 COPY config .
+COPY .env .
 RUN chown -R node:node /opt/app
 USER node
-RUN export NODE_ENV=production
 RUN ["yarn", "build"]
 EXPOSE 1337
 CMD ["yarn", "start"]
