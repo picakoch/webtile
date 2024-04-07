@@ -21,6 +21,7 @@ COPY server.js .
 COPY config .
 RUN chown -R node:node /opt/app
 USER node
+RUN export NODE_ENV=production
 RUN ["yarn", "build"]
 EXPOSE 1337
-CMD ["yarn", "prod-start"]
+CMD ["yarn", "start"]
