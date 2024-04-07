@@ -19,7 +19,7 @@ services:
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
     ports:
-      - 1439:1337
+      - 1337:1337
     volumes:
       - ./config:/opt/app/config
       - ./src:/opt/app/src
