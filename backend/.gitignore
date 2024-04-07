@@ -94,6 +94,8 @@ logs
 results
 node_modules
 .node_history
+.env_prod
+.env_dev
 
 ############################
 # Tests
