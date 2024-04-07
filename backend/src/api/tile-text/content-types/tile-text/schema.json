@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tile_texts",
+  "info": {
+    "singularName": "tile-text",
+    "pluralName": "tile-texts",
+    "displayName": "TileText"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "description": {
+      "type": "text"
+    },
+    "media": {
+      "allowedTypes": [
+        "files"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "tile": {
+      "type": "component",
+      "repeatable": false,
+      "component": "main.tile"
+    }
+  }
+}

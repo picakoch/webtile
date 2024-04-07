@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tags",
+  "info": {
+    "singularName": "tag",
+    "pluralName": "tags",
+    "displayName": "Tag"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "tile_images": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tile-image.tile-image",
+      "mappedBy": "tags"
+    },
+    "tile_videos": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tile-video.tile-video",
+      "mappedBy": "tags"
+    }
+  }
+}

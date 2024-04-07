@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * tile service
+ * config service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::tile.tile');
+module.exports = createCoreService('api::config.config');

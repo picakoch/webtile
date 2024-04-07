@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tile_videos",
+  "info": {
+    "singularName": "tile-video",
+    "pluralName": "tile-videos",
+    "displayName": "TileVideo",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "video": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "videos"
+      ]
+    },
+    "tile": {
+      "type": "component",
+      "repeatable": false,
+      "component": "main.tile"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "tile_videos"
+    }
+  }
+}

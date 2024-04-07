@@ -1,10 +1,10 @@
 {
-  "kind": "collectionType",
-  "collectionName": "tiles",
+  "kind": "singleType",
+  "collectionName": "configs",
   "info": {
-    "singularName": "tile",
-    "pluralName": "tiles",
-    "displayName": "Tile"
+    "singularName": "config",
+    "pluralName": "configs",
+    "displayName": "config"
   },
   "options": {
     "draftAndPublish": true

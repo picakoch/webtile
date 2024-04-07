@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * tile controller
+ * config controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::tile.tile');
+module.exports = createCoreController('api::config.config');
