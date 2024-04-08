@@ -1,15 +1,15 @@
 <template>
-    <Nav />
+    <NavBar />
     <router-view :key="$route.fullPath"></router-view>
 </template>
 
 <script>
-import Nav from "./components/Nav.vue";
+import NavBar from "./components/NavBar.vue";
 
 export default {
   name: 'App',
   components: {
-    Nav
+    NavBar
   }
 }
 </script>

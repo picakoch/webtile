@@ -1,16 +1,19 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
+import { createWebHistory, createRouter } from 'vue-router'
 import TileGrid from "./components/TileGrid";
+import NotFound from "./components/NotFound";
 
 const routes = [
-  { path: '/' },
+  { path: "/", component: TileGrid},
   {
-    path: "/category/:slug",
+    path: "/category/:name",
     component: TileGrid,
   },
+  { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound },
+  { path: '/:pathMatch(.*)', name: 'bad-not-found', component: NotFound },
 ]
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
 })
 

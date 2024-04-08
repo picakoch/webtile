@@ -1,13 +1,13 @@
 <template>
   <div>
-    GRID {{ $route.path }}
+    NOT FOUND!! {{ $route.path }}
   </div>
 </template>
 
 <script>
 
 export default {
-  name: "TileGrid",
+  name: "NotFound",
   data() {
     return {
     };

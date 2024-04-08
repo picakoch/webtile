@@ -6,7 +6,7 @@
   "scripts": {
     "prod-build": "NODE_ENV=production yarn build",
     "prod-start": "NODE_ENV=production yarn build && pm2 start server.js --name api",
-    "develop": "strapi develop",
+    "serve": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi"
