@@ -1,10 +1,12 @@
 import { createMemoryHistory, createRouter } from 'vue-router'
-
-import HelloWorld from './components/HelloWorld.vue'
+import TileGrid from "./components/TileGrid";
 
 const routes = [
-  { path: '/', component: HelloWorld },
-  { path: '/about', component: HelloWorld },
+  { path: '/' },
+  {
+    path: "/category/:slug",
+    component: TileGrid,
+  },
 ]
 
 const router = createRouter({

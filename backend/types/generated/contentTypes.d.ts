@@ -850,6 +850,42 @@ export interface ApiTagTag extends Schema.CollectionType {
   };
 }
 
+export interface ApiTileAudioTileAudio extends Schema.CollectionType {
+  collectionName: 'tile_audios';
+  info: {
+    singularName: 'tile-audio';
+    pluralName: 'tile-audios';
+    displayName: 'TileAudio';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    description: Attribute.Text;
+    tracks: Attribute.Relation<
+      'api::tile-audio.tile-audio',
+      'manyToMany',
+      'api::track.track'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::tile-audio.tile-audio',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::tile-audio.tile-audio',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiTileImageTileImage extends Schema.CollectionType {
   collectionName: 'tile_images';
   info: {
@@ -957,6 +993,43 @@ export interface ApiTileVideoTileVideo extends Schema.CollectionType {
   };
 }
 
+export interface ApiTrackTrack extends Schema.CollectionType {
+  collectionName: 'tracks';
+  info: {
+    singularName: 'track';
+    pluralName: 'tracks';
+    displayName: 'Track';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    image: Attribute.Media;
+    media: Attribute.Media;
+    tile_audios: Attribute.Relation<
+      'api::track.track',
+      'manyToMany',
+      'api::tile-audio.tile-audio'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::track.track',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::track.track',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -977,9 +1050,11 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::config.config': ApiConfigConfig;
       'api::tag.tag': ApiTagTag;
+      'api::tile-audio.tile-audio': ApiTileAudioTileAudio;
       'api::tile-image.tile-image': ApiTileImageTileImage;
       'api::tile-text.tile-text': ApiTileTextTileText;
       'api::tile-video.tile-video': ApiTileVideoTileVideo;
+      'api::track.track': ApiTrackTrack;
     }
   }
 }
