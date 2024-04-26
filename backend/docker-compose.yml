@@ -29,7 +29,7 @@ services:
       - db
 
   db:
-    container_name: postgres
+    container_name: strapi_db
     image: postgres
     restart: always
     volumes:
