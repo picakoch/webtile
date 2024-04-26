@@ -10,6 +10,7 @@
 <script>
 import TileGrid from "@/components/TileGrid.vue";
 import {IMAGES_Q, VIDEOS_Q, AUDIOS_Q, TEXTS_Q} from '@/lib/queries'
+import uk from "uikit"
 
 export default {
   name: "MainPage",
@@ -40,7 +41,7 @@ export default {
         return this.tileAudios.data
       } else if (this.name === "text") {
         return this.tileTexts.data
-      } else if (this.name === "all"){
+      } else if (this.name === "all") {
         return this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
       }
       return []
@@ -56,6 +57,15 @@ export default {
     tileTexts: TEXTS_Q,
   },
   mounted() {
+    var self = this
+    uk.util.on(document, 'hidden', '.uk-lightbox', function (e) {
+      console.log("HIDDEN", e)
+      // get parent path property
+      let path = self.$route.matched[this.$route.matched.length - 2].path
+      let realPath = path.replace(/:\w+/g, param =>
+          self.$route.params[param.substr(1)])
+      self.$router.push(realPath)
+    });
   }
 };
 </script>
