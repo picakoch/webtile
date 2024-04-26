@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :id="'image_' + id" uk-lightbox>
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
   data() {
     return {
       backend_url: process.env.VUE_APP_STRAPI_API_URL,
+      empty_gallery: false,
     }
   },
   computed: {},
@@ -24,19 +25,23 @@ export default {
   apollo: {
     tileImage: {
       query: IMAGE_Q,
-      variables() {
-        return {
-          id: this.id,
-        }
-      },
       result: function (res) {
         const images = res?.data?.tileImage?.data?.attributes?.images?.data.map((e) => {
           return {
             source: this.backend_url + e.attributes.formats.large.url,
-            caption: 'aaa'
+            caption: ''
           }
         }) || []
-        uk.lightboxPanel({items: images}).show();
+        if (images.length === 0){
+          this.empty_gallery = true
+        } else {
+          uk.lightboxPanel({items: images}).show();
+        }
+      },
+      variables() {
+        return {
+          id: this.id,
+        }
       }
     }
   }

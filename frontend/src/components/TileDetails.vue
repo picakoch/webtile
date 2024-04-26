@@ -1,10 +1,10 @@
 <template>
   <div>
     <TileImage v-if="name==='image'" :id="id"></TileImage>
-    <TileVideo v-if="name==='video'" :id="id"></TileVideo>
-    <TileAudio v-if="name==='audio'" :id="id"></TileAudio>
+    <TileVideo v-else-if="name==='video'" :id="id"></TileVideo>
+    <TileAudio v-else-if="name==='audio'" :id="id"></TileAudio>
     <div v-else>
-      Internal error
+      Internal error {{name}}
     </div>
   </div>
 </template>
@@ -13,10 +13,11 @@
 
 import TileImage from "@/components/TileImage.vue";
 import TileVideo from "@/components/TileVideo.vue";
+import TileAudio from "@/components/TileAudio.vue";
 
 export default {
   name: "TileDetails",
-  components: {TileVideo, TileImage},
+  components: {TileVideo, TileImage, TileAudio},
   props: {
     name: {
       type: String,
