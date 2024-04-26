@@ -16,10 +16,14 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Raleway"
     />
-
+    <style>
+        body {
+            font-family: Raleway, Arial;
+        }
+    </style>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
-  <body>
+  <body style="background-image: url(/images/bg.png); background-color: black; min-height: 100vh;">
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>

@@ -1,6 +1,8 @@
 <template>
   <div>
-    NOT FOUND!! {{ $route.path }}
+    <div uk-alert style="border: 10px red solid">
+      La page demandée n'existe pas: {{ $route.path }}
+    </div>
   </div>
 </template>
 
