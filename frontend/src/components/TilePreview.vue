@@ -1,14 +1,20 @@
 <template>
-  <div ref="el" :id="tile_id" :style="{ height: `${tile_height}px`, border: `solid ${border_size}px ${border_color}` }" class="">
-    <img :src="backend_url + thumb.url" :alt="tile.title" width="100%">
+  <div ref="el"
+       :id="tile_id"
+       :style="{ height: `${tile_height}px`, border: `solid ${border_size}px ${border_color}` }"
+  >
+    <v-lazy-image :src="backend_url + small.url" :src-placeholder="backend_url + thumb.url" :alt="tile.title"
+                  width="100%"/>
   </div>
 </template>
 
 <script>
-import { TILE_COLORS } from "@/lib/constants";
+import {TILE_COLORS} from "@/lib/constants";
+import VLazyImage from "v-lazy-image";
 
 export default {
   name: "TilePreview",
+  components: {VLazyImage},
   props: {
     tile: {
       type: Object,
@@ -27,22 +33,25 @@ export default {
       border_size: 10
     }
   },
-  computed:{
-    thumb: function(){
+  computed: {
+    thumb: function () {
       return this.tile.image.data.attributes.formats.thumbnail
     },
-    tile_height: function () {
-      return this.thumb.height *this.el_width  / this.thumb.width
+    small: function () {
+      return this.tile.image.data.attributes.formats.small
     },
-    border_color: function(){
+    tile_height: function () {
+      return this.thumb.height * this.el_width / this.thumb.width
+    },
+    border_color: function () {
       return TILE_COLORS[this.type]
     },
-    tile_id: function(){
+    tile_id: function () {
       return 'tile_' + this.tile.id
     },
   },
   mounted() {
-    this.el_width = document.getElementById(this.tile_id).offsetWidth -2*this.border_size
+    this.el_width = document.getElementById(this.tile_id).offsetWidth - 2 * this.border_size
   }
 }
 </script>

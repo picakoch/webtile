@@ -13,6 +13,9 @@ import App from "./App.vue";
 const app = createApp({
   render: () => h(App),
 });
+import uk from 'uikit'
+import Icons from 'uikit/dist/js/uikit-icons'
+uk.use(Icons)
 
 app.use(apolloProvider);
 app.use(MasonryWall)

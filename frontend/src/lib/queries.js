@@ -11,14 +11,6 @@ export const IMAGES_Q = gql`
                         title,
                         image {data{attributes{formats}}}
                     },
-                    media {
-                        data {
-                            id,
-                            attributes{
-                                formats
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -69,6 +61,48 @@ export const AUDIOS_Q = gql`
                         title,
                         image {data{attributes{formats}}}
                     },
+                }
+            }
+        }
+    }
+`
+
+export const IMAGE_Q = gql`
+        query getImage($id: ID) {
+            tileImage(id: $id) {
+                data {
+                    id
+                    attributes {
+                        description,
+                        images{data{attributes{formats}}},
+                    }
+                }
+            }
+        }
+    `
+export const VIDEO_Q = gql`
+    query getImage($id: ID) {
+        tileVideo(id: $id) {
+            data {
+                id
+                attributes {
+                    description,
+                    video{data{attributes{url}}},
+                }
+            }
+        }
+    }
+`
+
+
+export const AUDIO_Q = gql`
+    query getImage($id: ID) {
+        tileAudio(id: $id) {
+            data {
+                id
+                attributes {
+                    description
+                    tracks{data{attributes{name media{data{attributes{url}}}}}}
                 }
             }
         }

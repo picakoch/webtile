@@ -80,9 +80,10 @@ export default {
   border-color: #00000000;
 }
 
-.uk-navbar-nav>li>a:hover{
+.uk-navbar-nav>li>a:hover, .uk-navbar-nav>li>a:active{
   font-size: 1.1em;
   font-weight: 900;
+  color: #ccc;
   border-color: var(--border-color);
 }
 
@@ -90,6 +91,4 @@ export default {
   font-size: 1.2em;
 }
 
-.cat_image:hover{
-}
 </style>

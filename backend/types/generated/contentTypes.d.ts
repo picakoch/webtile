@@ -889,7 +889,7 @@ export interface ApiTileImageTileImage extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    media: Attribute.Media;
+    images: Attribute.Media;
     description: Attribute.Text;
     tile: Attribute.Component<'main.tile'>;
     createdAt: Attribute.DateTime;
@@ -956,6 +956,7 @@ export interface ApiTileVideoTileVideo extends Schema.CollectionType {
   attributes: {
     video: Attribute.Media;
     tile: Attribute.Component<'main.tile'>;
+    description: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

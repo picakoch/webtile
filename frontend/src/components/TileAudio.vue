@@ -4,11 +4,11 @@
 </template>
 
 <script>
-import {VIDEO_Q} from '@/lib/queries'
+import {AUDIO_Q} from '@/lib/queries'
 import uk from "uikit"
 
 export default {
-  name: "TileVideo",
+  name: "TileImage",
   props: {
     id: {
       type: String
@@ -23,16 +23,20 @@ export default {
   methods: {},
   apollo: {
     tileImage: {
-      query: VIDEO_Q,
+      query: AUDIO_Q,
       variables() {
         return {
           id: this.id,
         }
       },
       result: function (res) {
-        const video = res?.data?.tileImage?.data?.attributes?.video?.data?.attributes?.url
-        const description = res?.data?.tileImage?.data?.attributes?.description
-        uk.lightboxPanel({items: [{source: video, caption: description}]}).show();
+        const tracks = res?.data?.tileImage?.data?.attributes?.tracks?.data.map((e) => {
+          return {
+            source: this.backend_url + e.attributes.url,
+            caption: 'aaa'
+          }
+        }) || []
+        uk.lightboxPanel({items: tracks}).show();
       }
     }
   }
