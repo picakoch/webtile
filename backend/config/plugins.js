@@ -1,20 +1,20 @@
-module.exports = ({ env }) => ({
+module.exports = ({env}) => ({
   email: {
     config: {
       provider: 'nodemailer',
       providerOptions: {
-        host: env('SMTP_HOST', 'smtp.example.com'),
-        port: env('SMTP_PORT', 587),
+        host: 'ssl0.ovh.net',
+        port: 587,
         auth: {
-          user: env('SMTP_USERNAME'),
-          pass: env('SMTP_PASSWORD'),
+          type: "login",
+          user: 'sly@slyapollinaire.com',
+          pass: 'wB3RFW5nun9aEHKDxhmb', // sly
         },
-        // ... any custom nodemailer options
       },
       settings: {
-        defaultFrom: 'antoine@n21.fr',
-        defaultReplyTo: 'antoine@n21.fr',
+        defaultFrom: 'sly@slyapollinaire.com',
+        defaultReplyTo: 'sly@slyapollinaire.com',
       },
     },
   },
- });
+});
