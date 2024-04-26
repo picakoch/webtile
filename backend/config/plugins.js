@@ -3,17 +3,17 @@ module.exports = ({env}) => ({
     config: {
       provider: 'nodemailer',
       providerOptions: {
-        host: 'ssl0.ovh.net',
-        port: 587,
+        host: env('SMTP_HOST'),
+        port: env('SMTP_PORT'),
         auth: {
           type: "login",
-          user: 'sly@slyapollinaire.com',
-          pass: 'wB3RFW5nun9aEHKDxhmb', // sly
+          user: env('SMTP_EMAIL'),
+          pass: env('SMTP_PASSWORD'),
         },
       },
       settings: {
-        defaultFrom: 'sly@slyapollinaire.com',
-        defaultReplyTo: 'sly@slyapollinaire.com',
+        defaultFrom: env('SMTP_EMAIL'),
+        defaultReplyTo: env('SMTP_EMAIL'),
       },
     },
   },
