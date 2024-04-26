@@ -32,7 +32,7 @@ export default {
       if (this.$apollo.loading) {
         return []
       }
-      console.log(this.name)
+      this.$log.debug(this.name)
       if (this.name === "image") {
         return this.tileImages.data
       } else if (this.name === "video") {
@@ -57,14 +57,15 @@ export default {
     tileTexts: TEXTS_Q,
   },
   mounted() {
-    var self = this
+    var _self = this
     uk.util.on(document, 'hidden', '.uk-lightbox', function (e) {
-      console.log("HIDDEN", e)
+      _self.$log.debug("HIDDEN", e)
       // get parent path property
-      let path = self.$route.matched[this.$route.matched.length - 2].path
+      let path = _self.$route.matched[_self.$route.matched.length - 2].path
+      _self.$log.debug(path)
       let realPath = path.replace(/:\w+/g, param =>
-          self.$route.params[param.substr(1)])
-      self.$router.push(realPath)
+          _self.$route.params[param.substr(1)])
+      _self.$router.push(realPath)
     });
   }
 };

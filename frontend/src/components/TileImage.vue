@@ -27,12 +27,22 @@ export default {
       query: IMAGE_Q,
       result: function (res) {
         const images = res?.data?.tileImage?.data?.attributes?.images?.data.map((e) => {
+          let url = e.attributes.formats.thumbnail.url
+          if (e.attributes.formats?.small) {
+            url = e.attributes.formats.small.url
+          }
+          if (e.attributes.formats?.medium) {
+            url = e.attributes.formats.medium.url
+          }
+          if (e.attributes.formats?.large) {
+            url = e.attributes.formats.large.url
+          }
           return {
-            source: this.backend_url + e.attributes.formats.large.url,
+            source: this.backend_url + url,
             caption: ''
           }
         }) || []
-        if (images.length === 0){
+        if (images.length === 0) {
           this.empty_gallery = true
         } else {
           uk.lightboxPanel({items: images}).show();

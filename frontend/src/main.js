@@ -3,6 +3,20 @@ import MasonryWall from '@yeger/vue-masonry-wall'
 import { createApolloProvider } from "@vue/apollo-option";
 import apolloClient from "./vue-apollo";
 import router from "./router";
+import VueLogger from 'vuejs3-logger';
+
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+const options = {
+    isEnabled: true,
+    logLevel : isProduction ? 'error' : 'debug',
+    stringifyArguments : false,
+    showLogLevel : true,
+    showMethodName : true,
+    separator: '|',
+    showConsoleColors: true
+};
 
 const apolloProvider = createApolloProvider({
   defaultClient: apolloClient,
@@ -20,5 +34,5 @@ uk.use(Icons)
 app.use(apolloProvider);
 app.use(MasonryWall)
 app.use(router)
-
+app.use(VueLogger, options);
 app.mount("#app");

@@ -30,7 +30,6 @@ export default {
   },
   methods: {
     tileClicked: function (type, id) {
-      console.log(type, id)
       this.$router.push({path: `/category/${TILE_NAMES[type]}/${id}`})
     }
   },
