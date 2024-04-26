@@ -830,16 +830,6 @@ export interface ApiTagTag extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    tile_images: Attribute.Relation<
-      'api::tag.tag',
-      'manyToMany',
-      'api::tile-image.tile-image'
-    >;
-    tile_videos: Attribute.Relation<
-      'api::tag.tag',
-      'manyToMany',
-      'api::tile-video.tile-video'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -901,11 +891,6 @@ export interface ApiTileImageTileImage extends Schema.CollectionType {
   attributes: {
     media: Attribute.Media;
     description: Attribute.Text;
-    tags: Attribute.Relation<
-      'api::tile-image.tile-image',
-      'manyToMany',
-      'api::tag.tag'
-    >;
     tile: Attribute.Component<'main.tile'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -971,11 +956,6 @@ export interface ApiTileVideoTileVideo extends Schema.CollectionType {
   attributes: {
     video: Attribute.Media;
     tile: Attribute.Component<'main.tile'>;
-    tags: Attribute.Relation<
-      'api::tile-video.tile-video',
-      'manyToMany',
-      'api::tag.tag'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

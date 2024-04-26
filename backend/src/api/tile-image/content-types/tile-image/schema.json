@@ -23,12 +23,6 @@
     "description": {
       "type": "text"
     },
-    "tags": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::tag.tag",
-      "inversedBy": "tile_images"
-    },
     "tile": {
       "type": "component",
       "repeatable": false,
