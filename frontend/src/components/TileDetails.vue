@@ -1,6 +1,8 @@
 <template>
   <div>
-    <TileImage v-if="name==='image'" :image_id="id"></TileImage>
+    <TileImage v-if="name==='image'" :id="id"></TileImage>
+    <TileVideo v-if="name==='video'" :id="id"></TileVideo>
+    <TileAudio v-if="name==='audio'" :id="id"></TileAudio>
     <div v-else>
       Internal error
     </div>
@@ -10,10 +12,11 @@
 <script>
 
 import TileImage from "@/components/TileImage.vue";
+import TileVideo from "@/components/TileVideo.vue";
 
 export default {
   name: "TileDetails",
-  components: {TileImage},
+  components: {TileVideo, TileImage},
   props: {
     name: {
       type: String,
@@ -23,11 +26,9 @@ export default {
     },
   },
   data() {
-    return {
-    }
+    return {}
   },
-  computed: {
-  },
+  computed: {},
 }
 </script>
 

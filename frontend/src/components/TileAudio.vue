@@ -8,7 +8,7 @@ import {AUDIO_Q} from '@/lib/queries'
 import uk from "uikit"
 
 export default {
-  name: "TileImage",
+  name: "TileAudio",
   props: {
     id: {
       type: String
@@ -30,7 +30,7 @@ export default {
         }
       },
       result: function (res) {
-        const tracks = res?.data?.tileImage?.data?.attributes?.tracks?.data.map((e) => {
+        const tracks = res?.data?.tileAudio?.data?.attributes?.tracks?.data.map((e) => {
           return {
             source: this.backend_url + e.attributes.url,
             caption: 'aaa'

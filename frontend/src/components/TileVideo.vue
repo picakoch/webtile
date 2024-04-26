@@ -22,7 +22,7 @@ export default {
   computed: {},
   methods: {},
   apollo: {
-    tileImage: {
+    tileVideo: {
       query: VIDEO_Q,
       variables() {
         return {
@@ -30,9 +30,18 @@ export default {
         }
       },
       result: function (res) {
-        const video = res?.data?.tileImage?.data?.attributes?.video?.data?.attributes?.url
-        const description = res?.data?.tileImage?.data?.attributes?.description
-        uk.lightboxPanel({items: [{source: video, caption: description}]}).show();
+        console.log(res)
+        const video = res?.data?.tileVideo?.data?.attributes?.video?.data?.attributes?.url
+        const description = res?.data?.tileVideo?.data?.attributes?.description
+        let lb = uk.lightboxPanel(
+            {
+              id: 'video_' + this.id,
+              items: [{source: this.backend_url + video, caption: description}],
+            })
+        lb.show()
+        uk.util.on(lb, 'hidden', '.uk-lightbox', function (e) {
+          console.log("hide 1", e)
+        });
       }
     }
   }

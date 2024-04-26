@@ -9,6 +9,7 @@ docker compose up -d
 
 echo "Rebuild frontend"
 cd ../frontend
+yarn
 yarn build
 
 echo "Done."
