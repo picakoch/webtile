@@ -31,7 +31,7 @@
 
 <script>
 import gql from "graphql-tag";
-import { TILE_COLORS } from "@/lib/constants";
+import {TILE_COLORS} from "@/lib/constants";
 
 export default {
   name: "NavBar",
@@ -46,31 +46,34 @@ export default {
       config: null,
     };
   },
-  methods:{
-    nav_styles: function (cat_id){
+  methods: {
+    nav_styles: function (cat_id) {
       return {
         '--border-color': TILE_COLORS[cat_id],
       }
     }
   },
   apollo: {
-    config: gql`
-      query {
-          config {
-            data {
-              attributes {
-                title
+    config: {
+      query: gql`
+        query {
+            config {
+              data {
+                attributes {
+                  title
+                }
               }
             }
-          }
-      }
-    `,
+        }
+      `,
+      fetchPolicy: 'cache-first'
+    },
   },
 };
 </script>
 
 <style scoped>
-.uk-navbar-nav>li>a{
+.uk-navbar-nav > li > a {
   font-size: 1.1em;
   font-weight: 900;
   color: white;
@@ -80,14 +83,14 @@ export default {
   border-color: #00000000;
 }
 
-.uk-navbar-nav>li>a:hover, .uk-navbar-nav>li>a:active{
+.uk-navbar-nav > li > a:hover, .uk-navbar-nav > li > a:active {
   font-size: 1.1em;
   font-weight: 900;
   color: #ccc;
   border-color: var(--border-color);
 }
 
-.nav_text_main{
+.nav_text_main {
   font-size: 1.2em;
 }
 
