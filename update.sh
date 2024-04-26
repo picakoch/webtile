@@ -3,7 +3,7 @@
 echo "Rebuild backend"
 cd backend
 docker compose down
-docker commpose build
+docker compose build
 docker compose up -d
 
 echo "Rebuild frontend"
