@@ -15,7 +15,7 @@
             <div v-for="track in tileAudio?.data?.attributes?.tracks?.data"
                  :key="track.id">
               <span>{{ track.attributes.name }}</span>
-              <audio controls @play="play(track)">
+              <audio controls controlsList="nodownload noplaybackrate" @play="play(track)">
                 <source :src="backend_url + track.attributes.media.data.attributes.url">
                 Your browser does not support the audio element.
               </audio>
