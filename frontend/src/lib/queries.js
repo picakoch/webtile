@@ -1,16 +1,26 @@
 import gql from "graphql-tag";
 
+const tile = `
+ tile {
+    id
+    title
+    image {
+        data {
+            id
+            attributes {
+                formats
+            }
+        }
+    }
+}
+`
 export const IMAGES_Q = gql`
     query {
         tileImages {
             data {
                 id
                 attributes {
-                    tile {
-                        id,
-                        title,
-                        image {data{attributes{formats}}}
-                    },
+                    ${tile}
                 }
             }
         }
@@ -22,11 +32,7 @@ export const TEXTS_Q = gql`
             data {
                 id
                 attributes {
-                    tile {
-                        id,
-                        title,
-                        image {data{attributes{formats}}}
-                    },
+                    ${tile}
                 }
             }
         }
@@ -39,11 +45,7 @@ export const VIDEOS_Q = gql`
             data {
                 id
                 attributes {
-                    tile {
-                        id,
-                        title,
-                        image {data{attributes{formats}}}
-                    },
+                    ${tile}
                 }
             }
         }
@@ -56,38 +58,54 @@ export const AUDIOS_Q = gql`
             data {
                 id
                 attributes {
-                    tile {
-                        id,
-                        title,
-                        image {data{attributes{formats}}}
-                    },
+                    ${tile}
                 }
             }
         }
     }
+
 `
 
 export const IMAGE_Q = gql`
-        query getImage($id: ID) {
-            tileImage(id: $id) {
-                data {
+    query getImage($id: ID) {
+        tileImage(id: $id) {
+            data {
+                id
+                attributes {
                     id
-                    attributes {
-                        description,
-                        images{data{attributes{formats}}},
+                    description
+                    images {
+                        data {
+                            id
+                            attributes {
+                                formats
+                            }
+                        }
                     }
+                    ${tile}
                 }
             }
         }
-    `
+    }
+
+`
 export const VIDEO_Q = gql`
-    query getImage($id: ID) {
+    query getVideo($id: ID) {
         tileVideo(id: $id) {
             data {
                 id
                 attributes {
-                    description,
-                    video{data{attributes{url}}},
+                    id
+                    description
+                    video {
+                        data {
+                            id
+                            attributes {
+                                url
+                            }
+                        }
+                    }
+                    ${tile}
                 }
             }
         }
@@ -96,13 +114,37 @@ export const VIDEO_Q = gql`
 
 
 export const AUDIO_Q = gql`
-    query getImage($id: ID) {
+    query getAudio($id: ID) {
         tileAudio(id: $id) {
             data {
                 id
                 attributes {
                     description
-                    tracks{data{attributes{name media{data{attributes{url}}}}}}
+                    tracks {
+                        data {
+                            id
+                            attributes {
+                                name
+                                image {
+                                    data {
+                                        id
+                                        attributes {
+                                            formats
+                                        }
+                                    }
+                                }
+                                media {
+                                    data {
+                                        id
+                                        attributes {
+                                            url
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    ${tile}
                 }
             }
         }

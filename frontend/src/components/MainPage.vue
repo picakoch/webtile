@@ -67,6 +67,16 @@ export default {
           _self.$route.params[param.substr(1)])
       _self.$router.push(realPath)
     });
+
+    uk.util.on(document, 'hidden', '.uk-modal', function (e) {
+      _self.$log.debug("MODAL HIDDEN", e)
+      // get parent path property
+      let path = _self.$route.matched[_self.$route.matched.length - 2].path
+      _self.$log.debug(path)
+      let realPath = path.replace(/:\w+/g, param =>
+          _self.$route.params[param.substr(1)])
+      _self.$router.push(realPath)
+    });
   }
 };
 </script>
