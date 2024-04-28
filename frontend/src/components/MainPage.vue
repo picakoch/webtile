@@ -27,6 +27,21 @@ export default {
 
     };
   },
+  methods: {
+    updatePath(e) {
+      this.$log.debug("MODAL HIDDEN", e)
+      // get parent path property
+      if (this.$route.matched.length >= 2) {
+        let path = this.$route.matched[this.$route.matched.length - 2].path
+        this.$log.debug(path)
+        let realPath = path.replace(/:\w+/g, param =>
+            this.$route.params[param.substr(1)])
+        this.$router.push(realPath)
+      } else {
+        this.$log.debug("Matched ", this.$route.matched)
+      }
+    }
+  },
   computed: {
     items: function () {
       if (this.$apollo.loading) {
@@ -59,23 +74,10 @@ export default {
   mounted() {
     var _self = this
     uk.util.on(document, 'hidden', '.uk-lightbox', function (e) {
-      _self.$log.debug("HIDDEN", e)
-      // get parent path property
-      let path = _self.$route.matched[_self.$route.matched.length - 2].path
-      _self.$log.debug(path)
-      let realPath = path.replace(/:\w+/g, param =>
-          _self.$route.params[param.substr(1)])
-      _self.$router.push(realPath)
+      _self.updatePath(e)
     });
-
     uk.util.on(document, 'hidden', '.uk-modal', function (e) {
-      _self.$log.debug("MODAL HIDDEN", e)
-      // get parent path property
-      let path = _self.$route.matched[_self.$route.matched.length - 2].path
-      _self.$log.debug(path)
-      let realPath = path.replace(/:\w+/g, param =>
-          _self.$route.params[param.substr(1)])
-      _self.$router.push(realPath)
+      _self.updatePath(e)
     });
   }
 };

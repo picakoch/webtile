@@ -27,6 +27,9 @@
       "type": "component",
       "repeatable": false,
       "component": "main.tile"
+    },
+    "rank": {
+      "type": "integer"
     }
   }
 }

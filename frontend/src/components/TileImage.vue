@@ -26,6 +26,7 @@ export default {
     tileImage: {
       query: IMAGE_Q,
       result: function (res) {
+        const description = res?.data?.tileImage?.data?.attributes?.description
         const images = res?.data?.tileImage?.data?.attributes?.images?.data.map((e) => {
           let url = e.attributes.formats.thumbnail.url
           if (e.attributes.formats?.small) {
@@ -39,7 +40,7 @@ export default {
           }
           return {
             source: this.backend_url + url,
-            caption: ''
+            caption: description
           }
         }) || []
         if (images.length === 0) {

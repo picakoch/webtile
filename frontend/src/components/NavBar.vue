@@ -79,7 +79,7 @@ export default {
   color: white;
   padding-left: 10px;
   padding-right: 10px;
-  border: 10px solid;
+  border: 5px solid;
   border-color: #00000000;
 }
 

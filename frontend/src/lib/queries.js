@@ -72,7 +72,6 @@ export const IMAGE_Q = gql`
             data {
                 id
                 attributes {
-                    id
                     description
                     images {
                         data {
@@ -95,7 +94,6 @@ export const VIDEO_Q = gql`
             data {
                 id
                 attributes {
-                    id
                     description
                     video {
                         data {

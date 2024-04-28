@@ -38,7 +38,7 @@ export default {
       return this.tile.image.data.attributes.formats.thumbnail
     },
     small: function () {
-      return this.tile.image.data.attributes.formats.small
+      return this.tile?.image?.data?.attributes?.formats?.small || this.thumb
     },
     tile_height: function () {
       return this.thumb.height * this.el_width / this.thumb.width

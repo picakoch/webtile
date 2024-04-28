@@ -1,5 +1,5 @@
 <template>
-  <masonry-wall :items="items" :column-width="col_width" :gap="16">
+  <masonry-wall :items="items" :column-width="col_width" :gap="32">
     <template #default="{ item }">
       <TilePreview :tile="item.attributes.tile"
                    :width="col_width"
@@ -10,7 +10,7 @@
   </masonry-wall>
   <router-view></router-view>
 
-  <div uk-alert v-if="items.length === 0" style="border: 10px red solid">
+  <div uk-alert v-if="items.length === 0" style="border: 5px red solid">
     Aucun résultat
   </div>
 </template>

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "tile-text",
     "pluralName": "tile-texts",
-    "displayName": "TileText"
+    "displayName": "TileText",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,16 +16,20 @@
       "type": "text"
     },
     "media": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "files"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "tile": {
       "type": "component",
       "repeatable": false,
       "component": "main.tile"
+    },
+    "rank": {
+      "type": "integer"
     }
   }
 }

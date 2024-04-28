@@ -859,6 +859,7 @@ export interface ApiTileAudioTileAudio extends Schema.CollectionType {
       'api::track.track'
     >;
     tile: Attribute.Component<'main.tile'>;
+    rank: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -892,6 +893,7 @@ export interface ApiTileImageTileImage extends Schema.CollectionType {
     images: Attribute.Media;
     description: Attribute.Text;
     tile: Attribute.Component<'main.tile'>;
+    rank: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -916,6 +918,7 @@ export interface ApiTileTextTileText extends Schema.CollectionType {
     singularName: 'tile-text';
     pluralName: 'tile-texts';
     displayName: 'TileText';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -924,6 +927,7 @@ export interface ApiTileTextTileText extends Schema.CollectionType {
     description: Attribute.Text;
     media: Attribute.Media;
     tile: Attribute.Component<'main.tile'>;
+    rank: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -957,6 +961,7 @@ export interface ApiTileVideoTileVideo extends Schema.CollectionType {
     video: Attribute.Media;
     tile: Attribute.Component<'main.tile'>;
     description: Attribute.Text;
+    rank: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
