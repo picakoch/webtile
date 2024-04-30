@@ -4,6 +4,7 @@ import { createApolloProvider } from "@vue/apollo-option";
 import apolloClient from "./vue-apollo";
 import router from "./router";
 import VueLogger from 'vuejs3-logger';
+import {store} from './store/index'
 
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -34,5 +35,6 @@ uk.use(Icons)
 app.use(apolloProvider);
 app.use(MasonryWall)
 app.use(router)
+app.use(store)
 app.use(VueLogger, options);
 app.mount("#app");

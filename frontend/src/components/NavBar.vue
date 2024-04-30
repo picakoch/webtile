@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="uk-background-cover"
-         style="background-image: url(/images/banner_sly.png); height: 90px; width: 100%; opacity: 1">
+    <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="uk-background-cover"
+         :style="`background-image: url(${$store.getters.backend_url + $store.getters.config.banner.data.attributes.formats}); height: 90px; width: 100%; opacity: 1`">
       <nav class="uk-navbar-container" uk-navbar style="background: none;">
         <div class="uk-navbar-left uk-margin-left">
           <ul class="uk-navbar-nav">
             <li>
-              <a class="nav_text_main" href="/">{{ config?.data?.attributes.title }} </a>
+              <a class="nav_text_main" href="/">{{ $store.getters.config?.title }} </a>
             </li>
           </ul>
         </div>
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
 import {TILE_COLORS} from "@/lib/constants";
 
 export default {
@@ -43,7 +42,6 @@ export default {
         {name: 'Audio', id: 'audio', strapiId: 'TileAudioEntity'},
         {name: 'Textes', id: 'text', strapiId: 'TileTextEntity'},
       ],
-      config: null,
     };
   },
   methods: {
@@ -52,22 +50,6 @@ export default {
         '--border-color': TILE_COLORS[cat_id],
       }
     }
-  },
-  apollo: {
-    config: {
-      query: gql`
-        query {
-            config {
-              data {
-                attributes {
-                  title
-                }
-              }
-            }
-        }
-      `,
-      fetchPolicy: 'cache-first'
-    },
   },
 };
 </script>

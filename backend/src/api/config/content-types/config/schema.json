@@ -4,7 +4,8 @@
   "info": {
     "singularName": "config",
     "pluralName": "configs",
-    "displayName": "config"
+    "displayName": "config",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,6 +14,39 @@
   "attributes": {
     "title": {
       "type": "string"
+    },
+    "banner": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "bg": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "image_color": {
+      "type": "string",
+      "default": "#281145"
+    },
+    "video_color": {
+      "type": "string",
+      "default": "#4b83a4"
+    },
+    "text_color": {
+      "type": "string",
+      "default": "#d09426"
+    },
+    "audio_color": {
+      "type": "string",
+      "default": "#6f2526"
     }
   }
 }

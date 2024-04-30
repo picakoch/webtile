@@ -7,7 +7,7 @@
       <div class="uk-text-center" uk-grid>
         <div class="uk-width-1-3">
           <div class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary">
-            <v-lazy-image width="100%" :src="backend_url + current_image_url" v-if="current_image_url"></v-lazy-image>
+            <v-lazy-image width="100%" :src="$store.getters.backend_url + current_image_url" v-if="current_image_url"></v-lazy-image>
           </div>
         </div>
         <div class="uk-width-2-3">
@@ -16,7 +16,7 @@
                  :key="track.id">
               <span class="uk-margin-right">{{ track.attributes.name }}</span>
               <audio controls controlsList="nodownload noplaybackrate" @play="play(track)">
-                <source :src="backend_url + track.attributes.media.data.attributes.url">
+                <source :src="$store.getters.backend_url + track.attributes.media.data.attributes.url">
                 Your browser does not support the audio element.
               </audio>
             </div>
@@ -46,7 +46,6 @@ export default {
   data() {
     return {
       current_image_url: null,
-      backend_url: process.env.VUE_APP_STRAPI_API_URL,
     }
   },
   mounted() {

@@ -16,7 +16,6 @@ export default {
   },
   data() {
     return {
-      backend_url: process.env.VUE_APP_STRAPI_API_URL,
     }
   },
   computed: {},

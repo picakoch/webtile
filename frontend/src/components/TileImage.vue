@@ -16,7 +16,6 @@ export default {
   },
   data() {
     return {
-      backend_url: process.env.VUE_APP_STRAPI_API_URL,
       empty_gallery: false,
     }
   },
@@ -39,7 +38,7 @@ export default {
             url = e.attributes.formats.large.url
           }
           return {
-            source: this.backend_url + url,
+            source: this.$store.getters.backend_url + url,
             caption: description
           }
         }) || []

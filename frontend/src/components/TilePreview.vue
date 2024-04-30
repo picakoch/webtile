@@ -3,7 +3,7 @@
        :id="tile_id"
        :style="{ height: `${tile_height}px`, border: `solid ${border_size}px ${border_color}` }"
   >
-    <v-lazy-image :src="backend_url + small.url" :src-placeholder="backend_url + thumb.url" :alt="tile.title"
+    <v-lazy-image :src="$store.getters.backend_url + small.url" :src-placeholder="$store.getters.backend_url + thumb.url" :alt="tile.title"
                   width="100%"/>
   </div>
 </template>
@@ -28,9 +28,14 @@ export default {
   },
   data() {
     return {
-      backend_url: process.env.VUE_APP_STRAPI_API_URL,
       el_width: this.width,
       border_size: 10
+    }
+  },
+  methods: {
+    onResize(){
+      this.$log.debug("RESIZE")
+      this.el_width = document.getElementById(this.tile_id).offsetWidth - 2 * this.border_size
     }
   },
   computed: {
@@ -51,7 +56,13 @@ export default {
     },
   },
   mounted() {
-    this.el_width = document.getElementById(this.tile_id).offsetWidth - 2 * this.border_size
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize)
+    })
+    this.onResize();
+  },
+  beforeUnmount() {
+      window.removeEventListener('resize', this.onResize)
   }
 }
 </script>

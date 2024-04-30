@@ -14,7 +14,40 @@ const tile = `
     }
 }
 `
-export const IMAGES_Q = gql`
+
+export const CONFIG_Q = gql`
+    query {
+        config {
+            data {
+                attributes {
+                    title
+                    banner {
+                        data {
+                            id
+                            attributes {
+                                formats:url
+                            }
+                        }
+                    }
+                    bg {
+                        data {
+                            id
+                            attributes {
+                                formats:url
+                            }
+                        }
+                    }
+                    text_color
+                    image_color
+                    video_color
+                    audio_color
+                }
+            }
+        }
+    }
+`
+
+    export const IMAGES_Q = gql`
     query {
         tileImages {
             data {

@@ -794,12 +794,19 @@ export interface ApiConfigConfig extends Schema.SingleType {
     singularName: 'config';
     pluralName: 'configs';
     displayName: 'config';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     title: Attribute.String;
+    banner: Attribute.Media;
+    bg: Attribute.Media;
+    image_color: Attribute.String & Attribute.DefaultTo<'#281145'>;
+    video_color: Attribute.String & Attribute.DefaultTo<'#4b83a4'>;
+    text_color: Attribute.String & Attribute.DefaultTo<'#d09426'>;
+    audio_color: Attribute.String & Attribute.DefaultTo<'#6f2526'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

@@ -84,12 +84,5 @@ export default {
 </script>
 
 <style>
-.spinner {
-  color: white;
-  margin-left: auto;
-}
 
-.uk-spinner svg * {
-  stroke-width: 2px !important;
-}
 </style>
