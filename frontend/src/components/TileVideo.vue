@@ -34,7 +34,7 @@ export default {
         uk.lightboxPanel(
             {
               id: 'video_' + this.id,
-              items: [{source: this.backend_url + video, caption: description}],
+              items: [{source: this.$store.getters.backend_url + video, caption: description}],
             }).show()
       }
     }
