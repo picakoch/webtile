@@ -936,11 +936,11 @@ export interface ApiTileTextTileText extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    description: Attribute.Text;
     media: Attribute.Media;
     tile: Attribute.Component<'main.tile'>;
     rank: Attribute.Integer;
     main_rank: Attribute.Integer;
+    description: Attribute.Blocks;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

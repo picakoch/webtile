@@ -184,3 +184,26 @@ export const AUDIO_Q = gql`
         }
     }
 `
+
+export const TEXT_Q = gql`
+    query getText($id: ID) {
+        tileText(id: $id) {
+            data {
+                id
+                attributes {
+                    description
+                    media {
+                        data {
+                            id
+                            attributes {
+                                name
+                                url
+                            }
+                        }
+                    }
+                    ${tile}
+                }
+            }
+        }
+    }
+`

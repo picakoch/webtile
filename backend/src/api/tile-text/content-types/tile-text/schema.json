@@ -12,9 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "description": {
-      "type": "text"
-    },
     "media": {
       "type": "media",
       "multiple": false,
@@ -33,6 +30,9 @@
     },
     "main_rank": {
       "type": "integer"
+    },
+    "description": {
+      "type": "blocks"
     }
   }
 }
