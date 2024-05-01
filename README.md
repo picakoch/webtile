@@ -2,6 +2,8 @@
 
 This project is a website canvas for artists.
 
+It is very much inspired by [Radiohead's public library](https://www.radiohead.com/library/)
+
 ## Backend: strapi 
 
 It uses strapi as backend, defining specific collection types for 
@@ -17,3 +19,4 @@ It also include a config type with global configuration:
 # Frontend: VueJS
 
 It uses VueJS 3 (options API) for the frontend, which is basically a masonry wall of items.
+
