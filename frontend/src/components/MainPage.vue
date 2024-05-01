@@ -40,6 +40,13 @@ export default {
       } else {
         this.$log.debug("Matched ", this.$route.matched)
       }
+    },
+    stopAllTracks() {
+      const els = [...document.getElementsByTagName('audio')]
+      els.forEach(e => {
+        e.pause()
+        e.currentTime = 0
+      })
     }
   },
   computed: {
@@ -82,6 +89,7 @@ export default {
     });
     uk.util.on(document, 'hidden', '.uk-modal', function (e) {
       _self.updatePath(e)
+      _self.stopAllTracks()
     });
   }
 };

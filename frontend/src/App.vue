@@ -76,7 +76,13 @@ export default {
 .footer {
   height: 80px;
 }
+
 .footer *, .headline *{
   color: #ccc;
 }
+
+.footer a, .headline a{
+  color: #4b83a4;
+}
+
 </style>

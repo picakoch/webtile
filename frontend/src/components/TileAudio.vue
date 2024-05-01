@@ -15,7 +15,8 @@
           <div class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary">
             <div v-for="track in tileAudio?.data?.attributes?.tracks?.data"
                  :key="track.id" class="uk-margin-small-top">
-              <audio :id="`audio_track_${track.id}`" controls controlsList="nodownload noplaybackrate" @play="play(track)">
+              <audio :id="`audio_track_${track.id}`" controls controlsList="nodownload noplaybackrate"
+                     @play="play(track)">
                 <source :src="$store.getters.backend_url + track.attributes.media.data.attributes.url">
                 Your browser does not support the audio element.
               </audio>
@@ -69,11 +70,24 @@ export default {
           this.current_image_url = image.medium.url
         }
       }
-      this.tileAudio?.data?.attributes?.tracks?.data.forEach(e => {
-        if (e.id !== track.id) {
-          document.getElementById(`audio_track_${e.id}`).pause()
-        }
-      })
+      if (track) {
+        this.tileAudio?.data?.attributes?.tracks?.data.forEach(e => {
+          if (e.id !== track.id) {
+            const el = document.getElementById(`audio_track_${e.id}`)
+            if (el) {
+              el.pause()
+              el.currentTime = 0
+            }
+          }
+        })
+      } else {
+        const els = [...document.getElementsByTagName('audio')]
+        els.forEach(e => {
+          e.pause()
+          e.currentTime = 0
+        })
+      }
+
 
     }
   },

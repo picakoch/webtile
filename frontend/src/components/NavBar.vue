@@ -71,7 +71,7 @@ export default {
 }
 
 .nav_text_main {
-  font-size: 1.2em;
+  font-size: 2.2em!important;
 }
 
 .nav-item{
