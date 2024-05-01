@@ -42,6 +42,8 @@ export const CONFIG_Q = gql`
                     video_color
                     audio_color
                     headline
+                    contacts
+                    categories
                 }
             }
         }

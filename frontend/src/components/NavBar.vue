@@ -6,20 +6,24 @@
         <div class="uk-navbar-left uk-margin-left">
           <ul class="uk-navbar-nav">
             <li>
-              <a class="nav_text_main" href="/">{{ $store.getters.config?.title }} </a>
+              <RouterLink
+                  to="/all"
+                  class="nav_text_main"
+              >{{ $store.getters.config?.title }}
+              </RouterLink>
             </li>
           </ul>
         </div>
 
         <div class="uk-navbar-right uk-margin-right">
           <ul class="uk-navbar-nav">
-            <li v-for="category in categories" v-bind:key="category.id">
+            <li v-for="category in $store.getters.config?.categories" :key="category.id" class="nav-item">
               <RouterLink
                   :to="'/' + category.id "
                   :key="category.id "
                   :style="nav_styles(category.strapiId)"
               >
-                {{ category.name }}
+                {{ category.label }}
               </RouterLink>
             </li>
           </ul>
@@ -36,12 +40,6 @@ export default {
   name: "NavBar",
   data() {
     return {
-      categories: [
-        {name: 'Images', id: 'image', strapiId: 'TileImageEntity'},
-        {name: 'Vidéos', id: 'video', strapiId: 'TileVideoEntity'},
-        {name: 'Audio', id: 'audio', strapiId: 'TileAudioEntity'},
-        {name: 'Textes', id: 'text', strapiId: 'TileTextEntity'},
-      ],
     };
   },
   methods: {
@@ -76,4 +74,7 @@ export default {
   font-size: 1.2em;
 }
 
+.nav-item{
+  max-width: 200px;
+}
 </style>

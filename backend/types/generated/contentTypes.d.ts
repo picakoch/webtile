@@ -808,6 +808,8 @@ export interface ApiConfigConfig extends Schema.SingleType {
     text_color: Attribute.String & Attribute.DefaultTo<'#d09426'>;
     audio_color: Attribute.String & Attribute.DefaultTo<'#6f2526'>;
     headline: Attribute.Blocks;
+    contacts: Attribute.Blocks;
+    categories: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

@@ -4,12 +4,22 @@
   </div>
   <template v-else>
     <NavBar/>
-    <div uk-alert style="border: 5px #AA4A44 solid; background-color: #ccc;" class="uk-margin-top" v-if="$store.getters.config?.headline">
+    <div uk-alert style="border: 5px #AA4A44 solid" class="uk-margin-top headline uk-background-secondary"
+         v-if="$store.getters.config?.headline">
+       <a href class="uk-alert-close" uk-close></a>
       <StrapiBlocks :content="$store.getters.config.headline"></StrapiBlocks>
     </div>
     <router-view :key="$route.fullPath"></router-view>
-    <div class="uk-width-1-1 uk-margin-top footer">
-      Design and dev: <a href="https://www.n21.fr">N21</a>
+    <hr class="uk-divider-icon">
+
+    <div class="uk-width-1-1 uk-margin-top footer uk-text-center">
+      <div v-if="$store.getters.config?.contacts">
+        <StrapiBlocks :content="$store.getters.config.contacts"></StrapiBlocks>
+      </div>
+      <div class="uk-text-muted">
+            Design and dev: <a href="https://www.n21.fr">N21</a>
+      </div>
+
     </div>
   </template>
 </template>
@@ -36,7 +46,6 @@ export default {
       query: CONFIG_Q,
       fetchPolicy: 'cache-first',
       result(res) {
-        this.$log.debug(res)
         this.$store.commit('setConfig', res.data.config.data.attributes)
         this.$log.debug(this.$store.getters.config)
       }
@@ -65,6 +74,9 @@ export default {
 }
 
 .footer {
-  padding-left: 15px;
+  height: 80px;
+}
+.footer *, .headline *{
+  color: #ccc;
 }
 </style>

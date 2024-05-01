@@ -52,6 +52,12 @@
     },
     "headline": {
       "type": "blocks"
+    },
+    "contacts": {
+      "type": "blocks"
+    },
+    "categories": {
+      "type": "json"
     }
   }
 }
