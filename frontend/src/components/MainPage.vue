@@ -57,7 +57,11 @@ export default {
       } else if (this.name === "text") {
         return this.tileTexts.data
       } else if (this.name === "all") {
-        return this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
+        let arr = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
+        return arr
+            .map(value => ({value, sort: Math.random()}))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({value}) => value)
       }
       return []
     }
