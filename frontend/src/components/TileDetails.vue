@@ -1,10 +1,10 @@
 <template>
   <div>
-    <TileImage v-if="name==='image'" :id="id"></TileImage>
-    <TileVideo v-else-if="name==='video'" :id="id"></TileVideo>
-    <TileAudio v-else-if="name==='audio'" :id="id"></TileAudio>
+    <TileImage v-if="item_cat==='image'" :id="item_id"></TileImage>
+    <TileVideo v-else-if="item_cat==='video'" :id="item_id"></TileVideo>
+    <TileAudio v-else-if="item_cat==='audio'" :id="item_id"></TileAudio>
     <div v-else>
-      Internal error {{name}}
+      Internal error {{item_cat}}
     </div>
   </div>
 </template>
@@ -19,9 +19,6 @@ export default {
   name: "TileDetails",
   components: {TileVideo, TileImage, TileAudio},
   props: {
-    name: {
-      type: String,
-    },
     id: {
       type: String
     },
@@ -29,7 +26,14 @@ export default {
   data() {
     return {}
   },
-  computed: {},
+  computed: {
+    item_id() {
+      return this.id.split('_')[1]
+    },
+    item_cat() {
+      return this.id.split('_')[0]
+    }
+  },
 }
 </script>
 

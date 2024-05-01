@@ -15,7 +15,7 @@
           <ul class="uk-navbar-nav">
             <li v-for="category in categories" v-bind:key="category.id">
               <RouterLink
-                  :to="'/category/' + category.id "
+                  :to="'/' + category.id "
                   :key="category.id "
                   :style="nav_styles(category.strapiId)"
               >

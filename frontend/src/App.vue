@@ -5,7 +5,7 @@
   <template v-else>
     <NavBar/>
     <router-view :key="$route.fullPath"></router-view>
-    <div class="uk-width-1-1 uk-margin-top uk-padding-left">
+    <div class="uk-width-1-1 uk-margin-top footer">
       Design and dev: <a href="https://www.n21.fr">N21</a>
     </div>
   </template>
@@ -58,5 +58,9 @@ export default {
 
 .uk-spinner svg * {
   stroke-width: 2px !important;
+}
+
+.footer{
+  padding-left: 15px;
 }
 </style>

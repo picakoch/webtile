@@ -4,21 +4,23 @@
     <div class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary">
       <button class="uk-modal-close-default" type="button" uk-close></button>
       <h2 class="uk-modal-title">{{ tileAudio?.data?.attributes?.description }}</h2>
-      <div class="uk-text-center" uk-grid>
+      <div class="" uk-grid>
         <div class="uk-width-1-3">
           <div class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary">
-            <v-lazy-image width="100%" :src="$store.getters.backend_url + current_image_url" v-if="current_image_url"></v-lazy-image>
+            <v-lazy-image width="100%" :src="$store.getters.backend_url + current_image_url"
+                          v-if="current_image_url"></v-lazy-image>
           </div>
         </div>
         <div class="uk-width-2-3">
           <div class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary">
             <div v-for="track in tileAudio?.data?.attributes?.tracks?.data"
-                 :key="track.id">
-              <span class="uk-margin-right">{{ track.attributes.name }}</span>
-              <audio controls controlsList="nodownload noplaybackrate" @play="play(track)">
+                 :key="track.id" class="uk-margin-small-top">
+              <audio :id="`audio_track_${track.id}`" controls controlsList="nodownload noplaybackrate" @play="play(track)">
                 <source :src="$store.getters.backend_url + track.attributes.media.data.attributes.url">
                 Your browser does not support the audio element.
               </audio>
+              <span class="uk-margin-left">{{ track.attributes.name }}</span>
+
             </div>
           </div>
         </div>
@@ -67,6 +69,12 @@ export default {
           this.current_image_url = image.medium.url
         }
       }
+      this.tileAudio?.data?.attributes?.tracks?.data.forEach(e => {
+        if (e.id !== track.id) {
+          document.getElementById(`audio_track_${e.id}`).pause()
+        }
+      })
+
     }
   },
   apollo: {

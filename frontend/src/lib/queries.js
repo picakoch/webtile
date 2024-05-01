@@ -49,7 +49,7 @@ export const CONFIG_Q = gql`
 
     export const IMAGES_Q = gql`
     query {
-        tileImages {
+        tileImages(sort: "rank") {
             data {
                 id
                 attributes {
@@ -61,7 +61,7 @@ export const CONFIG_Q = gql`
 `
 export const TEXTS_Q = gql`
     query {
-        tileTexts {
+        tileTexts(sort: "rank") {
             data {
                 id
                 attributes {
@@ -74,7 +74,7 @@ export const TEXTS_Q = gql`
 
 export const VIDEOS_Q = gql`
     query {
-        tileVideos {
+        tileVideos(sort: "rank") {
             data {
                 id
                 attributes {
@@ -87,7 +87,7 @@ export const VIDEOS_Q = gql`
 
 export const AUDIOS_Q = gql`
     query {
-        tileAudios {
+        tileAudios(sort: "rank") {
             data {
                 id
                 attributes {

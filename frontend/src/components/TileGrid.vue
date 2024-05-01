@@ -1,5 +1,5 @@
 <template>
-  <masonry-wall :items="items" :column-width="col_width" :gap="32">
+  <masonry-wall :items="items" :column-width="col_width" :gap="20">
     <template #default="{ item }">
       <TilePreview :tile="item.attributes.tile"
                    :width="col_width"
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     tileClicked: function (type, id) {
-      this.$router.push({path: `/category/${TILE_NAMES[type]}/${id}`})
+      this.$router.push({path: `${this.$route.path}/${TILE_NAMES[type]}_${id}`})
     }
   },
   data() {
