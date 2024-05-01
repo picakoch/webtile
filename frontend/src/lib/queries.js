@@ -41,6 +41,7 @@ export const CONFIG_Q = gql`
                     image_color
                     video_color
                     audio_color
+                    headline
                 }
             }
         }

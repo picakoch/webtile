@@ -4,6 +4,9 @@
   </div>
   <template v-else>
     <NavBar/>
+    <div uk-alert style="border: 5px #AA4A44 solid; background-color: #ccc;" class="uk-margin-top" v-if="$store.getters.config?.headline">
+      <StrapiBlocks :content="$store.getters.config.headline"></StrapiBlocks>
+    </div>
     <router-view :key="$route.fullPath"></router-view>
     <div class="uk-width-1-1 uk-margin-top footer">
       Design and dev: <a href="https://www.n21.fr">N21</a>
@@ -14,11 +17,12 @@
 <script>
 import NavBar from "./components/NavBar.vue";
 import {CONFIG_Q} from "@/lib/queries";
+import {StrapiBlocks} from 'vue-strapi-blocks-renderer';
 
 export default {
   name: 'App',
   components: {
-    NavBar
+    NavBar, StrapiBlocks
   },
   data() {
     return {
@@ -31,7 +35,7 @@ export default {
     config: {
       query: CONFIG_Q,
       fetchPolicy: 'cache-first',
-      result(res){
+      result(res) {
         this.$log.debug(res)
         this.$store.commit('setConfig', res.data.config.data.attributes)
         this.$log.debug(this.$store.getters.config)
@@ -60,7 +64,7 @@ export default {
   stroke-width: 2px !important;
 }
 
-.footer{
+.footer {
   padding-left: 15px;
 }
 </style>

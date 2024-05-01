@@ -16,21 +16,23 @@
       "type": "string"
     },
     "banner": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "bg": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "image_color": {
       "type": "string",
@@ -47,6 +49,9 @@
     "audio_color": {
       "type": "string",
       "default": "#6f2526"
+    },
+    "headline": {
+      "type": "blocks"
     }
   }
 }

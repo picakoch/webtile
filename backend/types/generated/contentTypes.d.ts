@@ -807,6 +807,7 @@ export interface ApiConfigConfig extends Schema.SingleType {
     video_color: Attribute.String & Attribute.DefaultTo<'#4b83a4'>;
     text_color: Attribute.String & Attribute.DefaultTo<'#d09426'>;
     audio_color: Attribute.String & Attribute.DefaultTo<'#6f2526'>;
+    headline: Attribute.Blocks;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
