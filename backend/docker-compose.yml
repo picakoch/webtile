@@ -24,7 +24,7 @@ services:
       - ./src:/opt/app/src
       - ./package.json:/opt/package.json
       - ./yarn.lock:/opt/yarn.lock
-      - ./public/uploads:/opt/app/public/uploads
+      - ./public:/opt/app/public
     depends_on:
       - db
 
