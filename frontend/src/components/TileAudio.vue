@@ -36,7 +36,6 @@
 <script>
 import {AUDIO_Q} from '@/lib/queries'
 import uk from "uikit"
-import VLazyImage from "v-lazy-image";
 
 export default {
   name: "TileAudio",
@@ -45,7 +44,7 @@ export default {
       type: String
     }
   },
-  components: {VLazyImage},
+  components: {},
   data() {
     return {
       current_image_url: null,
