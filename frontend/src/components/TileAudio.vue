@@ -7,8 +7,8 @@
       <div class="" uk-grid>
         <div class="uk-width-1-3">
           <div class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary">
-            <v-lazy-image width="100%" :src="$store.getters.backend_url + current_image_url"
-                          v-if="current_image_url"></v-lazy-image>
+            <img alt="track_image" width="100%" :src="$store.getters.backend_url + current_image_url"
+                          v-if="current_image_url">
           </div>
         </div>
         <div class="uk-width-2-3">
@@ -51,6 +51,9 @@ export default {
       current_image_url: null,
     }
   },
+  beforeMount() {
+    document.getElementById("audio_modal_" + this.id)?.remove();
+  },
   mounted() {
     uk.modal("#audio_modal_" + this.id).show();
   },
@@ -73,11 +76,16 @@ export default {
       if (track) {
         this.tileAudio?.data?.attributes?.tracks?.data.forEach(e => {
           if (e.id !== track.id) {
-            const el = document.getElementById(`audio_track_${e.id}`)
+            let el = document.getElementById(`audio_track_${e.id}`)
             if (el) {
               el.pause()
               el.currentTime = 0
+              this.$log.debug(el)
+            } else {
+              this.$log.debug("Cannot find ", `audio_track_${e.id}`)
             }
+          } else {
+            this.$log.debug("skip", track.id)
           }
         })
       } else {

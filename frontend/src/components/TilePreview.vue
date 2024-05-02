@@ -1,6 +1,7 @@
 <template>
   <div ref="el"
        :id="tile_id"
+       class="tile-preview"
        :style="{ height: `${tile_height}px`, border: `solid ${border_size}px ${border_color}` }"
   >
     <v-lazy-image :src="$store.getters.backend_url + small.url" :src-placeholder="$store.getters.backend_url + thumb.url" :alt="tile.title"
@@ -29,7 +30,7 @@ export default {
   data() {
     return {
       el_width: this.width,
-      border_size: 10
+      border_size: 8
     }
   },
   methods: {
@@ -49,7 +50,7 @@ export default {
       return this.thumb.height * this.el_width / this.thumb.width
     },
     border_color: function () {
-      return TILE_COLORS[this.type]
+      return TILE_COLORS[this.type]()
     },
     tile_id: function () {
       return 'tile_' + this.tile.id
@@ -69,5 +70,7 @@ export default {
 
 
 <style scoped>
-
+.tile-preview:hover{
+  cursor: pointer;
+}
 </style>

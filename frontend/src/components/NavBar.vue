@@ -45,7 +45,7 @@ export default {
   methods: {
     nav_styles: function (cat_id) {
       return {
-        '--border-color': TILE_COLORS[cat_id],
+        '--border-color': TILE_COLORS[cat_id](),
       }
     }
   },

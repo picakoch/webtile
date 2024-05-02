@@ -35,6 +35,7 @@ export default {
             {
               id: 'video_' + this.id,
               items: [{source: this.$store.getters.backend_url + video, caption: description}],
+              videoAutoplay: true
             }).show()
       }
     }

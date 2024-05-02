@@ -42,6 +42,9 @@ export default {
   data() {
     return {}
   },
+  beforeMount() {
+    document.getElementById("text_modal_" + this.id)?.remove();
+  },
   mounted() {
     uk.modal("#text_modal_" + this.id).show();
   },
