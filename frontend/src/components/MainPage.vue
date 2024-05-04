@@ -4,9 +4,11 @@
       <div class="spinner" uk-spinner="ratio: 3"></div>
     </div>
     <template v-else>
-      <div v-for="(tile_groups, group) in items" :key="group">
-        <h3 v-if=group class="white_text">{{ group }}</h3>
-        <TileGrid :items="tile_groups"></TileGrid>
+      <div v-for="group in sorted_items" :key="group" class="tile-group">
+        <div class="uk-text-center">
+          <h3 v-if=group class="white_text">{{ group[0] }}</h3>
+        </div>
+        <TileGrid :items="group[1]"></TileGrid>
       </div>
     </template>
   </div>
@@ -58,7 +60,14 @@ export default {
     }
   },
   computed: {
-    items: function () {
+    sorted_items() {
+      if (this.name === "time") {
+        return Object.entries(this.items).sort((a, b) => -(a[0] - b[0]))
+      } else {
+        return Object.entries(this.items).sort((a, b) => a[0] - b[0])
+      }
+    },
+    items() {
       if (this.$apollo.loading) {
         return []
       }
@@ -74,7 +83,7 @@ export default {
       } else if (this.name === "time") {
         let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
         allTiles.sort(this.sortTime)
-        return Object.groupBy(allTiles, (e) => new Date(e?.attributes?.tile?.date).getFullYear() || new Date().getFullYear())
+        return Object.groupBy(allTiles, (e) => e?.attributes?.tile?.date ? new Date(e.attributes.tile.date).getFullYear() : new Date().getFullYear())
 
       } else if (this.name === "theme") {
         let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
@@ -116,5 +125,7 @@ export default {
 </script>
 
 <style>
-
+.tile-group {
+  margin-top: 10px;
+}
 </style>
