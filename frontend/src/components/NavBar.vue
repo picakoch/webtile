@@ -124,6 +124,7 @@ export default {
 
 .uk-navbar-nav > li > .uk-active {
   border-color: #ccc;
+  color: #fff;
 }
 
 .uk-navbar-nav > li.uk-active > a {
