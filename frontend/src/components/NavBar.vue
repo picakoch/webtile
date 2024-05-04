@@ -1,7 +1,7 @@
 <template>
   <div>
     <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="uk-background-cover"
-         :style="`background-image: url(${$store.getters.backend_url + $store.getters.config.banner.data.attributes.formats}); height: 100px; width: 100%; opacity: 1`">
+         :style="`background-image: url(${$store.getters.backend_url + $store.getters.config.banner.data.attributes.formats}); height: 90px; width: 100%; opacity: 1`">
       <nav class="uk-navbar-container" uk-navbar style="background: none;">
         <div class="uk-navbar-left uk-margin-left">
           <ul class="uk-navbar-nav">
@@ -77,8 +77,9 @@ export default {
   data() {
     return {
       categories: [
-        {id: "time", label: "Chronologique"},
-        {id: "theme", label: "Thématique"}
+        {id: "time", label: "Par date"},
+        {id: "theme", label: "Par thème"},
+        {id: "type", label: "Par type"},
       ],
       section: 'Aller à',
     };
@@ -103,9 +104,9 @@ export default {
   font-size: 1.1em;
   font-weight: 600;
   color: #ccc;
-  padding-left: 20px;
-  padding-right: 20px;
-  border-bottom: 5px solid #ccc;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-top: 5px solid #ccc;
   border-color: #00000000;
 }
 

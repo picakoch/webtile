@@ -72,23 +72,22 @@ export default {
       if (this.$apollo.loading) {
         return []
       }
-      this.$log.debug(this.name)
-      if (this.name === "image") {
-        return {image: this.tileImages.data}
-      } else if (this.name === "video") {
-        return {video: this.tileVideos.data}
-      } else if (this.name === "audio") {
-        return {audio: this.tileAudios.data}
-      } else if (this.name === "text") {
-        return {text: this.tileTexts.data}
-      } else if (this.name === "time") {
-        let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
-        allTiles.sort(this.sortTime)
+
+      if (this.name === "type") {
+        return {
+          'Photos': this.tileImages.data,
+          'Videos': this.tileVideos.data,
+          'Musique': this.tileAudios.data,
+          'Textes': this.tileTexts.data
+        }
+      }
+      let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
+      allTiles.sort(this.sortTime)
+
+      if (this.name === "time") {
         return Object.groupBy(allTiles, (e) => e?.attributes?.tile?.date ? new Date(e.attributes.tile.date).getFullYear() : new Date().getFullYear())
       } else if (this.name === "theme") {
-        let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
         let ret = {}
-        allTiles.sort(this.sortTime)
         this.$store.getters.tags.forEach(tag => {
           let tag_name = tag?.attributes?.name
           let fTiles = allTiles.filter(e => e?.attributes?.tile?.tags?.data.map(ee => ee.attributes.name).includes(tag_name))
