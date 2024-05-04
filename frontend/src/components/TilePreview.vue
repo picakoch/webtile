@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     onResize(){
-      this.$log.debug("RESIZE")
       this.el_width = document.getElementById(this.tile_id).offsetWidth - 2 * this.border_size
     }
   },
