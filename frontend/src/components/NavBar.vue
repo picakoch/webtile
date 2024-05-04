@@ -17,6 +17,13 @@
 
         <div class="uk-navbar-right uk-margin-right">
           <ul class="uk-navbar-nav">
+            <li v-for="(sub_category, index) in sub_categories" :key="index" class="nav-item">
+              <a
+                  :href="`#tile_group_${sub_category}`"
+              >
+                {{ sub_category }}
+              </a>
+            </li>
             <li v-for="category in categories" :key="category.id" class="nav-item">
               <RouterLink
                   :to="'/' + category.id "
@@ -26,15 +33,7 @@
                 {{ category.label }}
               </RouterLink>
             </li>
-            <li v-for="sub_category in sub_categories" :key="category.id" class="nav-item">
-              <a
-                  :href="`#${sub_category.id}`"
-                  :key="'subcat_' + category.id "
-                  :class="{ 'uk-active' : $route.path === '/' + category.id}"
-              >
-                AAA
-              </a>
-            </li>
+
           </ul>
         </div>
       </nav>
@@ -51,9 +50,13 @@ export default {
         {id: "time", label: "Chronologique"},
         {id: "theme", label: "Thématique"}
       ],
-      sub_categories: [
-      ]
     };
+  },
+  props: {
+    sub_categories: {
+      type: Array,
+      default: () => []
+    }
   },
   methods: {},
 };

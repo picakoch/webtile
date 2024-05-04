@@ -3,13 +3,13 @@
     <div class="spinner uk-margin-top" uk-spinner="ratio: 3"></div>
   </div>
   <template v-else>
-    <NavBar/>
+    <NavBar :sub_categories="sub_categories"/>
     <div uk-alert style="border: 8px #F4F1BB solid" class="uk-margin-top headline uk-background-secondary"
          v-if="$store.getters.config?.headline">
       <a href class="uk-alert-close" uk-close></a>
       <StrapiBlocks :content="$store.getters.config.headline"></StrapiBlocks>
     </div>
-    <router-view :key="$route.fullPath"></router-view>
+    <router-view @nav="onNav"></router-view>
     <hr class="uk-divider-icon">
 
     <div class="uk-width-1-1 uk-margin-top footer uk-text-center">
@@ -37,9 +37,16 @@ export default {
   data() {
     return {
       config: null,
+      sub_categories: [],
     };
   },
   mounted() {
+  },
+  methods: {
+    onNav(keys) {
+      this.$log.info('NEW NAV EVENT', keys)
+      this.sub_categories = keys
+    }
   },
   apollo: {
     config: {
@@ -47,14 +54,12 @@ export default {
       fetchPolicy: 'cache-first',
       result(res) {
         this.$store.commit('setConfig', res.data.config.data.attributes)
-        this.$log.debug(this.$store.getters.config)
       }
     },
     tags: {
       query: TAGS_Q,
       fetchPolicy: 'cache-first',
       result(res) {
-        this.$log.debug(res)
         this.$store.commit('setTags', res.data.tags.data)
       }
     },

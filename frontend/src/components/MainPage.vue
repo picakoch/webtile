@@ -4,7 +4,7 @@
       <div class="spinner" uk-spinner="ratio: 3"></div>
     </div>
     <template v-else>
-      <div v-for="group in sorted_items" :key="group" class="tile-group">
+      <div v-for="group in sorted_items" :key="group" class="tile-group" :id="`tile_group_${group[0]}`">
         <div class="uk-text-center">
           <h3 v-if=group class="white_text">{{ group[0] }}</h3>
         </div>
@@ -84,7 +84,6 @@ export default {
         let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
         allTiles.sort(this.sortTime)
         return Object.groupBy(allTiles, (e) => e?.attributes?.tile?.date ? new Date(e.attributes.tile.date).getFullYear() : new Date().getFullYear())
-
       } else if (this.name === "theme") {
         let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
         let ret = {}
@@ -120,6 +119,12 @@ export default {
       _self.updatePath(e)
       _self.stopAllTracks()
     });
+  },
+  watch: {
+    sorted_items: function () {
+      console.log("Changed sorted items", this.sorted_items.map(e => e[0]))
+      this.$emit('nav', this.sorted_items.map(e => e[0]))
+    }
   }
 };
 </script>
