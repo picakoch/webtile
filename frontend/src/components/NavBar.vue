@@ -14,17 +14,16 @@
             </li>
           </ul>
         </div>
-
-        <div class="uk-navbar-right uk-margin-right">
-          <ul class="uk-navbar-nav">
-            <li v-if="sub_categories.length > 0">
-              <a href="#">Aller ...</a>
+        <div class="uk-navbar-center">
+          <ul class="uk-navbar-nav nav-center" v-if="sub_categories.length > 10">
+            <li>
+              <a href="#">{{ section }}</a>
               <div class="uk-navbar-dropdown uk-light uk-background-secondary">
-                <ul class="uk-nav uk-navbar-dropdown-nav">
+                <ul class="uk-nav uk-navbar-dropdown-nav uk-navbar-spy" uk-scrollspy-nav="closest: li; scroll: true">
                   <li v-for="(sub_category, index) in sub_categories" :key="index" class="nav-item">
                     <a
                         :href="`#tile_group_${sub_category}`"
-                        uk-scroll="offset: 10"
+                        class="uk-light"
                     >
                       {{ sub_category }}
                     </a>
@@ -32,8 +31,22 @@
                 </ul>
               </div>
             </li>
+          </ul>
+          <ul v-else-if="sub_categories.length > 0" class="uk-navbar-nav nav-center uk-navbar-spy"
+              uk-scrollspy-nav="closest: li; scroll: true">
+            <li v-for="(sub_category, index) in sub_categories" :key="index" class="nav-item">
+              <a
+                  :href="`#tile_group_${sub_category}`"
+                  class="uk-light"
+              >
+                {{ sub_category }}
+              </a>
+            </li>
+          </ul>
+        </div>
 
-
+        <div class="uk-navbar-right uk-margin-right">
+          <ul class="uk-navbar-nav">
             <li v-for="category in categories" :key="category.id" class="nav-item">
               <RouterLink
                   :to="'/' + category.id "
@@ -57,6 +70,8 @@
 </template>
 
 <script>
+import uk from "uikit";
+
 export default {
   name: "NavBar",
   data() {
@@ -65,6 +80,7 @@ export default {
         {id: "time", label: "Chronologique"},
         {id: "theme", label: "Thématique"}
       ],
+      section: 'Aller à',
     };
   },
   props: {
@@ -74,6 +90,11 @@ export default {
     }
   },
   methods: {},
+  mounted() {
+    uk.util.on(document, 'active', '.uk-navbar-container', function (e) {
+      console.log("ACTIVE", e.detail[1].id)
+    });
+  }
 };
 </script>
 
@@ -88,12 +109,25 @@ export default {
   border-color: #00000000;
 }
 
+.uk-navbar-nav.nav-center > li > a {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #aaa;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: none;
+}
+
 .uk-navbar-nav > li > a:hover {
   color: #fff;
 }
 
 .uk-navbar-nav > li > .uk-active {
   border-color: #ccc;
+}
+
+.uk-navbar-nav > li.uk-active > a {
+  color: #fff;
 }
 
 .nav-text-main {
