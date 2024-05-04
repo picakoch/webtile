@@ -4,6 +4,14 @@ const tile = `
  tile {
     id
     title
+    date
+    tags {
+        data {
+            attributes {
+              name
+            }
+        }
+    }
     image {
         data {
             id
@@ -43,16 +51,28 @@ export const CONFIG_Q = gql`
                     audio_color
                     headline
                     contacts
-                    categories
                 }
             }
         }
     }
 `
 
-    export const IMAGES_Q = gql`
+export const TAGS_Q = gql`
     query {
-        tileImages(sort: "rank") {
+        tags(sort: "rank") {
+            data {
+                id
+                attributes {
+                    name
+                }
+            }
+        }
+    }
+`
+
+export const IMAGES_Q = gql`
+    query {
+        tileImages(sort: "tile.date:desc") {
             data {
                 id
                 attributes {
@@ -62,9 +82,10 @@ export const CONFIG_Q = gql`
         }
     }
 `
+
 export const TEXTS_Q = gql`
     query {
-        tileTexts(sort: "rank") {
+        tileTexts(sort: "tile.date:desc") {
             data {
                 id
                 attributes {
@@ -77,7 +98,7 @@ export const TEXTS_Q = gql`
 
 export const VIDEOS_Q = gql`
     query {
-        tileVideos(sort: "rank") {
+        tileVideos(sort: "tile.date:desc") {
             data {
                 id
                 attributes {
@@ -90,7 +111,7 @@ export const VIDEOS_Q = gql`
 
 export const AUDIOS_Q = gql`
     query {
-        tileAudios(sort: "rank") {
+        tileAudios(sort: "tile.date:desc") {
             data {
                 id
                 attributes {

@@ -3,7 +3,12 @@
     <div v-if="$apollo.loading" class="uk-position-center">
       <div class="spinner" uk-spinner="ratio: 3"></div>
     </div>
-    <TileGrid v-else :items="items"></TileGrid>
+    <template v-else>
+      <div v-for="(tile_groups, group) in items" :key="group">
+        <h3 v-if=group class="white_text">{{ group }}</h3>
+        <TileGrid :items="tile_groups"></TileGrid>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -47,6 +52,9 @@ export default {
         e.pause()
         e.currentTime = 0
       })
+    },
+    sortTime(a, b) {
+      return new Date(a?.attributes?.tile?.date) - new Date(b?.attributes?.tile?.date)
     }
   },
   computed: {
@@ -56,20 +64,32 @@ export default {
       }
       this.$log.debug(this.name)
       if (this.name === "image") {
-        return this.tileImages.data
+        return {image: this.tileImages.data}
       } else if (this.name === "video") {
-        return this.tileVideos.data
+        return {video: this.tileVideos.data}
       } else if (this.name === "audio") {
-        return this.tileAudios.data
+        return {audio: this.tileAudios.data}
       } else if (this.name === "text") {
-        return this.tileTexts.data
-      } else if (this.name === "all") {
-        let arr = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
-        return arr
-            .map(value => ({value, sort: Math.random()}))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({value}) => value)
+        return {text: this.tileTexts.data}
+      } else if (this.name === "time") {
+        let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
+        allTiles.sort(this.sortTime)
+        return Object.groupBy(allTiles, (e) => new Date(e?.attributes?.tile?.date).getFullYear() || new Date().getFullYear())
+
+      } else if (this.name === "theme") {
+        let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
+        let ret = {}
+        console.log(this.$store.getters.tags)
+        this.$store.getters.tags.forEach(tag => {
+          let tag_name = tag?.attributes?.name
+          let fTiles = allTiles.filter(e => e?.attributes?.tile?.tags?.data.map(ee => ee.attributes.name).includes(tag_name))
+          if (fTiles.length > 0) {
+            ret[tag_name] = fTiles
+          }
+        })
+        return ret
       }
+
       return []
     }
   },

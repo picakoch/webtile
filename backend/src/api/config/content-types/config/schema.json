@@ -55,9 +55,6 @@
     },
     "contacts": {
       "type": "blocks"
-    },
-    "categories": {
-      "type": "json"
     }
   }
 }

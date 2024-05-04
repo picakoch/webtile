@@ -28,9 +28,6 @@
     "rank": {
       "type": "integer"
     },
-    "main_rank": {
-      "type": "integer"
-    },
     "description": {
       "type": "blocks"
     }

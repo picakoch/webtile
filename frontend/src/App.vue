@@ -6,7 +6,7 @@
     <NavBar/>
     <div uk-alert style="border: 8px #F4F1BB solid" class="uk-margin-top headline uk-background-secondary"
          v-if="$store.getters.config?.headline">
-       <a href class="uk-alert-close" uk-close></a>
+      <a href class="uk-alert-close" uk-close></a>
       <StrapiBlocks :content="$store.getters.config.headline"></StrapiBlocks>
     </div>
     <router-view :key="$route.fullPath"></router-view>
@@ -17,7 +17,7 @@
         <StrapiBlocks :content="$store.getters.config.contacts"></StrapiBlocks>
       </div>
       <div class="uk-text-muted">
-            Design and dev: <a href="https://www.n21.fr">N21</a>
+        Design and dev: <a href="https://www.n21.fr">N21</a>
       </div>
 
     </div>
@@ -26,7 +26,7 @@
 
 <script>
 import NavBar from "./components/NavBar.vue";
-import {CONFIG_Q} from "@/lib/queries";
+import {CONFIG_Q, TAGS_Q} from "@/lib/queries";
 import {StrapiBlocks} from 'vue-strapi-blocks-renderer';
 
 export default {
@@ -48,6 +48,14 @@ export default {
       result(res) {
         this.$store.commit('setConfig', res.data.config.data.attributes)
         this.$log.debug(this.$store.getters.config)
+      }
+    },
+    tags: {
+      query: TAGS_Q,
+      fetchPolicy: 'cache-first',
+      result(res) {
+        this.$log.debug(res)
+        this.$store.commit('setTags', res.data.tags.data)
       }
     },
   },
@@ -77,11 +85,11 @@ export default {
   height: 80px;
 }
 
-.footer *, .headline *{
+.footer *, .headline *, .white_text {
   color: #ccc;
 }
 
-.footer a, .headline a{
+.footer a, .headline a {
   color: #4b83a4;
 }
 

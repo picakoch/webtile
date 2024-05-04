@@ -4,6 +4,7 @@ export const store = createStore({
     state() {
         return {
             config: {},
+            tags: [],
             backend_url: process.env.VUE_APP_STRAPI_API_URL,
         }
     },
@@ -11,14 +12,19 @@ export const store = createStore({
         config: state => {
             return state.config
         },
+        tags: state => {
+            return state.tags
+        },
         backend_url: state => {
             return state.backend_url
         }
     },
     mutations: {
         setConfig(state, cfg) {
-            // mutate state
             state.config = cfg
+        },
+        setTags(state, tags) {
+            state.tags = tags
         }
     }
 })

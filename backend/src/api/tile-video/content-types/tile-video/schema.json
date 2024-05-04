@@ -30,9 +30,6 @@
     },
     "rank": {
       "type": "integer"
-    },
-    "main_rank": {
-      "type": "integer"
     }
   }
 }

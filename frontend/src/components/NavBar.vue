@@ -17,14 +17,23 @@
 
         <div class="uk-navbar-right uk-margin-right">
           <ul class="uk-navbar-nav">
-            <li v-for="category in $store.getters.config?.categories" :key="category.id" class="nav-item">
+            <li v-for="category in categories" :key="category.id" class="nav-item">
               <RouterLink
                   :to="'/' + category.id "
-                  :key="category.id "
-                  :style="nav_styles(category.strapiId)"
+                  :key="'cat_' + category.id "
+                  :class="{ 'uk-active' : $route.path === '/' + category.id}"
               >
                 {{ category.label }}
               </RouterLink>
+            </li>
+            <li v-for="sub_category in sub_categories" :key="category.id" class="nav-item">
+              <a
+                  :href="`#${sub_category.id}`"
+                  :key="'subcat_' + category.id "
+                  :class="{ 'uk-active' : $route.path === '/' + category.id}"
+              >
+                AAA
+              </a>
             </li>
           </ul>
         </div>
@@ -34,47 +43,46 @@
 </template>
 
 <script>
-import {TILE_COLORS} from "@/lib/constants";
-
 export default {
   name: "NavBar",
   data() {
     return {
+      categories: [
+        {id: "time", label: "Chronologique"},
+        {id: "theme", label: "Thématique"}
+      ],
+      sub_categories: [
+      ]
     };
   },
-  methods: {
-    nav_styles: function (cat_id) {
-      return {
-        '--border-color': TILE_COLORS[cat_id](),
-      }
-    }
-  },
+  methods: {},
 };
 </script>
 
 <style scoped>
 .uk-navbar-nav > li > a {
   font-size: 1.1em;
-  font-weight: 900;
+  font-weight: 600;
   color: white;
   padding-left: 10px;
   padding-right: 10px;
-  border: 5px solid;
+  border: 5px solid white;
   border-color: #00000000;
 }
 
-.uk-navbar-nav > li > a:hover, .uk-navbar-nav > li > a:active {
-  font-size: 1.1em;
-  font-weight: 900;
+.uk-navbar-nav > li > a:hover {
   color: #ccc;
-  border-color: var(--border-color);
+}
+
+.uk-navbar-nav > li > .uk-active {
+  border-color: #ffffff;
 }
 
 .nav_text_main {
-  font-size: 2.2em!important;
+  font-size: 2.2em !important;
 }
 
-.nav-item{
+.nav-item {
   max-width: 200px;
 }
 </style>

@@ -809,7 +809,6 @@ export interface ApiConfigConfig extends Schema.SingleType {
     audio_color: Attribute.String & Attribute.DefaultTo<'#6f2526'>;
     headline: Attribute.Blocks;
     contacts: Attribute.Blocks;
-    categories: Attribute.JSON;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -834,12 +833,14 @@ export interface ApiTagTag extends Schema.CollectionType {
     singularName: 'tag';
     pluralName: 'tags';
     displayName: 'Tag';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     name: Attribute.String;
+    rank: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -870,7 +871,6 @@ export interface ApiTileAudioTileAudio extends Schema.CollectionType {
     >;
     tile: Attribute.Component<'main.tile'>;
     rank: Attribute.Integer;
-    main_rank: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -905,7 +905,6 @@ export interface ApiTileImageTileImage extends Schema.CollectionType {
     description: Attribute.Text;
     tile: Attribute.Component<'main.tile'>;
     rank: Attribute.Integer;
-    main_rank: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -939,7 +938,6 @@ export interface ApiTileTextTileText extends Schema.CollectionType {
     media: Attribute.Media;
     tile: Attribute.Component<'main.tile'>;
     rank: Attribute.Integer;
-    main_rank: Attribute.Integer;
     description: Attribute.Blocks;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -975,7 +973,6 @@ export interface ApiTileVideoTileVideo extends Schema.CollectionType {
     tile: Attribute.Component<'main.tile'>;
     description: Attribute.Text;
     rank: Attribute.Integer;
-    main_rank: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

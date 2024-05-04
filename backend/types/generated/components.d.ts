@@ -11,6 +11,7 @@ export interface MainTile extends Schema.Component {
     title: Attribute.String & Attribute.Required;
     image: Attribute.Media & Attribute.Required;
     tags: Attribute.Relation<'main.tile', 'oneToMany', 'api::tag.tag'>;
+    date: Attribute.Date;
   };
 }
 
