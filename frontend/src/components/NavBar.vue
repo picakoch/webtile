@@ -43,6 +43,11 @@
                 {{ category.label }}
               </RouterLink>
             </li>
+            <li class="nav-item">
+              <a href="#contact" uk-scroll>
+                Contact
+              </a>
+            </li>
 
           </ul>
         </div>

@@ -12,7 +12,7 @@
     <router-view @nav="onNav"></router-view>
     <hr class="uk-divider-icon">
 
-    <div class="uk-width-1-1 uk-margin-top footer uk-text-center">
+    <div class="uk-width-1-1 uk-margin-top footer uk-text-center" id="contact">
       <div v-if="$store.getters.config?.contacts">
         <StrapiBlocks :content="$store.getters.config.contacts"></StrapiBlocks>
       </div>
