@@ -11,6 +11,7 @@
         <TileGrid :items="group[1]"></TileGrid>
       </div>
     </template>
+    <router-view></router-view>
   </div>
 </template>
 

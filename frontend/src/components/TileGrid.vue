@@ -8,7 +8,6 @@
       ></TilePreview>
     </template>
   </masonry-wall>
-  <router-view></router-view>
 
   <div uk-alert v-if="items.length === 0" style="border: 5px red solid">
     Aucun résultat

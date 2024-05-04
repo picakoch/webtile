@@ -4,7 +4,7 @@ import NotFound from "./components/NotFound";
 import TileDetails from "./components/TileDetails";
 
 const routes = [
-  { path: "/", redirect: '/chrono'},
+  { path: "/", redirect: '/time'},
   {
     path: "/:name",
     component: MainPage,

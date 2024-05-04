@@ -44,7 +44,6 @@ export default {
   },
   methods: {
     onNav(keys) {
-      this.$log.info('NEW NAV EVENT', keys)
       this.sub_categories = keys
     }
   },
