@@ -17,13 +17,23 @@
 
         <div class="uk-navbar-right uk-margin-right">
           <ul class="uk-navbar-nav">
-            <li v-for="(sub_category, index) in sub_categories" :key="index" class="nav-item">
-              <a
-                  :href="`#tile_group_${sub_category}`"
-              >
-                {{ sub_category }}
-              </a>
+            <li v-if="sub_categories.length > 0">
+              <a href="#">Aller à</a>
+              <div class="uk-navbar-dropdown uk-light uk-background-secondary">
+                <ul class="uk-nav uk-navbar-dropdown-nav">
+                  <li v-for="(sub_category, index) in sub_categories" :key="index" class="nav-item">
+                    <a
+                        :href="`#tile_group_${sub_category}`"
+                        uk-scroll="offset: 10"
+                    >
+                      {{ sub_category }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
+
+
             <li v-for="category in categories" :key="category.id" class="nav-item">
               <RouterLink
                   :to="'/' + category.id "
