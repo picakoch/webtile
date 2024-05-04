@@ -88,7 +88,7 @@ export default {
       } else if (this.name === "theme") {
         let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
         let ret = {}
-        console.log(this.$store.getters.tags)
+        allTiles.sort(this.sortTime)
         this.$store.getters.tags.forEach(tag => {
           let tag_name = tag?.attributes?.name
           let fTiles = allTiles.filter(e => e?.attributes?.tile?.tags?.data.map(ee => ee.attributes.name).includes(tag_name))
@@ -123,7 +123,6 @@ export default {
   },
   watch: {
     sorted_items: function () {
-      console.log("Changed sorted items", this.sorted_items.map(e => e[0]))
       this.$emit('nav', this.sorted_items.map(e => e[0]))
     }
   }
