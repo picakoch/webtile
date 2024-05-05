@@ -11,6 +11,9 @@
         <TileGrid :items="group[1]"></TileGrid>
       </div>
     </template>
+    <div class="uk-background-secondary uk-light">
+      <i>Aucun résultat</i>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -70,6 +73,11 @@ export default {
     }
   },
   computed: {
+    total_length() {
+      return Object.values(this.items).map(e => e.length).reduce((acc, cv) => {
+        return acc + cv
+      }, 0);
+    },
     sorted_items() {
       if (this.name === "time") {
         return Object.entries(this.items).sort((a, b) => -(a[0] - b[0]))
@@ -158,7 +166,7 @@ export default {
     sorted_items: function () {
       this.$emit('nav', this.sorted_items.map(e => e[0]))
     },
-    q: function(){
+    q: function () {
       this.$log.debug("Q changed...", this.q)
     }
   }

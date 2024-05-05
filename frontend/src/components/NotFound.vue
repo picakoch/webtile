@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div uk-alert style="border: 5px red solid" class="uk-margin-top">
+    <div uk-alert style="border:85px #BA0021 solid" class="uk-margin-top">
       La page demandée n'existe pas: {{ $route.path }}
     </div>
   </div>

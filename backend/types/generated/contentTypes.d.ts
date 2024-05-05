@@ -869,7 +869,7 @@ export interface ApiTileAudioTileAudio extends Schema.CollectionType {
       'manyToMany',
       'api::track.track'
     >;
-    tile: Attribute.Component<'main.tile'>;
+    tile: Attribute.Component<'main.tile'> & Attribute.Required;
     rank: Attribute.Integer;
     tile_title: Attribute.String;
     createdAt: Attribute.DateTime;
