@@ -31,7 +31,8 @@
       "type": "integer"
     },
     "tile_title": {
-      "type": "string"
+      "type": "string",
+      "private": true
     }
   }
 }

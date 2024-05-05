@@ -29,16 +29,16 @@ module.exports = ({env}) => ({
           modelName: "TileImage",
           transliterate: false,
           fuzzysortOptions: {
-            characterLimit: 300,
+            characterLimit: 512,
             threshold: -1000,
-            limit: 5,
+            limit: 20,
             keys: [
               {
                 name: "tile_title",
-                weight: 100,
+                weight: 10,
               }, {
                 name: "description",
-                weight: -100,
+                weight: 10,
               },
             ],
           },
@@ -48,16 +48,16 @@ module.exports = ({env}) => ({
           modelName: "TileVideo",
           transliterate: false,
           fuzzysortOptions: {
-            characterLimit: 300,
+            characterLimit: 512,
             threshold: -1000,
-            limit: 10,
+            limit: 20,
             keys: [
-              {
+             {
                 name: "tile_title",
-                weight: 100,
+                weight: 10,
               }, {
                 name: "description",
-                weight: -100,
+                weight: 10,
               },
             ],
           },
@@ -67,16 +67,16 @@ module.exports = ({env}) => ({
           modelName: "TileAudio",
           transliterate: false,
           fuzzysortOptions: {
-            characterLimit: 300,
+            characterLimit: 512,
             threshold: -1000,
-            limit: 10,
+            limit: 20,
             keys: [
-              {
+             {
                 name: "tile_title",
-                weight: 100,
+                weight: 10,
               }, {
                 name: "description",
-                weight: -100,
+                weight: 10,
               },
             ],
           },
@@ -88,15 +88,15 @@ module.exports = ({env}) => ({
           fuzzysortOptions: {
             characterLimit: 2000,
             threshold: -1000,
-            limit: 10,
+            limit: 20,
             allowTypo: true,
             keys: [
               {
                 name: "tile_title",
-                weight: 100,
+                weight: 10,
               }, {
-                name: "description",
-                weight: -100,
+                name: "description_search",
+                weight: 10,
               },
             ],
           },

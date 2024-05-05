@@ -32,7 +32,12 @@
       "type": "blocks"
     },
     "tile_title": {
-      "type": "string"
+      "type": "string",
+      "private": true
+    },
+    "description_search": {
+      "type": "text",
+      "private": true
     }
   }
 }
