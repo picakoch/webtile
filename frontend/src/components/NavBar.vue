@@ -107,7 +107,7 @@
           </div>
 
           <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
-             href="#"></a>
+             href="#" @click="resetSearch"></a>
 
         </div>
 
@@ -144,6 +144,11 @@ export default {
       if (this.q.length > 2) {
         this.$emit("search_tile", this.q)
       }
+    },
+    resetSearch() {
+      this.$log.debug("(navbar) reset search", this.q)
+      this.q = ''
+      this.$emit('search_tile', '')
     }
   },
   mounted() {
