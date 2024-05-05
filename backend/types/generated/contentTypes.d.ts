@@ -871,6 +871,7 @@ export interface ApiTileAudioTileAudio extends Schema.CollectionType {
     >;
     tile: Attribute.Component<'main.tile'>;
     rank: Attribute.Integer;
+    tile_title: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -905,6 +906,7 @@ export interface ApiTileImageTileImage extends Schema.CollectionType {
     description: Attribute.Text;
     tile: Attribute.Component<'main.tile'>;
     rank: Attribute.Integer;
+    tile_title: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -939,6 +941,7 @@ export interface ApiTileTextTileText extends Schema.CollectionType {
     tile: Attribute.Component<'main.tile'>;
     rank: Attribute.Integer;
     description: Attribute.Blocks;
+    tile_title: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -973,6 +976,7 @@ export interface ApiTileVideoTileVideo extends Schema.CollectionType {
     tile: Attribute.Component<'main.tile'>;
     description: Attribute.Text;
     rank: Attribute.Integer;
+    tile_title: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

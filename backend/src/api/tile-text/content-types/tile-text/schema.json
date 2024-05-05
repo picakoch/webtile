@@ -30,6 +30,9 @@
     },
     "description": {
       "type": "blocks"
+    },
+    "tile_title": {
+      "type": "string"
     }
   }
 }

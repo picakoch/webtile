@@ -28,6 +28,9 @@
     },
     "rank": {
       "type": "integer"
+    },
+    "tile_title": {
+      "type": "string"
     }
   }
 }

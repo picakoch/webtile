@@ -25,7 +25,8 @@
       "target": "api::tag.tag"
     },
     "date": {
-      "type": "date"
+      "type": "date",
+      "required": true
     }
   }
 }
