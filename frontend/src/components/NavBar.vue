@@ -14,7 +14,7 @@
             </li>
           </ul>
         </div>
-        <div class="uk-navbar-center">
+        <div class="uk-navbar-center uk-visible@m">
           <ul class="uk-navbar-nav nav-center" v-if="sub_categories.length > 10">
             <li>
               <a href="#">{{ section }}</a>
@@ -45,7 +45,7 @@
           </ul>
         </div>
 
-        <div class="uk-navbar-right uk-margin-right">
+        <div class="uk-navbar-right uk-visible@m">
           <ul class="uk-navbar-nav">
             <li v-for="category in categories" :key="category.id" class="nav-item">
               <RouterLink
@@ -62,6 +62,27 @@
               </a>
             </li>
 
+          </ul>
+        </div>
+
+        <div class="uk-navbar-right uk-hidden@m">
+          <ul class="uk-navbar-nav">
+            <li>
+              <a href="#">...</a>
+              <div class="uk-navbar-dropdown">
+                <ul class="uk-nav uk-navbar-dropdown-nav">
+                  <li v-for="category in categories" :key="category.id" class="nav-item">
+                    <RouterLink
+                        :to="'/' + category.id "
+                        :key="'cat_' + category.id "
+                        :class="{ 'uk-active' : $route.path === '/' + category.id}"
+                    >
+                      {{ category.label }}
+                    </RouterLink>
+                  </li>
+                </ul>
+              </div>
+            </li>
           </ul>
         </div>
       </nav>
