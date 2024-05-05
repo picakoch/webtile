@@ -17,7 +17,7 @@
 
 <script>
 import TileGrid from "@/components/TileGrid.vue";
-import {IMAGES_Q, VIDEOS_Q, AUDIOS_Q, TEXTS_Q} from '@/lib/queries'
+import {IMAGES_Q, VIDEOS_Q, AUDIOS_Q, TEXTS_Q, SEARCH_Q} from '@/lib/queries'
 import uk from "uikit"
 
 export default {
@@ -25,6 +25,10 @@ export default {
   components: {TileGrid},
   props: {
     name: String,
+    q: {
+      type: String,
+      default: ''
+    },
   },
   data() {
     return {
@@ -32,7 +36,12 @@ export default {
       tileVideos: {data: []},
       tileTexts: {data: []},
       tileAudios: {data: []},
-
+      search: {
+        tileAudios: {data: []},
+        tileImages: {data: []},
+        tileVideos: {data: []},
+        tileTexts: {data: []},
+      },
     };
   },
   methods: {
@@ -72,16 +81,27 @@ export default {
       if (this.$apollo.loading) {
         return []
       }
+      let image = this.tileImages.data
+      let audio = this.tileAudios.data
+      let video = this.tileVideos.data
+      let text = this.tileTexts.data
+
+      if (this.q.length > 2) {
+        image = this.search.tileImages.data
+        audio = this.search.tileAudios.data
+        video = this.search.tileVideos.data
+        text = this.search.tileTexts.data
+      }
 
       if (this.name === "type") {
         return {
-          'Photos': this.tileImages.data,
-          'Videos': this.tileVideos.data,
-          'Musique': this.tileAudios.data,
-          'Textes': this.tileTexts.data
+          'Photos': image,
+          'Videos': video,
+          'Musique': audio,
+          'Textes': text
         }
       }
-      let allTiles = this.tileImages.data.concat(this.tileTexts.data, this.tileAudios.data, this.tileVideos.data)
+      let allTiles = image.concat(text, audio, video)
       allTiles.sort(this.sortTime)
 
       if (this.name === "time") {
@@ -109,6 +129,20 @@ export default {
     tileAudios: AUDIOS_Q,
     tileVideos: VIDEOS_Q,
     tileTexts: TEXTS_Q,
+    search: {
+      query: SEARCH_Q,
+      result(res) {
+        this.$log.debug(res)
+      },
+      variables() {
+        return {
+          query: this.q,
+        }
+      },
+      skip() {
+        return this.q.length <= 2
+      },
+    }
   },
   mounted() {
     var _self = this
@@ -123,6 +157,9 @@ export default {
   watch: {
     sorted_items: function () {
       this.$emit('nav', this.sorted_items.map(e => e[0]))
+    },
+    q: function(){
+      this.$log.debug("Q changed...", this.q)
     }
   }
 };

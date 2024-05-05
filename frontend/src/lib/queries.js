@@ -235,3 +235,42 @@ export const TEXT_Q = gql`
         }
     }
 `
+
+export const SEARCH_Q = gql`
+    query doSearch($query: String!){
+        search(query: $query) {
+            tileImages {
+                data {
+                    id
+                    attributes {
+                        ${tile}
+                    }
+                }
+            }
+            tileVideos {
+                data {
+                    id
+                    attributes {
+                        ${tile}
+                    }
+                }
+            }
+            tileTexts {
+                data {
+                    id
+                    attributes {
+                        ${tile}
+                    }
+                }
+            }
+            tileAudios {
+                data {
+                    id
+                    attributes {
+                        ${tile}
+                    }
+                }
+            }
+        }
+    }
+`

@@ -3,13 +3,13 @@
     <div class="spinner uk-margin-top" uk-spinner="ratio: 3"></div>
   </div>
   <template v-else>
-    <NavBar :sub_categories="sub_categories"/>
+    <NavBar :sub_categories="sub_categories" @search_tile="onSearch"/>
     <div uk-alert style="border: 8px #F4F1BB solid" class="uk-margin-top headline uk-background-secondary"
          v-if="$store.getters.config?.headline">
       <a href class="uk-alert-close" uk-close></a>
       <StrapiBlocks :content="$store.getters.config.headline"></StrapiBlocks>
     </div>
-    <router-view @nav="onNav"></router-view>
+    <router-view @nav="onNav" :q="q"></router-view>
     <hr class="uk-divider-icon">
 
     <div class="uk-width-1-1 uk-margin-top footer uk-text-center" id="contact">
@@ -38,6 +38,7 @@ export default {
     return {
       config: null,
       sub_categories: [],
+      q: ''
     };
   },
   mounted() {
@@ -45,6 +46,10 @@ export default {
   methods: {
     onNav(keys) {
       this.sub_categories = keys
+    },
+    onSearch(q){
+      this.$log.debug("(App) DO SEARCH", q, this.q)
+      this.q = q
     }
   },
   apollo: {

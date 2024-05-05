@@ -14,7 +14,7 @@
             </li>
           </ul>
         </div>
-        <div class="uk-navbar-center uk-visible@m">
+        <div class="nav-overlay uk-navbar-center uk-visible@m">
           <ul class="uk-navbar-nav nav-center" v-if="sub_categories.length > 10">
             <li>
               <a href="#">{{ section }}</a>
@@ -45,7 +45,7 @@
           </ul>
         </div>
 
-        <div class="uk-navbar-right uk-visible@m">
+        <div class="nav-overlay uk-navbar-right uk-visible@m">
           <ul class="uk-navbar-nav">
             <li v-for="category in categories" :key="category.id" class="nav-item">
               <RouterLink
@@ -60,6 +60,11 @@
               <a href="#contact" uk-scroll>
                 Contact
               </a>
+            </li>
+            <li class="nav-item">
+              <a class="uk-navbar-toggle"
+                 uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
+                 href="#"></a>
             </li>
 
           </ul>
@@ -83,8 +88,29 @@
                 </ul>
               </div>
             </li>
+            <li>
+              <a class="uk-navbar-toggle"
+                 uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
+                 href="#"></a>
+            </li>
+
           </ul>
         </div>
+
+        <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+
+          <div class="uk-navbar-item uk-width-expand">
+            <form class="uk-search uk-search-navbar uk-width-1-1" @submit.prevent="doSearch">
+              <input v-model="q" class="uk-search-input" type="search" placeholder="Search" aria-label="Search"
+                     autofocus>
+            </form>
+          </div>
+
+          <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
+             href="#"></a>
+
+        </div>
+
       </nav>
     </div>
   </div>
@@ -103,6 +129,7 @@ export default {
         {id: "type", label: "Par type"},
       ],
       section: 'Aller à',
+      q: '',
     };
   },
   props: {
@@ -111,7 +138,14 @@ export default {
       default: () => []
     }
   },
-  methods: {},
+  methods: {
+    doSearch() {
+      this.$log.debug("(navbar) Search", this.q)
+      if (this.q.length > 2) {
+        this.$emit("search_tile", this.q)
+      }
+    }
+  },
   mounted() {
     uk.util.on(document, 'active', '.uk-navbar-container', function (e) {
       console.log("ACTIVE", e.detail[1].id)
@@ -159,5 +193,9 @@ export default {
 
 .nav-item {
   max-width: 200px;
+}
+
+.uk-search-input {
+  color: #fff;
 }
 </style>

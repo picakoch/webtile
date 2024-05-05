@@ -30,7 +30,7 @@ module.exports = ({env}) => ({
           transliterate: false,
           fuzzysortOptions: {
             characterLimit: 300,
-            threshold: -6000,
+            threshold: -1000,
             limit: 5,
             keys: [
               {
@@ -49,7 +49,7 @@ module.exports = ({env}) => ({
           transliterate: false,
           fuzzysortOptions: {
             characterLimit: 300,
-            threshold: -600,
+            threshold: -1000,
             limit: 10,
             keys: [
               {
@@ -68,7 +68,7 @@ module.exports = ({env}) => ({
           transliterate: false,
           fuzzysortOptions: {
             characterLimit: 300,
-            threshold: -600,
+            threshold: -1000,
             limit: 10,
             keys: [
               {
@@ -87,7 +87,7 @@ module.exports = ({env}) => ({
           transliterate: false,
           fuzzysortOptions: {
             characterLimit: 2000,
-            threshold: -10000,
+            threshold: -1000,
             limit: 10,
             allowTypo: true,
             keys: [
