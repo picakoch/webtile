@@ -1,5 +1,5 @@
 <template>
-  <div class="uk-margin-top">
+  <div class="uk-margin-top" style="min-height: 80vh;">
     <div v-if="$apollo.loading" class="uk-position-center">
       <div class="spinner" uk-spinner="ratio: 3"></div>
     </div>
@@ -10,10 +10,11 @@
         </div>
         <TileGrid :items="group[1]"></TileGrid>
       </div>
+      <div class="uk-background-secondary uk-light">
+        <i>Aucun résultat</i>
+      </div>
     </template>
-    <div class="uk-background-secondary uk-light">
-      <i>Aucun résultat</i>
-    </div>
+
     <router-view></router-view>
   </div>
 </template>
