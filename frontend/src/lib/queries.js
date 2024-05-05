@@ -123,6 +123,8 @@ export const AUDIOS_Q = gql`
 
 `
 
+/* Single retrieval */
+
 export const IMAGE_Q = gql`
     query getImage($id: ID) {
         tileImage(id: $id) {
@@ -135,6 +137,7 @@ export const IMAGE_Q = gql`
                             id
                             attributes {
                                 formats
+                                caption
                             }
                         }
                     }
@@ -157,6 +160,7 @@ export const VIDEO_Q = gql`
                             id
                             attributes {
                                 url
+                                caption
                             }
                         }
                     }
@@ -185,6 +189,7 @@ export const AUDIO_Q = gql`
                                         id
                                         attributes {
                                             formats
+                                            caption
                                         }
                                     }
                                 }
@@ -193,6 +198,7 @@ export const AUDIO_Q = gql`
                                         id
                                         attributes {
                                             url
+                                            caption
                                         }
                                     }
                                 }
@@ -219,6 +225,7 @@ export const TEXT_Q = gql`
                             attributes {
                                 name
                                 url
+                                caption
                             }
                         }
                     }

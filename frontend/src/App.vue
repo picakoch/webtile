@@ -69,12 +69,12 @@ export default {
 
 <style lang="less">
 #app {
-  font-family: Raleway, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 @import "../node_modules/uikit/src/less/uikit.less";
+@import "theme.less";
 
 .spinner {
   color: white;
