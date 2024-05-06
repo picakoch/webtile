@@ -47,7 +47,7 @@ export default {
     onNav(keys) {
       this.sub_categories = keys
     },
-    onSearch(q){
+    onSearch(q) {
       this.$log.debug("(App) DO SEARCH", q, this.q)
       this.q = q
     }

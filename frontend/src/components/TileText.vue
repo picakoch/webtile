@@ -16,7 +16,9 @@
           </div>
           <div class="uk-text-center">
             Ce document est protégé.
-            Pour y accéder, vous devez payer l'accès en suivnat ce lien:
+            Pour y accéder, vous devez payer l'accès en suivant ce lien:<br>
+            <button type="button" class="PP_ProductCheckout"  @click.prevent="paypalClick(1)"> BuyNow
+            </button>
           </div>
 
         </div>
@@ -28,6 +30,7 @@
 
 <script>
 import {TEXT_Q} from '@/lib/queries'
+import {PP_ProductCheckout} from '@/lib/paypal'
 import uk from "uikit"
 import {StrapiBlocks} from 'vue-strapi-blocks-renderer';
 
@@ -49,7 +52,11 @@ export default {
     uk.modal("#text_modal_" + this.id).show();
   },
   computed: {},
-  methods: {},
+  methods: {
+    paypalClick(id) {
+      PP_ProductCheckout(id, this.$store.getters.backend_url);
+    }
+  },
   apollo: {
     tileText: {
       query: TEXT_Q,
