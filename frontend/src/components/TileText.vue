@@ -1,7 +1,7 @@
 <template>
   <div uk-modal :id="'text_modal_' + id" class="uk-modal-full">
 
-    <div class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary" style="min-height: 80vh">
+    <div class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary" style="min-height: 100vh">
       <button class="uk-modal-close-default" type="button" uk-close></button>
       <h2 class="uk-modal-title">{{ tileText?.data?.attributes?.tile.title }}</h2>
       <div class="" uk-grid>

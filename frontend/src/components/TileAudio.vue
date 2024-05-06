@@ -1,7 +1,7 @@
 <template>
   <div uk-modal :id="'audio_modal_' + id" class="uk-modal-full">
 
-    <div class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary" style="min-height: 80vh">
+    <div class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary" style="min-height: 100vh">
       <button class="uk-modal-close-default" type="button" uk-close></button>
       <h2 class="uk-modal-title">{{ tileAudio?.data?.attributes?.description }}</h2>
       <div class="" uk-grid>
@@ -26,9 +26,6 @@
           </div>
         </div>
       </div>
-      <p class="uk-text-right">
-        <button class="uk-button uk-button-default uk-modal-close" type="button">Close</button>
-      </p>
     </div>
   </div>
 </template>
