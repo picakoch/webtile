@@ -6,7 +6,7 @@
     <template v-else>
       <div v-for="group in sorted_items" :key="group" class="tile-group" :id="`tile_group_${group[0]}`">
         <div class="uk-text-center">
-          <h3 v-if=group class="white_text">{{ group[0] }}</h3>
+          <h2 v-if=group class="white_text uk-padding">{{ group[0] }}</h2>
         </div>
         <TileGrid :items="group[1]"></TileGrid>
       </div>

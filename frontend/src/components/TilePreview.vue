@@ -4,7 +4,8 @@
        class="tile-preview"
        :style="{ height: `${tile_height}px`, border: `solid ${border_size}px ${border_color}` }"
   >
-    <v-lazy-image :src="$store.getters.backend_url + small.url" :src-placeholder="$store.getters.backend_url + thumb.url" :alt="tile.title"
+    <v-lazy-image :src="$store.getters.backend_url + medium.url"
+                  :src-placeholder="$store.getters.backend_url + thumb.url" :alt="tile.title"
                   width="100%"/>
   </div>
 </template>
@@ -44,6 +45,12 @@ export default {
     },
     small: function () {
       return this.tile?.image?.data?.attributes?.formats?.small || this.thumb
+    },
+    medium: function () {
+      return this.tile?.image?.data?.attributes?.formats?.medium || this.small
+    },
+    large: function () {
+      return this.tile?.image?.data?.attributes?.formats?.large || this.medium
     },
     tile_height: function () {
       return this.thumb.height * this.el_width / this.thumb.width

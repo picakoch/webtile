@@ -4,7 +4,7 @@
   </div>
   <template v-else>
     <NavBar :sub_categories="sub_categories" @search_tile="onSearch"/>
-    <div uk-alert style="border: 8px #F4F1BB solid" class="uk-margin-top headline uk-background-secondary"
+    <div uk-alert style="border: 8px #CCCCCC solid" class="uk-margin-top headline uk-background-secondary"
          v-if="$store.getters.config?.headline">
       <a href class="uk-alert-close" uk-close></a>
       <StrapiBlocks :content="$store.getters.config.headline"></StrapiBlocks>
