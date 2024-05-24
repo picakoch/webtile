@@ -28,6 +28,7 @@ export default {
         const description = res?.data?.tileImage?.data?.attributes?.description
         const images = res?.data?.tileImage?.data?.attributes?.images?.data.map((e) => {
           let url = e.attributes.formats.thumbnail.url
+          let caption = e.attributes.caption
           if (e.attributes.formats?.small) {
             url = e.attributes.formats.small.url
           }
@@ -39,7 +40,7 @@ export default {
           }
           return {
             source: this.$store.getters.backend_url + url,
-            caption: description
+            caption: caption || description
           }
         }) || []
         if (images.length === 0) {

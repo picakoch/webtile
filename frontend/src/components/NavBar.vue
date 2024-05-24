@@ -101,7 +101,7 @@
 
           <div class="uk-navbar-item uk-width-expand">
             <form class="uk-search uk-search-navbar uk-width-1-1" @submit.prevent="doSearch">
-              <input v-model="q" class="uk-search-input" type="search" placeholder="Search" aria-label="Search"
+              <input v-model="q" class="uk-search-input" type="search" placeholder="Rechercher" aria-label="Rechercher"
                      autofocus>
             </form>
           </div>
@@ -117,7 +117,6 @@
 </template>
 
 <script>
-import uk from "uikit";
 
 export default {
   name: "NavBar",
@@ -152,9 +151,6 @@ export default {
     }
   },
   mounted() {
-    uk.util.on(document, 'active', '.uk-navbar-container', function (e) {
-      console.log("ACTIVE", e.detail[1].id)
-    });
   }
 };
 </script>

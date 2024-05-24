@@ -5,10 +5,10 @@
     </div>
     <template v-else>
       <div v-for="group in sorted_items" :key="group" class="tile-group" :id="`tile_group_${group[0]}`">
-        <div class="uk-text-center">
+        <div class="uk-text-center" v-if="!$store.getters.headers_as_tile">
           <h2 v-if=group class="white_text uk-padding">{{ group[0] }}</h2>
         </div>
-        <TileGrid :items="group[1]"></TileGrid>
+        <TileGrid :items="group[1]" :title="group[0]"></TileGrid>
       </div>
       <div class="uk-background-secondary uk-light">
         <i>Aucun résultat</i>
@@ -112,7 +112,9 @@ export default {
       }
       let allTiles = image.concat(text, audio, video)
       allTiles.sort(this.sortTime)
-
+      if (this.$store.getters.config?.headline && this.$store.getters.headline_as_tile === true && this.$store.getters.headline_enabled){
+        allTiles.unshift({is_title: true, title: this.$store.getters.config?.headline})
+      }
       if (this.name === "time") {
         return Object.groupBy(allTiles, (e) => e?.attributes?.tile?.date ? new Date(e.attributes.tile.date).getFullYear() : new Date().getFullYear())
       } else if (this.name === "theme") {

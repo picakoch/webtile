@@ -5,6 +5,8 @@ import apolloClient from "./vue-apollo";
 import router from "./router";
 import VueLogger from 'vuejs3-logger';
 import {store} from './store'
+import uk from 'uikit'
+import Icons from 'uikit/dist/js/uikit-icons'
 
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -28,8 +30,6 @@ import App from "./App.vue";
 const app = createApp({
     render: () => h(App),
 });
-import uk from 'uikit'
-import Icons from 'uikit/dist/js/uikit-icons'
 
 uk.use(Icons)
 
@@ -38,4 +38,6 @@ app.use(MasonryWall)
 app.use(router)
 app.use(store)
 app.use(VueLogger, options);
+await router.isReady()
+
 app.mount("#app");

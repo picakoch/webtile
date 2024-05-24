@@ -5,7 +5,7 @@
   <template v-else>
     <NavBar :sub_categories="sub_categories" @search_tile="onSearch"/>
     <div uk-alert style="border: 8px #CCCCCC solid" class="uk-margin-top headline uk-background-secondary"
-         v-if="$store.getters.config?.headline">
+         v-if="$store.getters.config?.headline && !$store.getters.headline_as_tile && this.$store.getters.headline_enabled">
       <a href class="uk-alert-close" uk-close></a>
       <StrapiBlocks :content="$store.getters.config.headline"></StrapiBlocks>
     </div>
@@ -31,6 +31,13 @@ import {StrapiBlocks} from 'vue-strapi-blocks-renderer';
 
 export default {
   name: 'App',
+  metaInfo() {
+    const title = this.$store.getters.config.title
+    return {
+      title: () => `${title}`,
+      titleTemplate: null
+    }
+  },
   components: {
     NavBar, StrapiBlocks
   },
@@ -42,12 +49,14 @@ export default {
     };
   },
   mounted() {
+    this.$log.debug(this.$store.getters.headline_as_tile)
+    this.$log.debug(this.$store.getters.headers_as_tile)
   },
   methods: {
     onNav(keys) {
       this.sub_categories = keys
     },
-    onSearch(q){
+    onSearch(q) {
       this.$log.debug("(App) DO SEARCH", q, this.q)
       this.q = q
     }
@@ -58,6 +67,9 @@ export default {
       fetchPolicy: 'cache-first',
       result(res) {
         this.$store.commit('setConfig', res.data.config.data.attributes)
+        this.$nextTick(() => {
+          document.title = this.$store.getters.config?.title
+        })
       }
     },
     tags: {

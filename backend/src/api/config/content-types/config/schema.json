@@ -55,6 +55,9 @@
     },
     "contacts": {
       "type": "blocks"
+    },
+    "headline_expiration": {
+      "type": "datetime"
     }
   }
 }

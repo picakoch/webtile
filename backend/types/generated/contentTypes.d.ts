@@ -809,6 +809,7 @@ export interface ApiConfigConfig extends Schema.SingleType {
     audio_color: Attribute.String & Attribute.DefaultTo<'#6f2526'>;
     headline: Attribute.Blocks;
     contacts: Attribute.Blocks;
+    headline_expiration: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

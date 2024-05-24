@@ -51,6 +51,7 @@ export const CONFIG_Q = gql`
                     audio_color
                     headline
                     contacts
+                    headline_expiration
                 }
             }
         }
