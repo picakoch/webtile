@@ -4,13 +4,15 @@
       <div class="spinner" uk-spinner="ratio: 3"></div>
     </div>
     <template v-else-if="$store.getters.category_break">
-      <div
-          v-for="group in sorted_items"
-          :key="group"
-          class="tile-group"
-      >
+      <div v-for="group in sorted_items" :key="group" class="tile-group">
         <div class="uk-text-center" v-if="!$store.getters.headers_as_tile">
-          <h2 :id="`tile_group_${group[0]}`" v-if="group" class="white_text uk-padding">{{ group[0] }}</h2>
+          <h2
+            :id="`tile_group_${group[0]}`"
+            v-if="group"
+            class="white_text uk-padding"
+          >
+            {{ group[0] }}
+          </h2>
         </div>
         <TileGrid :items="group[1]" :title="group[0]"></TileGrid>
       </div>
@@ -27,12 +29,12 @@
 
 <script>
 import TileGrid from "@/components/TileGrid.vue";
-import {IMAGES_Q, VIDEOS_Q, AUDIOS_Q, TEXTS_Q, SEARCH_Q} from "@/lib/queries";
+import { IMAGES_Q, VIDEOS_Q, AUDIOS_Q, TEXTS_Q, SEARCH_Q } from "@/lib/queries";
 import uk from "uikit";
 
 export default {
   name: "MainPage",
-  components: {TileGrid},
+  components: { TileGrid },
   props: {
     name: String,
     q: {
@@ -42,15 +44,15 @@ export default {
   },
   data() {
     return {
-      tileImages: {data: []},
-      tileVideos: {data: []},
-      tileTexts: {data: []},
-      tileAudios: {data: []},
+      tileImages: { data: [] },
+      tileVideos: { data: [] },
+      tileTexts: { data: [] },
+      tileAudios: { data: [] },
       search: {
-        tileAudios: {data: []},
-        tileImages: {data: []},
-        tileVideos: {data: []},
-        tileTexts: {data: []},
+        tileAudios: { data: [] },
+        tileImages: { data: [] },
+        tileVideos: { data: [] },
+        tileTexts: { data: [] },
       },
     };
   },
@@ -62,8 +64,8 @@ export default {
         let path = this.$route.matched[this.$route.matched.length - 2].path;
         this.$log.debug(path);
         let realPath = path.replace(
-            /:\w+/g,
-            (param) => this.$route.params[param.substr(1)]
+          /:\w+/g,
+          (param) => this.$route.params[param.substr(1)]
         );
         this.$router.push(realPath);
       } else {
@@ -79,18 +81,18 @@ export default {
     },
     sortTime(a, b) {
       return (
-          new Date(a?.attributes?.tile?.date) -
-          new Date(b?.attributes?.tile?.date)
+        new Date(a?.attributes?.tile?.date) -
+        new Date(b?.attributes?.tile?.date)
       );
     },
   },
   computed: {
     total_length() {
       return Object.values(this.items)
-          .map((e) => e.length)
-          .reduce((acc, cv) => {
-            return acc + cv;
-          }, 0);
+        .map((e) => e.length)
+        .reduce((acc, cv) => {
+          return acc + cv;
+        }, 0);
     },
     sorted_items() {
       if (this.name === "time") {
@@ -100,18 +102,18 @@ export default {
       }
     },
     all_items() {
-      console.log("Evaluate all_items")
-      let ret = []
-      this.sorted_items.forEach(e => {
+      console.log("Evaluate all_items");
+      let ret = [];
+      this.sorted_items.forEach((e) => {
         let title = {
           is_title: true,
           title: e[0],
           large: false,
           id: `tile_group_${e[0]}`,
-        }
-        ret = [...ret, title, ...e[1]]
-      })
-      return ret
+        };
+        ret = [...ret, title, ...e[1]];
+      });
+      return ret;
     },
     items() {
       if (this.$apollo.loading) {
@@ -140,9 +142,9 @@ export default {
       let allTiles = image.concat(text, audio, video);
       allTiles.sort(this.sortTime);
       if (
-          this.$store.getters.config?.headline &&
-          this.$store.getters.headline_as_tile === true &&
-          this.$store.getters.headline_enabled
+        this.$store.getters.config?.headline &&
+        this.$store.getters.headline_as_tile === true &&
+        this.$store.getters.headline_enabled
       ) {
         allTiles.unshift({
           is_title: true,
@@ -151,18 +153,18 @@ export default {
       }
       if (this.name === "time") {
         return Object.groupBy(allTiles, (e) =>
-            e?.attributes?.tile?.date
-                ? new Date(e.attributes.tile.date).getFullYear()
-                : new Date().getFullYear()
+          e?.attributes?.tile?.date
+            ? new Date(e.attributes.tile.date).getFullYear()
+            : new Date().getFullYear()
         );
       } else if (this.name === "theme") {
         let ret = {};
         this.$store.getters.tags.forEach((tag) => {
           let tag_name = tag?.attributes?.name;
           let fTiles = allTiles.filter((e) =>
-              e?.attributes?.tile?.tags?.data
-                  .map((ee) => ee.attributes.name)
-                  .includes(tag_name)
+            e?.attributes?.tile?.tags?.data
+              .map((ee) => ee.attributes.name)
+              .includes(tag_name)
           );
           if (fTiles.length > 0) {
             ret[tag_name] = fTiles;
@@ -210,8 +212,8 @@ export default {
   watch: {
     sorted_items: function () {
       this.$emit(
-          "nav",
-          this.sorted_items.map((e) => e[0])
+        "nav",
+        this.sorted_items.map((e) => e[0])
       );
     },
     q: function () {
