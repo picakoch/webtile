@@ -1,22 +1,20 @@
 <template>
-  <div>
-  </div>
+  <div></div>
 </template>
 
 <script>
-import {VIDEO_Q} from '@/lib/queries'
-import uk from "uikit"
+import { VIDEO_Q } from "@/lib/queries";
+import uk from "uikit";
 
 export default {
   name: "TileVideo",
   props: {
     id: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
-    return {
-    }
+    return {};
   },
   computed: {},
   methods: {},
@@ -26,23 +24,26 @@ export default {
       variables() {
         return {
           id: this.id,
-        }
+        };
       },
       result: function (res) {
-        const video = res?.data?.tileVideo?.data?.attributes?.video?.data?.attributes?.url
-        const description = res?.data?.tileVideo?.data?.attributes?.description
-        uk.lightboxPanel(
+        const video =
+          res?.data?.tileVideo?.data?.attributes?.video?.data?.attributes?.url;
+        const description = res?.data?.tileVideo?.data?.attributes?.description;
+        uk.lightboxPanel({
+          id: "video_" + this.id,
+          items: [
             {
-              id: 'video_' + this.id,
-              items: [{source: this.$store.getters.backend_url + video, caption: description}],
-              videoAutoplay: true
-            }).show()
-      }
-    }
-  }
-}
+              source: this.$store.getters.backend_url + video,
+              caption: description,
+            },
+          ],
+          videoAutoplay: true,
+        }).show();
+      },
+    },
+  },
+};
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>

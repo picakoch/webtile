@@ -23,57 +23,57 @@ const tile = `
         }
     }
 }
-`
+`;
 
 export const CONFIG_Q = gql`
-    query {
-        config {
+  query {
+    config {
+      data {
+        attributes {
+          title
+          banner {
             data {
-                attributes {
-                    title
-                    banner {
-                        data {
-                            id
-                            attributes {
-                                formats:url
-                                url
-                            }
-                        }
-                    }
-                    bg {
-                        data {
-                            id
-                            attributes {
-                                formats:url
-                                url
-                            }
-                        }
-                    }
-                    text_color
-                    image_color
-                    video_color
-                    audio_color
-                    headline
-                    contacts
-                    headline_expiration
-                }
+              id
+              attributes {
+                formats: url
+                url
+              }
             }
+          }
+          bg {
+            data {
+              id
+              attributes {
+                formats: url
+                url
+              }
+            }
+          }
+          text_color
+          image_color
+          video_color
+          audio_color
+          headline
+          contacts
+          headline_expiration
         }
+      }
     }
-`
+  }
+`;
 
 export const TAGS_Q = gql`
-    query {
-        tags(sort: "rank") {
-            data {
-                id
-                attributes {
-                    name
-                }
-            }
+  query {
+    tags(sort: "rank") {
+      data {
+        id
+        attributes {
+          name
         }
+      }
     }
-`
+  }
+`;
 
 export const IMAGES_Q = gql`
     query {
@@ -86,7 +86,7 @@ export const IMAGES_Q = gql`
             }
         }
     }
-`
+`;
 
 export const TEXTS_Q = gql`
     query {
@@ -108,7 +108,7 @@ export const TEXTS_Q = gql`
             }
         }
     }
-`
+`;
 
 export const VIDEOS_Q = gql`
     query {
@@ -121,7 +121,7 @@ export const VIDEOS_Q = gql`
             }
         }
     }
-`
+`;
 
 export const AUDIOS_Q = gql`
     query {
@@ -135,7 +135,7 @@ export const AUDIOS_Q = gql`
         }
     }
 
-`
+`;
 
 /* Single retrieval */
 
@@ -162,7 +162,7 @@ export const IMAGE_Q = gql`
         }
     }
 
-`
+`;
 export const VIDEO_Q = gql`
     query getVideo($id: ID) {
         tileVideo(id: $id) {
@@ -184,8 +184,7 @@ export const VIDEO_Q = gql`
             }
         }
     }
-`
-
+`;
 
 export const AUDIO_Q = gql`
     query getAudio($id: ID) {
@@ -227,7 +226,7 @@ export const AUDIO_Q = gql`
             }
         }
     }
-`
+`;
 
 export const TEXT_Q = gql`
     query getText($id: ID) {
@@ -249,7 +248,7 @@ export const TEXT_Q = gql`
             }
         }
     }
-`
+`;
 
 export const SEARCH_Q = gql`
     query doSearch($query: String!){
@@ -288,4 +287,4 @@ export const SEARCH_Q = gql`
             }
         }
     }
-`
+`;
