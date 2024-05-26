@@ -7,6 +7,7 @@ export const store = createStore({
       tags: [],
       headline_as_tile: process.env.VUE_APP_HEADLINE_AS_TILE || "false",
       headers_as_tile: process.env.VUE_APP_HEADERS_AS_TILE || "false",
+      category_break: process.env.VUE_APP_CATEGORY_BREAK || "true",
       backend_url: process.env.VUE_APP_STRAPI_API_URL,
     };
   },
@@ -25,6 +26,9 @@ export const store = createStore({
     },
     headers_as_tile: (state) => {
       return state.headers_as_tile === "true";
+    },
+    category_break: (state) => {
+      return state.category_break === "true";
     },
     headline_enabled: (state) => {
       let exp_date = new Date(state.config?.headline_expiration);
