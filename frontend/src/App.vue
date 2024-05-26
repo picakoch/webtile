@@ -192,4 +192,9 @@ export default {
 .tile-preview > img {
   border: 8px solid #eee;
 }
+
+.tile_border {
+  position: relative;
+  border: solid 8px #eee;
+}
 </style>
