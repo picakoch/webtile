@@ -58,7 +58,7 @@ export default {
   mounted() {
     this.all_items = this.items.slice()
     if (this.$store.getters.headers_as_tile) {
-      this.all_items.unshift({is_title: true, title: this.title})
+      this.all_items.unshift({is_title: true, title: this.title, large: false})
     }
   },
   computed: {},

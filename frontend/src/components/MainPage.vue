@@ -112,7 +112,7 @@ export default {
       }
       let allTiles = image.concat(text, audio, video)
       allTiles.sort(this.sortTime)
-      if (this.$store.getters.config?.headline && this.$store.getters.headline_as_tile === true && this.$store.getters.headline_enabled){
+      if (this.$store.getters.config?.headline && this.$store.getters.headline_as_tile === true && this.$store.getters.headline_enabled) {
         allTiles.unshift({is_title: true, title: this.$store.getters.config?.headline})
       }
       if (this.name === "time") {
