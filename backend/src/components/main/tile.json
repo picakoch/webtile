@@ -27,6 +27,10 @@
     "date": {
       "type": "date",
       "required": true
+    },
+    "large": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

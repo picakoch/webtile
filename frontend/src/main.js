@@ -1,5 +1,4 @@
 import {createApp, h} from "vue";
-import MasonryWall from '@yeger/vue-masonry-wall'
 import {createApolloProvider} from "@vue/apollo-option";
 import apolloClient from "./vue-apollo";
 import router from "./router";
@@ -7,6 +6,7 @@ import VueLogger from 'vuejs3-logger';
 import {store} from './store'
 import uk from 'uikit'
 import Icons from 'uikit/dist/js/uikit-icons'
+import { VueMasonryPlugin } from "vue-masonry";
 
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -34,7 +34,7 @@ const app = createApp({
 uk.use(Icons)
 
 app.use(apolloProvider);
-app.use(MasonryWall)
+app.use(VueMasonryPlugin)
 app.use(router)
 app.use(store)
 app.use(VueLogger, options);

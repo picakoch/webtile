@@ -5,6 +5,7 @@ const tile = `
     id
     title
     date
+    large
     tags {
         data {
             attributes {
@@ -17,6 +18,7 @@ const tile = `
             id
             attributes {
                 formats
+                url
             }
         }
     }
@@ -34,6 +36,7 @@ export const CONFIG_Q = gql`
                             id
                             attributes {
                                 formats:url
+                                url
                             }
                         }
                     }
@@ -42,6 +45,7 @@ export const CONFIG_Q = gql`
                             id
                             attributes {
                                 formats:url
+                                url
                             }
                         }
                     }
@@ -91,6 +95,15 @@ export const TEXTS_Q = gql`
                 id
                 attributes {
                     ${tile}
+                    media {
+                        data {
+                            id
+                            attributes {
+                                name
+                                url
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -138,6 +151,7 @@ export const IMAGE_Q = gql`
                             id
                             attributes {
                                 formats
+                                url
                                 caption
                             }
                         }
@@ -179,17 +193,19 @@ export const AUDIO_Q = gql`
             data {
                 id
                 attributes {
-                    description
+                    content
                     tracks {
                         data {
                             id
                             attributes {
                                 name
+                                content
                                 image {
                                     data {
                                         id
                                         attributes {
                                             formats
+                                            url
                                             caption
                                         }
                                     }
@@ -219,14 +235,12 @@ export const TEXT_Q = gql`
             data {
                 id
                 attributes {
-                    description
                     media {
                         data {
                             id
                             attributes {
                                 name
                                 url
-                                caption
                             }
                         }
                     }

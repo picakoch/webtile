@@ -1,20 +1,33 @@
 <template>
-  <masonry-wall :items="all_items" :column-width="col_width" :gap="20">
-    <template #default="{ item }">
+
+  <div v-masonry="'tiles'"
+       transition-duration="0.3s"
+       item-selector=".grid-item"
+       column-width=".grid-sizer"
+       gutter=".gutter-sizer"
+       class="uk-width-1-1">
+    <div class="grid-sizer"></div>
+    <div class="grid-sizer2"></div>
+    <div class="gutter-sizer"></div>
+    <template v-masonry-tile v-for="item in items">
       <TilePreview :tile="item.attributes.tile"
-                   :width="col_width"
-                   v-if="item.hasOwnProperty('__typename')"
                    :type="item.__typename"
                    @click="tileClicked(item.__typename, item.id)"
+                   v-if="item.hasOwnProperty('__typename')"
       ></TilePreview>
       <div
-          class="tile-preview uk-light uk-text-center"
-          :width="col_width"
-          :style="{ height: `${title_height}px`, border: `solid 8px #ccc`}"
+          class="tile-preview uk-light uk-text-center grid-item"
+          :class="{'grid-item--width2': item.large,
+                   'grid-item--width1': !item.large
+                  }"
+          :style="{ height: `${title_height}px`,
+                    border: `solid 8px #eee`,
+                  }"
           v-else
       ><h2 class="uk-position-center uk-position-relative">{{ item.title }}</h2></div>
+      <!-- block item markup -->
     </template>
-  </masonry-wall>
+  </div>
 
   <div uk-alert v-if="items.length === 0" style="border: 5px red solid">
     Aucun résultat
@@ -59,8 +72,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.tile-preview {
-  color: #CCC;
-}
+<style>
 </style>

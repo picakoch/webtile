@@ -4,14 +4,18 @@
     <div class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary" style="min-height: 100vh">
       <button class="uk-modal-close-default" type="button" uk-close></button>
       <h2 class="uk-modal-title">{{ tileAudio?.data?.attributes?.description }}</h2>
-      <div class="" uk-grid>
-        <div class="uk-width-1-3">
+      <div class="uk-grid-divider uk-child-width-1-2@m" uk-grid>
+        <div>
           <div class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary">
-            <img alt="track_image" width="100%" :src="$store.getters.backend_url + current_image_url"
-                          v-if="current_image_url">
+            <div uk-lightbox>
+              <a class="" :href="$store.getters.backend_url + current_image_full_url" data-caption="">
+                <img alt="track_image" width="100%" :src="$store.getters.backend_url + current_image_url"
+                              v-if="current_image_url">
+              </a>
+            </div>
           </div>
         </div>
-        <div class="uk-width-2-3">
+        <div>
           <div class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary">
             <div v-for="track in tileAudio?.data?.attributes?.tracks?.data"
                  :key="track.id" class="uk-margin-small-top">
@@ -45,6 +49,7 @@ export default {
   data() {
     return {
       current_image_url: null,
+      current_image_full_url: null,
     }
   },
   beforeMount() {
@@ -56,17 +61,18 @@ export default {
   computed: {},
   methods: {
     play(track) {
-      const song_image = track?.attributes?.image?.data?.attributes?.formats
-      const album_image = this.tileAudio?.data?.attributes?.tile?.image?.data?.attributes.formats
+      const song_image = track?.attributes?.image?.data?.attributes
+      const album_image = this.tileAudio?.data?.attributes?.tile?.image?.data?.attributes
       let image = song_image || album_image
+      this.current_image_full_url = image.url
       this.$log.debug(song_image, album_image, image)
       if (image) {
-        this.current_image_url = image.thumbnail.url
+        this.current_image_url = image.formats.thumbnail.url
         if (image?.small) {
-          this.current_image_url = image.small.url
+          this.current_image_url = image.formats.small.url
         }
         if (image?.medium) {
-          this.current_image_url = image.medium.url
+          this.current_image_url = image.formats.medium.url
         }
       }
       if (track) {

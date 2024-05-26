@@ -1,8 +1,8 @@
 <template>
   <div>
     <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="uk-background-cover"
-         :style="`background-image: url(${$store.getters.backend_url + $store.getters.config.banner.data.attributes.formats}); height: 90px; width: 100%; opacity: 1`">
-      <nav class="uk-navbar-container" uk-navbar style="background: none;">
+         :style="`background-image: url(${$store.getters.backend_url + $store.getters.config.banner.data.attributes.formats}); height: 100px; width: 100%; opacity: 1`">
+      <nav class="uk-navbar-container" uk-navbar style="background: none; padding-top: 10px;">
         <div class="uk-navbar-left uk-margin-left">
           <ul class="uk-navbar-nav">
             <li>
@@ -15,7 +15,7 @@
           </ul>
         </div>
         <div class="nav-overlay uk-navbar-center uk-visible@m">
-          <ul class="uk-navbar-nav nav-center" v-if="sub_categories.length > 10">
+          <ul class="uk-navbar-nav nav-center" v-if="sub_categories.length > 5">
             <li>
               <a href="#">{{ section }}</a>
               <div class="uk-navbar-dropdown uk-light uk-background-secondary">

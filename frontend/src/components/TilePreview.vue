@@ -1,17 +1,18 @@
 <template>
-  <div ref="el"
-       :id="tile_id"
-       class="tile-preview"
-       :style="{ height: `${tile_height}px`, border: `solid ${border_size}px ${border_color}` }"
+  <div :id="tile_id"
+       class="tile-preview grid-item"
+       :class="{'grid-item--width2': tile?.large,
+                'grid-item--width1': !tile?.large
+               }"
+       :style="{ height: `${tile_height}px`}"
   >
     <v-lazy-image :src="$store.getters.backend_url + medium.url"
                   :src-placeholder="$store.getters.backend_url + thumb.url" :alt="tile.title"
-                  width="100%"/>
+                  :width="`${tile_width}px`" />
   </div>
 </template>
 
 <script>
-import {TILE_COLORS} from "@/lib/constants";
 import VLazyImage from "v-lazy-image";
 
 export default {
@@ -21,30 +22,34 @@ export default {
     tile: {
       type: Object,
     },
-    width: {
-      type: Number
-    },
     type: {
       type: String
     }
   },
   data() {
     return {
-      el_width: this.width,
+      tile_width: 0,
       border_size: 8
     }
   },
   methods: {
-    onResize(){
-      this.el_width = document.getElementById(this.tile_id).offsetWidth - 2 * this.border_size
+    onResize: function () {
+      let base_width = document.getElementsByClassName('grid-sizer')[0].offsetWidth
+      if (this.tile.large) {
+        base_width = document.getElementsByClassName('grid-sizer2')[0].offsetWidth
+      }
+      this.tile_width = base_width
     }
   },
   computed: {
     thumb: function () {
       return this.tile.image.data.attributes.formats.thumbnail
     },
+    orig: function () {
+      return this.tile.image.data.attributes
+    },
     small: function () {
-      return this.tile?.image?.data?.attributes?.formats?.small || this.thumb
+      return this.tile?.image?.data?.attributes?.formats?.small || this.orig
     },
     medium: function () {
       return this.tile?.image?.data?.attributes?.formats?.medium || this.small
@@ -53,10 +58,7 @@ export default {
       return this.tile?.image?.data?.attributes?.formats?.large || this.medium
     },
     tile_height: function () {
-      return this.thumb.height * this.el_width / this.thumb.width
-    },
-    border_color: function () {
-      return TILE_COLORS[this.type]()
+      return this.thumb.height * this.tile_width / this.thumb.width
     },
     tile_id: function () {
       return 'tile_' + this.tile.id
@@ -68,15 +70,12 @@ export default {
     })
     this.onResize();
   },
-  beforeUnmount() {
-      window.removeEventListener('resize', this.onResize)
-  }
 }
 </script>
 
 
 <style scoped>
-.tile-preview:hover{
+.tile-preview:hover {
   cursor: pointer;
 }
 </style>

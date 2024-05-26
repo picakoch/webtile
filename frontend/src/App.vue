@@ -4,7 +4,7 @@
   </div>
   <template v-else>
     <NavBar :sub_categories="sub_categories" @search_tile="onSearch"/>
-    <div uk-alert style="border: 8px #CCCCCC solid" class="uk-margin-top headline uk-background-secondary"
+    <div uk-alert style="border: 8px #EEEEEE solid" class="uk-margin-top headline uk-background-secondary"
          v-if="$store.getters.config?.headline && !$store.getters.headline_as_tile && this.$store.getters.headline_enabled">
       <a href class="uk-alert-close" uk-close></a>
       <StrapiBlocks :content="$store.getters.config.headline"></StrapiBlocks>
@@ -110,4 +110,77 @@ export default {
   color: #ccc;
 }
 
+.tile-preview {
+  color: #EEE;
+}
+
+.grid-sizer,
+.grid-item--width1 {
+  width: 100%;
+}
+
+.grid-sizer2,
+.grid-item--width2 {
+  width: 100%;
+}
+
+.gutter-sizer {
+  width: 2%;
+}
+
+@media screen and (min-width: 400px) {
+  // 2 columns
+  .gutter-sizer {
+    width: 4%;
+  }
+
+  .grid-sizer,
+  .grid-item--width1 {
+    width: 48%;
+  }
+
+  .grid-sizer2,
+  .grid-item--width2 {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .gutter-sizer {
+    width: 2%;
+  }
+
+  .grid-sizer,
+  .grid-item--width1 {
+    width: 32%;
+  }
+
+  .grid-sizer2,
+  .grid-item--width2 {
+    width: 66%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .gutter-sizer {
+    width: 1.5%;
+  }
+
+  .grid-sizer,
+  .grid-item--width1 {
+    width: 23.875%;
+  }
+
+  .grid-sizer2,
+  .grid-item--width2 {
+    width: 49.25%;
+  }
+}
+
+.grid-item {
+  margin-bottom: 18px;
+}
+ .tile-preview > img {
+   border: 8px solid #eee;
+ }
 </style>

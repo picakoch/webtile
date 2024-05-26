@@ -864,7 +864,7 @@ export interface ApiTileAudioTileAudio extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    description: Attribute.Text;
+    title: Attribute.Text;
     tracks: Attribute.Relation<
       'api::tile-audio.tile-audio',
       'manyToMany',
@@ -873,6 +873,7 @@ export interface ApiTileAudioTileAudio extends Schema.CollectionType {
     tile: Attribute.Component<'main.tile'> & Attribute.Required;
     rank: Attribute.Integer;
     tile_title: Attribute.String & Attribute.Private;
+    content: Attribute.Blocks;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1003,6 +1004,7 @@ export interface ApiTrackTrack extends Schema.CollectionType {
     singularName: 'track';
     pluralName: 'tracks';
     displayName: 'Track';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1016,6 +1018,7 @@ export interface ApiTrackTrack extends Schema.CollectionType {
       'manyToMany',
       'api::tile-audio.tile-audio'
     >;
+    content: Attribute.Blocks;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

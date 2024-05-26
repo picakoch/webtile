@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "description": {
+    "title": {
       "type": "text"
     },
     "tracks": {
@@ -33,6 +33,9 @@
     "tile_title": {
       "type": "string",
       "private": true
+    },
+    "content": {
+      "type": "blocks"
     }
   }
 }
