@@ -36,6 +36,10 @@
     },
     "content": {
       "type": "blocks"
+    },
+    "content_search": {
+      "type": "text",
+      "private": true
     }
   }
 }

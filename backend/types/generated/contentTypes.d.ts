@@ -874,6 +874,7 @@ export interface ApiTileAudioTileAudio extends Schema.CollectionType {
     rank: Attribute.Integer;
     tile_title: Attribute.String & Attribute.Private;
     content: Attribute.Blocks;
+    content_search: Attribute.Text & Attribute.Private;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

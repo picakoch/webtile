@@ -75,7 +75,7 @@ module.exports = ({env}) => ({
                 name: "tile_title",
                 weight: 10,
               }, {
-                name: "description",
+                name: "content_search",
                 weight: 10,
               },
             ],

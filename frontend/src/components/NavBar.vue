@@ -13,7 +13,7 @@
         uk-navbar
         style="background: none; padding-top: 10px"
       >
-        <div class="uk-navbar-left uk-margin-left">
+        <div class="uk-navbar-left uk-margin-left" style="height: 100px;">
           <ul class="uk-navbar-nav">
             <li>
               <RouterLink to="/time" class="nav-text-main"
@@ -61,7 +61,7 @@
           </ul>
         </div>
 
-        <div class="nav-overlay uk-navbar-right uk-visible@m">
+        <div class="nav-overlay uk-navbar-right uk-visible@m" style="height: 100px;">
           <ul class="uk-navbar-nav">
             <li
               v-for="category in categories"
@@ -90,7 +90,7 @@
           </ul>
         </div>
 
-        <div class="uk-navbar-right uk-hidden@m">
+        <div class="uk-navbar-right uk-hidden@m" style="height: 100px;">
           <ul class="uk-navbar-nav">
             <li>
               <a href="#">...</a>
@@ -125,7 +125,7 @@
           </ul>
         </div>
 
-        <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+        <div class="nav-overlay uk-navbar-left uk-flex-1" hidden style="height: 100px;">
           <div class="uk-navbar-item uk-width-expand">
             <form
               class="uk-search uk-search-navbar uk-width-1-1"
@@ -199,7 +199,7 @@ export default {
   color: #ccc;
   padding-left: 10px;
   padding-right: 10px;
-  border-top: 5px solid #ccc;
+  border-top: 4px solid #eee;
   border-color: #00000000;
 }
 
@@ -235,5 +235,13 @@ export default {
 
 .uk-search-input {
   color: #fff;
+}
+
+.uk-search-navbar .uk-search-input{
+    background: transparent;
+}
+
+.uk-search-navbar .uk-search-input:focus{
+    background: transparent;
 }
 </style>

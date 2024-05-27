@@ -16,9 +16,6 @@
         </div>
         <TileGrid :items="group[1]" :title="group[0]"></TileGrid>
       </div>
-      <div class="uk-background-secondary uk-light">
-        <i>Aucun résultat</i>
-      </div>
     </template>
     <template v-else>
       <TileGrid :items="all_items" :key="name"></TileGrid>

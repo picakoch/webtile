@@ -36,10 +36,6 @@
       <!-- block item markup -->
     </template>
   </div>
-
-  <div uk-alert v-if="items.length === 0" style="border: 5px red solid">
-    Aucun résultat
-  </div>
 </template>
 
 <script>
