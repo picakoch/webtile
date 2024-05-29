@@ -250,4 +250,8 @@ export default {
 .uk-search-navbar .uk-search-input:focus{
     background: transparent;
 }
+
+.uk-navbar-nav{
+  font-size: 1.1em;
+}
 </style>
