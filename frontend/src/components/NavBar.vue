@@ -20,10 +20,13 @@
                 >{{ $store.getters.config?.title }}
               </RouterLink>
             </li>
+            <li style="width: 30px">
+              &nbsp;
+            </li>
           </ul>
         </div>
-        <div class="nav-overlay uk-navbar-center uk-visible@m">
-          <ul class="uk-navbar-nav nav-center" v-if="sub_categories.length > 5">
+        <div class="nav-overlay uk-navbar-left uk-visible@m">
+          <ul class="uk-navbar-nav nav-center" v-if="sub_categories.length >= 5">
             <li>
               <a href="#">{{ section }}</a>
               <div class="uk-navbar-dropdown uk-light uk-background-secondary">
@@ -161,9 +164,11 @@ export default {
   data() {
     return {
       categories: [
-        { id: "time", label: "Par date" },
-        { id: "theme", label: "Par thème" },
-        { id: "type", label: "Par type" },
+        { id: "time", label: "Date" },
+        { id: "theme", label: "Thème" },
+        { id: "type", label: "Media" },
+        { id: "newsletter", label: "Newsletter" },
+        { id: "donate", label: "Soutenir" },
       ],
       section: "Aller à",
       q: "",
@@ -206,7 +211,7 @@ export default {
 .uk-navbar-nav.nav-center > li > a {
   font-size: 1.1em;
   font-weight: 600;
-  color: #aaa;
+  color: #ccc;
   padding-left: 5px;
   padding-right: 5px;
   border: none;
@@ -221,7 +226,7 @@ export default {
   color: #fff;
 }
 
-.uk-navbar-nav > li.uk-active > a {
+.uk-navbar-nav > li.uk-active > a,.uk-navbar-dropdown-nav > li.uk-active > a{
   color: #fff;
 }
 
@@ -235,6 +240,7 @@ export default {
 
 .uk-search-input {
   color: #fff;
+  font-size: 2.0em;
 }
 
 .uk-search-navbar .uk-search-input{

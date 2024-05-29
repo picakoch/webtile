@@ -828,6 +828,39 @@ export interface ApiConfigConfig extends Schema.SingleType {
   };
 }
 
+export interface ApiNewsletterSubscriptionNewsletterSubscription
+  extends Schema.CollectionType {
+  collectionName: 'newsletter_subscriptions';
+  info: {
+    singularName: 'newsletter-subscription';
+    pluralName: 'newsletter-subscriptions';
+    displayName: 'NewsletterSubscription';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    email: Attribute.Email;
+    name: Attribute.String;
+    subscription_date: Attribute.DateTime;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::newsletter-subscription.newsletter-subscription',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::newsletter-subscription.newsletter-subscription',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiTagTag extends Schema.CollectionType {
   collectionName: 'tags';
   info: {
@@ -1057,6 +1090,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::config.config': ApiConfigConfig;
+      'api::newsletter-subscription.newsletter-subscription': ApiNewsletterSubscriptionNewsletterSubscription;
       'api::tag.tag': ApiTagTag;
       'api::tile-audio.tile-audio': ApiTileAudioTileAudio;
       'api::tile-image.tile-image': ApiTileImageTileImage;

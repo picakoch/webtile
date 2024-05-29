@@ -18,7 +18,7 @@
       </div>
     </template>
     <template v-else>
-      <TileGrid :items="all_items" :key="name"></TileGrid>
+      <TileGrid :items="all_items" :key="name + '_' + q.replace(' ','')"></TileGrid>
     </template>
     <router-view></router-view>
   </div>
