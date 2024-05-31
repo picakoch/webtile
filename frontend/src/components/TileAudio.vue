@@ -60,6 +60,7 @@
               <audio
                   :id="`audio_track_${id}_${track.id}`"
                   controls
+                  v-show="player_playing === false"
                   controlsList="nodownload noplaybackrate"
                   @play="trackPlay(track)"
                   @ended="trackEnded(track)"
