@@ -11,6 +11,7 @@ const routes = [
     path: "/:name",
     component: MainPage,
     props: true,
+    name: 'main',
     children: [
       { path: ":id", name: "detail", component: TileDetails, props: true },
     ],

@@ -2,7 +2,7 @@
   <div class="uk-light uk-margin uk-margin-left uk-margin-right">
     <div class="uk-grid" uk-grid>
 
-      <form class="uk-width-1-3"
+      <form class="uk-width-1-3@xl uk-width-1-2@m uk-width-1-1@s"
             @submit.prevent="subscribe"
       >
         <fieldset class="uk-fieldset uk-light">
@@ -39,7 +39,7 @@
 
       </form>
 
-      <form class="uk-width-1-3"
+      <form class="uk-width-1-3@xl uk-width-1-2@m uk-width-1-1@s"
             @submit.prevent="unsubscribe"
       >
         <fieldset class="uk-fieldset uk-light">

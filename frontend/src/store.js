@@ -33,7 +33,6 @@ export const store = createStore({
     headline_enabled: (state) => {
       let exp_date = new Date(state.config?.headline_expiration);
       let now = new Date();
-      console.log(exp_date, now, !exp_date, now < exp_date);
       return !exp_date || now < exp_date;
     },
   },

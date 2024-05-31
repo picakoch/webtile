@@ -138,7 +138,7 @@ export default {
   width: 2%;
 }
 
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 700px) {
   // 2 columns
   .gutter-sizer {
     width: 4%;
@@ -155,7 +155,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 950px) {
   .gutter-sizer {
     width: 2%;
   }
@@ -184,6 +184,22 @@ export default {
   .grid-sizer2,
   .grid-item--width2 {
     width: 49.25%;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .gutter-sizer {
+    width: 1%;
+  }
+
+  .grid-sizer,
+  .grid-item--width1 {
+    width: 19.2%;
+  }
+
+  .grid-sizer2,
+  .grid-item--width2 {
+    width: 29.4%;
   }
 }
 

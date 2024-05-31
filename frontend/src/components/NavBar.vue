@@ -25,17 +25,32 @@
             </li>
           </ul>
         </div>
-        <div class="nav-overlay uk-navbar-left uk-visible@m">
+        <div class="nav-overlay uk-navbar-left uk-visible@m" v-if="$route.name === 'main'">
+          <ul
+            v-if="sub_categories.length > 0"
+            class="uk-navbar-nav nav-center uk-navbar-spy"
+            uk-scrollspy-nav="closest: li; scroll: true"
+          >
+            <li
+              v-for="(sub_category, index) in sub_categories.slice(0, 5)"
+              :key="index"
+              class="nav-item"
+            >
+              <a :href="`#tile_group_${sub_category}`" class="uk-light">
+                {{ sub_category }}
+              </a>
+            </li>
+          </ul>
           <ul class="uk-navbar-nav nav-center" v-if="sub_categories.length >= 5">
             <li>
-              <a href="#">{{ section }}</a>
+              <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
               <div class="uk-navbar-dropdown uk-light uk-background-secondary">
                 <ul
                   class="uk-nav uk-navbar-dropdown-nav uk-navbar-spy"
                   uk-scrollspy-nav="closest: li; scroll: true"
                 >
                   <li
-                    v-for="(sub_category, index) in sub_categories"
+                    v-for="(sub_category, index) in sub_categories.slice(5)"
                     :key="index"
                     class="nav-item"
                   >
@@ -47,21 +62,7 @@
               </div>
             </li>
           </ul>
-          <ul
-            v-else-if="sub_categories.length > 0"
-            class="uk-navbar-nav nav-center uk-navbar-spy"
-            uk-scrollspy-nav="closest: li; scroll: true"
-          >
-            <li
-              v-for="(sub_category, index) in sub_categories"
-              :key="index"
-              class="nav-item"
-            >
-              <a :href="`#tile_group_${sub_category}`" class="uk-light">
-                {{ sub_category }}
-              </a>
-            </li>
-          </ul>
+
         </div>
 
         <div class="nav-overlay uk-navbar-right uk-visible@m" style="height: 100px;">
@@ -93,11 +94,11 @@
           </ul>
         </div>
 
-        <div class="uk-navbar-right uk-hidden@m" style="height: 100px;">
+        <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 100px;">
           <ul class="uk-navbar-nav">
             <li>
-              <a href="#">...</a>
-              <div class="uk-navbar-dropdown">
+              <a href="#"><span uk-icon="icon: menu"></span></a>
+              <div class="uk-navbar-dropdown uk-background-secondary uk-light">
                 <ul class="uk-nav uk-navbar-dropdown-nav">
                   <li
                     v-for="category in categories"
@@ -119,9 +120,11 @@
             </li>
             <li>
               <a
-                class="uk-navbar-toggle"
+                class="uk-navbar-toggle test"
                 uk-search-icon
+                v-show="!search_active"
                 uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
+                @click="search_active=true"
                 href="#"
               ></a>
             </li>
@@ -170,8 +173,8 @@ export default {
         { id: "newsletter", label: "Newsletter" },
         { id: "donate", label: "Soutenir" },
       ],
-      section: "Aller à",
       q: "",
+      search_active: false
     };
   },
   props: {
@@ -190,6 +193,7 @@ export default {
     resetSearch() {
       this.$log.debug("(navbar) reset search", this.q);
       this.q = "";
+      this.search_active=false
       this.$emit("search_tile", "");
     },
   },
