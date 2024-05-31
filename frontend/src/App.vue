@@ -199,7 +199,7 @@ export default {
 
   .grid-sizer2,
   .grid-item--width2 {
-    width: 29.4%;
+    width: 39.4%;
   }
 }
 
