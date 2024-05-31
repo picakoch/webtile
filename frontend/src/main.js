@@ -7,6 +7,9 @@ import { store } from "./store";
 import uk from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import { VueMasonryPlugin } from "vue-masonry";
+import Unicon from 'vue-unicons'
+import { uniPlayCircle, uniPauseCircle, uniSkipForward, uniStepBackward, uniStopCircle } from 'vue-unicons/dist/icons'
+Unicon.add([uniPlayCircle, uniPauseCircle, uniSkipForward, uniStepBackward, uniStopCircle])
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -37,6 +40,7 @@ app.use(VueMasonryPlugin);
 app.use(router);
 app.use(store);
 app.use(VueLogger, options);
+app.use(Unicon);
 await router.isReady();
 
 app.mount("#app");

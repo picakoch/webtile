@@ -24,6 +24,7 @@
     "vue-masonry": "^0.16.0",
     "vue-router": "4",
     "vue-strapi-blocks-renderer": "^0.2.2",
+    "vue-unicons": "^3.3.1",
     "vuejs3-logger": "^1.0.0",
     "vuex": "^4.1.0"
   },

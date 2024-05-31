@@ -195,6 +195,7 @@ export const AUDIO_Q = gql`
                 id
                 attributes {
                     content
+                    title
                     tracks {
                         data {
                             id
