@@ -183,6 +183,7 @@ export default {
       this.current_content = song_content || album_content;
       if (this.player_playing){
         this.current_content = album_content
+        image = album_image
       }
       this.current_image_full_url = image.url;
       if (image) {
