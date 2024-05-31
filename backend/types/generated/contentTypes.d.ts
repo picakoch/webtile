@@ -810,6 +810,7 @@ export interface ApiConfigConfig extends Schema.SingleType {
     headline: Attribute.Blocks;
     contacts: Attribute.Blocks;
     headline_expiration: Attribute.DateTime;
+    newsletter_description: Attribute.Blocks;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -837,15 +838,14 @@ export interface ApiNewsletterSubscriptionNewsletterSubscription
     displayName: 'NewsletterSubscription';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
-    email: Attribute.Email;
+    email: Attribute.Email & Attribute.Required & Attribute.Unique;
     name: Attribute.String;
     subscription_date: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::newsletter-subscription.newsletter-subscription',
       'oneToOne',

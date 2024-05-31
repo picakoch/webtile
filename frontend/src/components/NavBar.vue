@@ -5,7 +5,7 @@
       class="uk-background-cover"
       :style="`background-image: url(${
         $store.getters.backend_url +
-        $store.getters.config.banner.data.attributes.formats
+        $store.getters?.config?.banner?.data?.attributes?.formats
       }); height: 100px; width: 100%; opacity: 1`"
     >
       <nav

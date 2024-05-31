@@ -1,4 +1,4 @@
-const {getPlainText} = require("../../../util");
+const { getPlainText } = require("../../../util");
 
 
 module.exports = {

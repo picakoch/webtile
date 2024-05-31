@@ -56,6 +56,7 @@ export const CONFIG_Q = gql`
           headline
           contacts
           headline_expiration
+          newsletter_description
         }
       }
     }

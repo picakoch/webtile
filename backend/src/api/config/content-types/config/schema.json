@@ -58,6 +58,9 @@
     },
     "headline_expiration": {
       "type": "datetime"
+    },
+    "newsletter_description": {
+      "type": "blocks"
     }
   }
 }
