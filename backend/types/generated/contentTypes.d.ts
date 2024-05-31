@@ -811,6 +811,7 @@ export interface ApiConfigConfig extends Schema.SingleType {
     contacts: Attribute.Blocks;
     headline_expiration: Attribute.DateTime;
     newsletter_description: Attribute.Blocks;
+    contact_footer: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

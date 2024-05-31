@@ -22,7 +22,7 @@
 
     <div class="uk-width-1-1 uk-margin-top footer uk-text-center" id="contact">
       <div v-if="$store.getters.config?.contacts">
-        <StrapiBlocks :content="$store.getters.config.contacts"></StrapiBlocks>
+        {{$store.getters.config.contact_footer}}
       </div>
       <div class="uk-text-muted">
         Design and dev: <a href="https://www.n21.fr">N21</a>
@@ -213,5 +213,16 @@ export default {
 .tile_border {
   position: relative;
   border: solid 8px #eee;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 </style>

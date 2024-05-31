@@ -4,6 +4,7 @@ import NotFound from "@/components/NotFound";
 import TileDetails from "@/components/TileDetails";
 import NewsletterSubscription from "@/components/NewsletterSubscription.vue";
 import SupportProject from "@/components/SupportProject.vue";
+import ContactPage from "@/components/ContactPage.vue";
 
 const routes = [
   { path: "/", redirect: "/time" },
@@ -18,6 +19,7 @@ const routes = [
   },
   { path: "/newsletter", name: "newsletter", component: NewsletterSubscription },
   { path: "/donate", name: "support", component: SupportProject },
+  { path: "/contact", name: "contact", component: ContactPage },
   { path: "/:pathMatch(.*)*", name: "not-found", component: NotFound },
   { path: "/:pathMatch(.*)", name: "bad-not-found", component: NotFound },
 ];

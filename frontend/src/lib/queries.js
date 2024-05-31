@@ -55,6 +55,7 @@ export const CONFIG_Q = gql`
           audio_color
           headline
           contacts
+          contact_footer
           headline_expiration
           newsletter_description
         }
