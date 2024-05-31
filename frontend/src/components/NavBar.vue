@@ -11,7 +11,7 @@
       <nav
           class="uk-navbar-container"
           uk-navbar
-          style="background: none; height: 50px;"
+          style="background: none; height: 55px;"
       >
         <div class="uk-navbar-left uk-margin-left">
           <ul class="uk-navbar-nav">
@@ -138,7 +138,7 @@
               </a>
             </li>
           </ul>
-          <ul class="uk-navbar-nav nav-center" v-if="sub_categories.length >= 5">
+          <ul class="uk-navbar-nav nav-center uk-navbar-nav-level2" v-if="sub_categories.length >= 5">
             <li>
               <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
               <div class="uk-navbar-dropdown uk-light uk-background-secondary">
@@ -209,7 +209,7 @@ export default {
 
 <style scoped>
 .uk-navbar-nav > li > a {
-  font-size: 1.1em;
+  font-size: 1.2em;
   font-weight: 600;
   color: #ccc;
   padding-left: 10px;
@@ -219,7 +219,7 @@ export default {
 }
 
 .uk-navbar-nav.nav-center > li > a {
-  font-size: 1.1em;
+  font-size: 1.2em;
   font-weight: 600;
   color: #ccc;
   padding-left: 5px;
@@ -268,11 +268,12 @@ export default {
 .uk-navbar-nav > li > a,
 .uk-navbar-item,
 .uk-navbar-toggle {
-  min-height: 50px;
+  min-height: 55px;
 }
 
 .uk-navbar-nav-level2 > li > a {
   min-height: 25px;
+  font-size: 1em;
 }
 
 </style>
