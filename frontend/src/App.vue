@@ -25,7 +25,7 @@
         {{ $store.getters.config.contact_footer }}
       </div>
       <div class="uk-text-muted">
-        Design and dev: <a href="https://www.n21.fr">N21</a>
+        Design and dev: <a target="_blank" href="https://www.n21.fr">N21</a>
       </div>
     </div>
   </template>
