@@ -14,7 +14,7 @@ import TileAudio from "@/components/TileAudio.vue";
 
 export default {
   name: "TileDetails",
-  components: {  TileVideo, TileImage, TileAudio },
+  components: { TileVideo, TileImage, TileAudio },
   props: {
     id: {
       type: String,

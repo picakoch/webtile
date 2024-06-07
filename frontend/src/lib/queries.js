@@ -49,15 +49,12 @@ export const CONFIG_Q = gql`
               }
             }
           }
-          text_color
-          image_color
-          video_color
-          audio_color
           headline
           contacts
           contact_footer
           headline_expiration
           newsletter_description
+          biography
         }
       }
     }

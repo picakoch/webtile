@@ -34,22 +34,6 @@
         "audios"
       ]
     },
-    "image_color": {
-      "type": "string",
-      "default": "#281145"
-    },
-    "video_color": {
-      "type": "string",
-      "default": "#4b83a4"
-    },
-    "text_color": {
-      "type": "string",
-      "default": "#d09426"
-    },
-    "audio_color": {
-      "type": "string",
-      "default": "#6f2526"
-    },
     "headline": {
       "type": "blocks"
     },
@@ -64,6 +48,9 @@
     },
     "contact_footer": {
       "type": "string"
+    },
+    "biography": {
+      "type": "blocks"
     }
   }
 }

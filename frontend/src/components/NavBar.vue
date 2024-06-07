@@ -1,72 +1,70 @@
 <template>
   <div>
     <div
-        uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
-        class="uk-background-cover"
-        :style="`background-image: url(${
+      uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
+      class="uk-background-cover"
+      :style="`background-image: url(${
         $store.getters.backend_url +
         $store.getters?.config?.banner?.data?.attributes?.formats
       }); height: 100px; width: 100%; opacity: 1`"
     >
       <nav
-          class="uk-navbar-container"
-          uk-navbar
-          style="background: none; height: 55px;"
+        class="uk-navbar-container"
+        uk-navbar
+        style="background: none; height: 55px"
       >
         <div class="uk-navbar-left uk-margin-left">
           <ul class="uk-navbar-nav">
             <li>
               <RouterLink to="/time" class="nav-text-main"
-              >{{ $store.getters.config?.title }}
+                >{{ $store.getters.config?.title }}
               </RouterLink>
             </li>
-            <li style="width: 30px">
-              &nbsp;
-            </li>
+            <li style="width: 30px">&nbsp;</li>
           </ul>
         </div>
 
         <div class="nav-overlay uk-navbar-right uk-visible@m">
           <ul class="uk-navbar-nav">
             <li
-                v-for="category in categories"
-                :key="category.id"
-                class="nav-item"
+              v-for="category in categories"
+              :key="category.id"
+              class="nav-item"
             >
               <RouterLink
-                  :to="'/' + category.id"
-                  :key="'cat_' + category.id"
-                  :class="{ 'uk-active': $route.path === '/' + category.id }"
+                :to="'/' + category.id"
+                :key="'cat_' + category.id"
+                :class="{ 'uk-active': $route.path === '/' + category.id }"
               >
                 {{ category.label }}
               </RouterLink>
             </li>
             <li class="nav-item">
               <a
-                  class="uk-navbar-toggle"
-                  uk-search-icon
-                  uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
-                  href="#"
+                class="uk-navbar-toggle"
+                uk-search-icon
+                uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
+                href="#"
               ></a>
             </li>
           </ul>
         </div>
 
-        <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 100px;">
+        <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 100px">
           <ul class="uk-navbar-nav">
             <li>
               <a href="#"><span uk-icon="icon: menu"></span></a>
               <div class="uk-navbar-dropdown uk-background-secondary uk-light">
                 <ul class="uk-nav uk-navbar-dropdown-nav">
                   <li
-                      v-for="category in categories"
-                      :key="category.id"
-                      class="nav-item"
+                    v-for="category in categories"
+                    :key="category.id"
+                    class="nav-item"
                   >
                     <RouterLink
-                        :to="'/' + category.id"
-                        :key="'cat_' + category.id"
-                        :class="{
+                      :to="'/' + category.id"
+                      :key="'cat_' + category.id"
+                      :class="{
                         'uk-active': $route.path === '/' + category.id,
                       }"
                     >
@@ -78,12 +76,12 @@
             </li>
             <li>
               <a
-                  class="uk-navbar-toggle test"
-                  uk-search-icon
-                  v-show="!search_active"
-                  uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
-                  @click="search_active=true"
-                  href="#"
+                class="uk-navbar-toggle test"
+                uk-search-icon
+                v-show="!search_active"
+                uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
+                @click="search_active = true"
+                href="#"
               ></a>
             </li>
           </ul>
@@ -92,64 +90,69 @@
         <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
           <div class="uk-navbar-item uk-width-expand">
             <form
-                class="uk-search uk-search-navbar uk-width-1-1"
-                @submit.prevent="doSearch"
+              class="uk-search uk-search-navbar uk-width-1-1"
+              @submit.prevent="doSearch"
             >
               <input
-                  v-model="q"
-                  class="uk-search-input"
-                  type="search"
-                  placeholder="Rechercher"
-                  aria-label="Rechercher"
-                  autofocus
+                v-model="q"
+                class="uk-search-input"
+                type="search"
+                placeholder="Rechercher"
+                aria-label="Rechercher"
+                autofocus
               />
             </form>
           </div>
 
           <a
-              class="uk-navbar-toggle"
-              uk-close
-              uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
-              href="#"
-              @click="resetSearch"
+            class="uk-navbar-toggle"
+            uk-close
+            uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
+            href="#"
+            @click="resetSearch"
           ></a>
         </div>
-
       </nav>
 
       <nav
-          class="uk-navbar-container"
-          uk-navbar
-          style="background: none; height: 30px"
+        class="uk-navbar-container"
+        uk-navbar
+        style="background: none; height: 30px"
       >
-        <div class="nav-overlay uk-navbar-right uk-visible@m" v-if="$route.name === 'main'">
+        <div
+          class="nav-overlay uk-navbar-right uk-visible@m"
+          v-if="$route.name === 'main'"
+        >
           <ul
-              v-if="sub_categories.length > 0"
-              class="uk-navbar-nav uk-navbar-nav-level2 uk-navbar-spy"
-              uk-scrollspy-nav="closest: li; scroll: true"
+            v-if="sub_categories.length > 0"
+            class="uk-navbar-nav uk-navbar-nav-level2 uk-navbar-spy"
+            uk-scrollspy-nav="closest: li; scroll: true"
           >
             <li
-                v-for="(sub_category, index) in sub_categories.slice(0, 5)"
-                :key="index"
-                class="nav-item"
+              v-for="(sub_category, index) in sub_categories.slice(0, 5)"
+              :key="index"
+              class="nav-item"
             >
               <a :href="`#tile_group_${sub_category}`" class="uk-light">
                 {{ sub_category }}
               </a>
             </li>
           </ul>
-          <ul class="uk-navbar-nav nav-center uk-navbar-nav-level2" v-if="sub_categories.length >= 5">
+          <ul
+            class="uk-navbar-nav nav-center uk-navbar-nav-level2"
+            v-if="sub_categories.length >= 5"
+          >
             <li>
               <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
               <div class="uk-navbar-dropdown uk-light uk-background-secondary">
                 <ul
-                    class="uk-nav uk-navbar-dropdown-nav uk-navbar-spy"
-                    uk-scrollspy-nav="closest: li; scroll: true"
+                  class="uk-nav uk-navbar-dropdown-nav uk-navbar-spy"
+                  uk-scrollspy-nav="closest: li; scroll: true"
                 >
                   <li
-                      v-for="(sub_category, index) in sub_categories.slice(5)"
-                      :key="index"
-                      class="nav-item"
+                    v-for="(sub_category, index) in sub_categories.slice(5)"
+                    :key="index"
+                    class="nav-item"
                   >
                     <a :href="`#tile_group_${sub_category}`" class="uk-light">
                       {{ sub_category }}
@@ -171,15 +174,14 @@ export default {
   data() {
     return {
       categories: [
-        {id: "time", label: "Date"},
-        {id: "theme", label: "Thème"},
-        {id: "type", label: "Media"},
-        {id: "newsletter", label: "Newsletter"},
-        {id: "donate", label: "Soutenir"},
-        {id: "contact", label: "Contact"},
+        { id: "time", label: "Date" },
+        { id: "theme", label: "Thème" },
+        { id: "type", label: "Media" },
+        { id: "bio", label: "Biographie" },
+        { id: "contact", label: "Contact" },
       ],
       q: "",
-      search_active: false
+      search_active: false,
     };
   },
   props: {
@@ -198,12 +200,11 @@ export default {
     resetSearch() {
       this.$log.debug("(navbar) reset search", this.q);
       this.q = "";
-      this.search_active = false
+      this.search_active = false;
       this.$emit("search_tile", "");
     },
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 
@@ -236,7 +237,8 @@ export default {
   color: #fff;
 }
 
-.uk-navbar-nav > li.uk-active > a, .uk-navbar-dropdown-nav > li.uk-active > a {
+.uk-navbar-nav > li.uk-active > a,
+.uk-navbar-dropdown-nav > li.uk-active > a {
   color: #fff;
 }
 
@@ -250,7 +252,7 @@ export default {
 
 .uk-search-input {
   color: #fff;
-  font-size: 2.0em;
+  font-size: 2em;
 }
 
 .uk-search-navbar .uk-search-input {
@@ -275,5 +277,4 @@ export default {
   min-height: 25px;
   font-size: 1em;
 }
-
 </style>

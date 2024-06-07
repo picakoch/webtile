@@ -8,17 +8,37 @@
     }"
     :style="{ height: `${tile_height}px` }"
   >
-    <v-lazy-image
-      :src="$store.getters.backend_url + medium.url"
-      :src-placeholder="$store.getters.backend_url + thumb.url"
-      :alt="tile.title"
-      :width="`${tile_width}px`"
-    />
+    <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
+      <v-lazy-image
+        :src="$store.getters.backend_url + medium.url"
+        :src-placeholder="$store.getters.backend_url + thumb.url"
+        :alt="tile.title"
+        :class="{ img_border: $store.getters.image_border }"
+        :width="`${tile_width}px`"
+      />
+      <div
+        class="uk-transition-slide-bottom uk-position-bottom uk-overlay uk-overlay-primary main-overlay"
+      >
+        <p class="uk-h5 uk-margin-remove">
+          <span class=""
+                ><unicon
+                  :name="TILE_ICONS[type]"
+                  fill="white"
+                  width="30"
+                  height="30"
+                  v-if="type"
+                ></unicon
+              ></span>
+          <span class="uk-margin-left" v-if="tile?.title">{{ tile.title }}</span>
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import VLazyImage from "v-lazy-image";
+import {TILE_ICONS} from "../lib/constants"
 
 export default {
   name: "TilePreview",
@@ -35,6 +55,7 @@ export default {
     return {
       tile_width: 0,
       border_size: 8,
+      TILE_ICONS: TILE_ICONS
     };
   },
   methods: {
@@ -83,5 +104,8 @@ export default {
 <style scoped>
 .tile-preview:hover {
   cursor: pointer;
+}
+.uk-overlay.main-overlay {
+    padding: 20px 20px;
 }
 </style>

@@ -22,7 +22,7 @@
 
     <div class="uk-width-1-1 uk-margin-top footer uk-text-center" id="contact">
       <div v-if="$store.getters.config?.contacts">
-        {{$store.getters.config.contact_footer}}
+        {{ $store.getters.config.contact_footer }}
       </div>
       <div class="uk-text-muted">
         Design and dev: <a href="https://www.n21.fr">N21</a>
@@ -75,7 +75,7 @@ export default {
       fetchPolicy: "cache-first",
       result(res) {
         this.$store.commit("setConfig", res.data.config?.data?.attributes);
-        this.$log.info(res.data.config)
+        this.$log.info(res.data.config);
         this.$nextTick(() => {
           document.title = this.$store.getters.config?.title;
         });
@@ -126,12 +126,12 @@ export default {
 
 .grid-sizer,
 .grid-item--width1 {
-  width: 100%;
+  width: 93%;
 }
 
 .grid-sizer2,
 .grid-item--width2 {
-  width: 100%;
+  width: 93%;
 }
 
 .gutter-sizer {
@@ -141,17 +141,17 @@ export default {
 @media screen and (min-width: 700px) {
   // 2 columns
   .gutter-sizer {
-    width: 4%;
+    width: 3%;
   }
 
   .grid-sizer,
   .grid-item--width1 {
-    width: 48%;
+    width: 46%;
   }
 
   .grid-sizer2,
   .grid-item--width2 {
-    width: 100%;
+    width: 95%;
   }
 }
 
@@ -162,12 +162,12 @@ export default {
 
   .grid-sizer,
   .grid-item--width1 {
-    width: 32%;
+    width: 31%;
   }
 
   .grid-sizer2,
   .grid-item--width2 {
-    width: 66%;
+    width: 64%;
   }
 }
 
@@ -178,12 +178,12 @@ export default {
 
   .grid-sizer,
   .grid-item--width1 {
-    width: 23.875%;
+    width: 23.2%;
   }
 
   .grid-sizer2,
   .grid-item--width2 {
-    width: 49.25%;
+    width: 47.9%;
   }
 }
 
@@ -194,19 +194,19 @@ export default {
 
   .grid-sizer,
   .grid-item--width1 {
-    width: 19.2%;
+    width: 18.8%;
   }
 
   .grid-sizer2,
   .grid-item--width2 {
-    width: 39.4%;
+    width: 39%;
   }
 }
 
 .grid-item {
   margin-bottom: 18px;
 }
-.tile-preview > img {
+.tile-preview > img.img_border {
   border: 8px solid #eee;
 }
 
@@ -222,7 +222,7 @@ export default {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 * {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 </style>

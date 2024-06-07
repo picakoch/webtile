@@ -4,3 +4,10 @@ export const TILE_NAMES = {
   TileAudioEntity: "audio",
   TileTextEntity: "text",
 };
+
+export const TILE_ICONS = {
+  TileImageEntity: "images",
+  TileVideoEntity: "video",
+  TileAudioEntity: "music",
+  TileTextEntity: "file",
+};
