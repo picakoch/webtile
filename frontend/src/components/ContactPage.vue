@@ -22,12 +22,10 @@
 import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 import NewsletterSubscription from "@/components/NewsletterSubscription.vue";
 import SupportProject from "@/components/SupportProject.vue";
-import VLazyImage from "v-lazy-image";
 
 export default {
   name: "ContactPage",
   components: {
-    VLazyImage,
     SupportProject,
     NewsletterSubscription,
     StrapiBlocks,
