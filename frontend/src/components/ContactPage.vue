@@ -1,10 +1,10 @@
 <template>
-    <h2 class="uk-light uk-margin-left">Newsletter</h2>
+    <h2 class="uk-light uk-margin-left main-title">Newsletter</h2>
   <newsletter-subscription></newsletter-subscription>
 
   <hr class="uk-divider" />
 
-  <h2 class="uk-light uk-margin-left">Contacts</h2>
+  <h2 class="uk-light uk-margin-left main-title">Contacts</h2>
   <div
     v-if="$store.getters.config?.contacts"
     class="uk-light uk-margin uk-margin-left uk-margin-right"
@@ -14,7 +14,7 @@
 
   <hr class="uk-divider" />
 
-  <h2 class="uk-light uk-margin-left">Soutenir</h2>
+  <h2 class="uk-light uk-margin-left main-title">Soutenir</h2>
   <support-project></support-project>
 </template>
 
@@ -37,3 +37,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.main-title {
+  color: #fff;
+}
+</style>

@@ -6,8 +6,8 @@
     <NavBar :sub_categories="sub_categories" @search_tile="onSearch" />
     <div
       uk-alert
-      style="border: 8px #eeeeee solid"
-      class="uk-margin-top headline uk-background-secondary"
+      style="border: 8px #ccc solid"
+      class="uk-margin-top uk-margin-left uk-margin-right headline uk-background-secondary"
       v-if="
         $store.getters.config?.headline &&
         !$store.getters.headline_as_tile &&
@@ -25,7 +25,7 @@
         {{ $store.getters.config.contact_footer }}
       </div>
       <div class="uk-text-muted">
-        Design and dev: <a target="_blank" href="https://www.n21.fr">N21</a>
+        design/dev <a target="_blank" href="https://www.n21.fr">N21</a>
       </div>
     </div>
   </template>
