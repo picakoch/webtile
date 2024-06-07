@@ -146,16 +146,13 @@ export default {
   computed: {},
   methods: {
     nextTrack(d = 1) {
-      console.log("NEXT TRACK ");
       let tracks = this.tileAudio?.data?.attributes?.tracks?.data;
       if (this.player_playing) {
         let index = tracks.findIndex((e) => {
           return e.id === this.player_track.id;
         });
-        console.log(index);
         if (index < tracks.length && index >= 0) {
           index = (index + d) % tracks.length;
-          console.log(index);
           this.player_track = tracks[index];
           this.playerPlay();
         }
@@ -213,7 +210,6 @@ export default {
       this.current_content = song_content || album_content;
       if (this.player_playing) {
         this.current_content = album_content;
-        image = album_image;
       }
       this.current_image_full_url = image.url;
       if (image) {
