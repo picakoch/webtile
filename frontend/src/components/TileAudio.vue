@@ -1,8 +1,8 @@
 <template>
   <div uk-modal :id="'audio_modal_' + id" class="uk-modal-full">
     <div
-      class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary"
-      style="min-height: 100vh"
+        class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary"
+        style="min-height: 100vh"
     >
       <button class="uk-modal-close-default" type="button" uk-close></button>
       <h2 class="uk-modal-title">
@@ -11,102 +11,103 @@
       <div class="uk-grid-divider uk-child-width-1-2@m" uk-grid>
         <div>
           <div
-            class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
+              class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
           >
-            <div uk-lightbox>
+            <div uk-lightbox class="uk-text-center">
               <a
-                class=""
-                :href="$store.getters.backend_url + current_image_full_url"
-                data-caption=""
+                  class=""
+                  :href="$store.getters.backend_url + current_image_full_url"
+                  :data-caption="tileAudio?.data?.attributes?.title"
               >
-                <img
-                  alt="track_image"
-                  width="100%"
-                  :src="$store.getters.backend_url + current_image_url"
-                  v-if="current_image_url"
+                <v-lazy-image
+                    :src="$store.getters.backend_url + current_image_full_url"
+                    :src-placeholder="$store.getters.backend_url + current_image_url"
+                    :alt="tileAudio?.data?.attributes?.title"
+                    style="height: 60vh;"
                 />
+
               </a>
             </div>
           </div>
         </div>
         <div>
           <div
-            class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
+              class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
           >
             <div>
-              <span class="player-icon" title="Lire toutes les pistes"
-                ><unicon
+              <span class="player-icon" title="Lire toutes les pistes" @click.prevent="playerPlayClicked()"
+                    v-if="player_playing === false"
+              ><unicon
                   name="play-circle"
                   fill="white"
                   width="76"
                   height="76"
-                  v-if="player_playing === false"
-                  @click.prevent="playerPlay()"
-                ></unicon
+              ></unicon
               ></span>
-              <span class="player-icon"
-                ><unicon
+              <span class="player-icon" @click.prevent="playerStop()"
+                    v-if="player_playing === true"
+              ><unicon
                   name="stop-circle"
                   fill="white"
                   width="76"
                   height="76"
-                  v-if="player_playing === true"
-                  @click.prevent="playerStop()"
-                ></unicon
+              ></unicon
               ></span>
-              <span class="player-icon uk-margin-small-left"
-                ><unicon
+              <span class="player-icon uk-margin-small-left" @click.prevent="nextTrack(-1)"
+                    v-if="player_playing === true"
+              ><unicon
                   name="step-backward"
                   fill="white"
                   width="30"
                   height="30"
-                  v-if="player_playing === true"
-                  @click.prevent="nextTrack(-1)"
-                ></unicon
+              ></unicon
               ></span>
 
-              <span class="player-icon uk-margin-small-left"
-                ><unicon
+              <span class="player-icon uk-margin-small-left" @click.prevent="nextTrack()"
+                    v-if="player_playing === true"
+              ><unicon
                   name="skip-forward"
                   fill="white"
                   width="30"
                   height="30"
-                  v-if="player_playing === true"
-                  @click.prevent="nextTrack()"
-                ></unicon
+              ></unicon
               ></span>
-              <span v-if="player_track" class="uk-margin-small-left">
-                {{ player_track.attributes.name }}
-              </span>
             </div>
+            <div v-if="player_track && player_playing" class="uk-margin-small-left uk-margin-small-top">
+              {{ player_track_index }}. {{ player_track.attributes.name }}
+            </div>
+            <div class="uk-margin-small-left" v-if="player_track && player_playing">
+              {{ current_time }} / {{ total_time }}
+            </div>
+
             <div
-              v-for="track in tileAudio?.data?.attributes?.tracks?.data"
-              :key="track.id"
-              class="uk-margin-small-top"
+                v-for="track in tileAudio?.data?.attributes?.tracks?.data"
+                :key="track.id"
+                class="uk-margin-small-top"
             >
               <audio
-                :id="`audio_track_${id}_${track.id}`"
-                controls
-                v-show="player_playing === false"
-                controlsList="nodownload noplaybackrate"
-                @play="trackPlay(track)"
-                @ended="trackEnded(track)"
+                  :id="`audio_track_${id}_${track.id}`"
+                  controls
+                  v-show="player_playing === false"
+                  controlsList="nodownload noplaybackrate"
+                  @play="trackPlay(track)"
+                  @ended="trackEnded(track)"
               >
                 <source
-                  :src="
+                    :src="
                     $store.getters.backend_url +
                     track.attributes.media.data.attributes.url
                   "
                 />
                 Your browser does not support the audio element.
               </audio>
-              <span class="uk-margin-left">{{ track.attributes.name }}</span>
+              <span v-show="player_playing === false" class="uk-margin-left">{{ track.attributes.name }}</span>
             </div>
           </div>
         </div>
         <div
-          v-if="current_content"
-          class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
+            v-if="current_content"
+            class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
         >
           <StrapiBlocks :content="current_content"></StrapiBlocks>
         </div>
@@ -116,9 +117,10 @@
 </template>
 
 <script>
-import { AUDIO_Q } from "@/lib/queries";
+import {AUDIO_Q} from "@/lib/queries";
 import uk from "uikit";
-import { StrapiBlocks } from "vue-strapi-blocks-renderer";
+import {StrapiBlocks} from "vue-strapi-blocks-renderer";
+import VLazyImage from "v-lazy-image";
 
 export default {
   name: "TileAudio",
@@ -127,7 +129,7 @@ export default {
       type: String,
     },
   },
-  components: { StrapiBlocks },
+  components: {StrapiBlocks, VLazyImage},
   data() {
     return {
       player_playing: false,
@@ -135,6 +137,8 @@ export default {
       current_image_url: null,
       current_content: null,
       current_image_full_url: null,
+      current_time: '0:00',
+      total_time: '0:00',
     };
   },
   beforeMount() {
@@ -143,9 +147,45 @@ export default {
   mounted() {
     uk.modal("#audio_modal_" + this.id).show();
   },
-  computed: {},
+  computed: {
+    player_track_index() {
+      let tracks = this.tileAudio?.data?.attributes?.tracks?.data;
+      if (this.player_playing && tracks) {
+        let index = tracks.findIndex((e) => {
+          return e.id === this.player_track.id;
+        });
+        return index + 1
+      }
+      return 0
+    }
+  },
   methods: {
+    secsToString(sec_num) {
+      var minutes = Math.floor((sec_num) / 60);
+      var seconds = sec_num - (minutes * 60);
+
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+      return minutes + ':' + seconds;
+    },
+    refreshDuration() {
+      if (this.player_playing && this.player_track) {
+        let el = document.getElementById(
+            `audio_track_${this.id}_${this.player_track.id}`
+        );
+        if (el) {
+          this.current_time = this.secsToString(Math.floor(el.currentTime));
+          this.total_time = this.secsToString(Math.floor(el.duration));
+        }
+      }
+      setTimeout(this.refreshDuration, 500)
+    },
     nextTrack(d = 1) {
+      let current_track_id = this.player_track.id
       let tracks = this.tileAudio?.data?.attributes?.tracks?.data;
       if (this.player_playing) {
         let index = tracks.findIndex((e) => {
@@ -157,6 +197,16 @@ export default {
           this.playerPlay();
         }
       }
+      let el = document.getElementById(
+          `audio_track_${this.id}_${current_track_id}`
+      );
+      if (el) {
+        el.currentTime = 0;
+      }
+    },
+    playerPlayClicked() {
+      this.player_track = this.tileAudio?.data?.attributes?.tracks?.data[0];
+      this.playerPlay()
     },
     playerPlay() {
       this.player_playing = true;
@@ -168,7 +218,7 @@ export default {
       }
       this.trackPlay(this.player_track);
       let el = document.getElementById(
-        `audio_track_${this.id}_${this.player_track.id}`
+          `audio_track_${this.id}_${this.player_track.id}`
       );
       if (el) {
         el.play();
@@ -190,21 +240,31 @@ export default {
     },
     trackEnded(track) {
       let tracks = this.tileAudio?.data?.attributes?.tracks?.data;
+      let current_track_id = null
       if (this.player_playing && this.player_track.id === track.id) {
         let index = tracks.findIndex((e) => {
           return e.id === track.id;
         });
-        if (index < tracks.length - 1 && index >= 0) {
+        current_track_id = tracks[index].id
+        if (index < (tracks.length - 1) && index >= 0) {
           this.player_track = tracks[index + 1];
-          this.playerPlay();
+        } else {
+          this.player_track = tracks[0];
         }
+        this.playerPlay();
+      }
+      let el = document.getElementById(
+          `audio_track_${this.id}_${current_track_id}`
+      );
+      if (el) {
+        el.currentTime = 0;
       }
     },
     trackPlay(track) {
       const song_image = track?.attributes?.image?.data?.attributes;
       const song_content = track?.attributes?.content;
       const album_image =
-        this.tileAudio?.data?.attributes?.tile?.image?.data?.attributes;
+          this.tileAudio?.data?.attributes?.tile?.image?.data?.attributes;
       const album_content = this.tileAudio?.data?.attributes?.content;
       let image = song_image || album_image;
       this.current_content = song_content || album_content;
@@ -214,10 +274,10 @@ export default {
       this.current_image_full_url = image.url;
       if (image) {
         this.current_image_url = image.formats.thumbnail.url;
-        if (image?.small) {
+        if (image?.formats?.small) {
           this.current_image_url = image.formats.small.url;
         }
-        if (image?.medium) {
+        if (image?.formats?.medium) {
           this.current_image_url = image.formats.medium.url;
         }
       }
@@ -231,12 +291,9 @@ export default {
               if (!this.player_playing) {
                 el.currentTime = 0;
               }
-              this.$log.debug(el);
             } else {
               this.$log.debug("Cannot find ", `audio_track_${this.id}_${e.id}`);
             }
-          } else {
-            this.$log.debug("skip", track.id);
           }
         });
       } else {
@@ -254,6 +311,7 @@ export default {
       },
       result: function () {
         this.trackPlay();
+        this.refreshDuration()
       },
     },
   },

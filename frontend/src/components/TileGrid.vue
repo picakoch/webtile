@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     tileClicked: function (item) {
-      if (TILE_NAMES[item.__typename] === "text") {
+      if (TILE_NAMES[item.__typename] === "text_url") {
         window.open(
           this.$store.getters.backend_url +
             item.attributes.media.data.attributes.url,
