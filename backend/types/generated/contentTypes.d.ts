@@ -801,8 +801,8 @@ export interface ApiConfigConfig extends Schema.SingleType {
   };
   attributes: {
     title: Attribute.String;
-    banner: Attribute.Media;
-    bg: Attribute.Media;
+    banner: Attribute.Media<'images'>;
+    bg: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     headline: Attribute.Blocks;
     contacts: Attribute.Blocks;
     headline_expiration: Attribute.DateTime;
@@ -936,7 +936,7 @@ export interface ApiTileImageTileImage extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    images: Attribute.Media;
+    images: Attribute.Media<'images', true>;
     description: Attribute.Text;
     tile: Attribute.Component<'main.tile'>;
     rank: Attribute.Integer;
@@ -971,7 +971,7 @@ export interface ApiTileTextTileText extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    media: Attribute.Media;
+    media: Attribute.Media<'files'>;
     tile: Attribute.Component<'main.tile'>;
     rank: Attribute.Integer;
     description: Attribute.Blocks;
@@ -1007,7 +1007,7 @@ export interface ApiTileVideoTileVideo extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    video: Attribute.Media;
+    video: Attribute.Media<'videos'>;
     tile: Attribute.Component<'main.tile'>;
     description: Attribute.Text;
     rank: Attribute.Integer;
@@ -1043,8 +1043,8 @@ export interface ApiTrackTrack extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    image: Attribute.Media;
-    media: Attribute.Media;
+    image: Attribute.Media<'images'>;
+    media: Attribute.Media<'audios'>;
     tile_audios: Attribute.Relation<
       'api::track.track',
       'manyToMany',
