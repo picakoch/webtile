@@ -51,6 +51,44 @@
     },
     "biography": {
       "type": "blocks"
+    },
+    "label_date": {
+      "type": "string",
+      "default": "Date"
+    },
+    "label_theme": {
+      "type": "string",
+      "default": "Thème"
+    },
+    "label_media": {
+      "type": "string"
+    },
+    "label_bio": {
+      "type": "string"
+    },
+    "label_contact": {
+      "type": "string"
+    },
+    "label_newsletter": {
+      "type": "string"
+    },
+    "label_contacts": {
+      "type": "string"
+    },
+    "label_support": {
+      "type": "string"
+    },
+    "label_music": {
+      "type": "string"
+    },
+    "label_text": {
+      "type": "string"
+    },
+    "label_video": {
+      "type": "string"
+    },
+    "label_images": {
+      "type": "string"
     }
   }
 }

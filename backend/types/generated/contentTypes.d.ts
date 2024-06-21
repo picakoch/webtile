@@ -809,6 +809,18 @@ export interface ApiConfigConfig extends Schema.SingleType {
     newsletter_description: Attribute.Blocks;
     contact_footer: Attribute.String;
     biography: Attribute.Blocks;
+    label_date: Attribute.String & Attribute.DefaultTo<'Date'>;
+    label_theme: Attribute.String & Attribute.DefaultTo<'Th\u00E8me'>;
+    label_media: Attribute.String;
+    label_bio: Attribute.String;
+    label_contact: Attribute.String;
+    label_newsletter: Attribute.String;
+    label_contacts: Attribute.String;
+    label_support: Attribute.String;
+    label_music: Attribute.String;
+    label_text: Attribute.String;
+    label_video: Attribute.String;
+    label_images: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

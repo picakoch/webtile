@@ -39,6 +39,42 @@ export const store = createStore({
       let now = new Date();
       return !exp_date || now < exp_date;
     },
+    label_date: (state) => {
+      return state.config?.label_date || "Date"
+    },
+    label_theme: (state) => {
+      return state.config?.label_theme || "Thème"
+    },
+    label_media: (state) => {
+      return state.config?.label_media || "Media"
+    },
+    label_bio: (state) => {
+      return state.config?.label_bio  || "Biographie"
+    },
+    label_contact: (state) => {
+      return state.config?.label_contact || "Contact"
+    },
+    label_newsletter: (state) => {
+      return state.config?.label_newsletter  || "Newsletter"
+    },
+    label_contacts: (state) => {
+      return state.config?.label_contacts || "Contacts"
+    },
+    label_support: (state) => {
+      return state.config?.label_support || "Soutenir"
+    },
+    label_music: (state) => {
+      return state.config?.label_music || "Musiques"
+    },
+    label_images: (state) => {
+      return state.config?.label_images || "Photos"
+    },
+    label_video: (state) => {
+      return state.config?.label_video   || "Videos"
+    },
+    label_text: (state) => {
+      return state.config?.label_text || "Textes"
+    },
   },
   mutations: {
     setConfig(state, cfg) {

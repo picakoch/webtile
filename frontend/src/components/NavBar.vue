@@ -174,16 +174,16 @@ export default {
   data() {
     return {
       categories: [
-        {id: "time", label: "Date"},
-        {id: "theme", label: "Thème"},
-        {id: "type", label: "Media"},
-        {id: "bio", label: "Biographie"},
-        {id: "contact", label: "Contact"}
+        {id: "time", label: this.$store.getters.label_date},
+        {id: "theme", label: this.$store.getters.label_theme},
+        {id: "type", label: this.$store.getters.label_media},
+        {id: "bio", label: this.$store.getters.label_bio},
+        {id: "contact", label: this.$store.getters.label_contact}
       ],
       contact_subcat: [
-        "Newsletter",
-        "Contacts",
-        "Soutenir",
+        this.$store.getters.label_newsletter,
+        this.$store.getters.label_contacts,
+        this.$store.getters.label_support,
       ],
       q: "",
       search_active: false,

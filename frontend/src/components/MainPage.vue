@@ -132,12 +132,12 @@ export default {
       }
 
       if (this.name === "type") {
-        return {
-          Musique: audio,
-          Photos: image,
-          Videos: video,
-          Textes: text,
-        };
+        const obj = {}
+        obj[this.$store.getters.label_music] = audio
+        obj[this.$store.getters.label_images] = image
+        obj[this.$store.getters.label_video] = video
+        obj[this.$store.getters.label_text] = text
+        return obj;
       }
       let allTiles = image.concat(text, audio, video);
       allTiles.sort(this.sortTime);

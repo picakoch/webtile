@@ -55,6 +55,18 @@ export const CONFIG_Q = gql`
           headline_expiration
           newsletter_description
           biography
+          label_date
+          label_theme
+          label_media
+          label_bio
+          label_contact
+          label_newsletter
+          label_contacts
+          label_support
+          label_music
+          label_images
+          label_video
+          label_text
         }
       }
     }
