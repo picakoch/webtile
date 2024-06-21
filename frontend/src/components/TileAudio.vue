@@ -34,7 +34,7 @@
           <div
               class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
           >
-            <div>
+            <div style="margin-left: -8px;">
               <span class="player-icon" title="Lire toutes les pistes" @click.prevent="playerPlayClicked()"
                     v-if="player_playing === false"
               ><unicon
@@ -90,7 +90,7 @@
                   controls
                   class="audio_player"
                   v-show="player_playing === false"
-                  controlsList="nodownload noplaybackrate"
+                  controlsList="noplaybackrate"
                   @play="trackPlay(track)"
                   @ended="trackEnded(track)"
               >
@@ -113,11 +113,11 @@
                 <StrapiBlocks :content="current_track_content"></StrapiBlocks>
               </div>
               <div
-                  v-if="current_album_content"
+                  v-if="tileAudio?.data?.attributes?.content"
                   class="uk-margin-top uk-background-secondary"
               >
                 <h3 v-if="tileAudio?.data?.attributes?.title">Crédits {{ tileAudio.data.attributes.title }}</h3>
-                <StrapiBlocks :content="current_album_content"></StrapiBlocks>
+                <StrapiBlocks :content="tileAudio?.data?.attributes?.content"></StrapiBlocks>
               </div>
             </div>
           </div>

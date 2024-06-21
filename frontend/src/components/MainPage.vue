@@ -133,9 +133,9 @@ export default {
 
       if (this.name === "type") {
         return {
+          Musique: audio,
           Photos: image,
           Videos: video,
-          Musique: audio,
           Textes: text,
         };
       }
