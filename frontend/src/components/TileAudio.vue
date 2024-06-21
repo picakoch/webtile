@@ -88,6 +88,7 @@
               <audio
                   :id="`audio_track_${id}_${track.id}`"
                   controls
+                  class="audio_player"
                   v-show="player_playing === false"
                   controlsList="nodownload noplaybackrate"
                   @play="trackPlay(track)"
@@ -103,13 +104,23 @@
               </audio>
               <span v-show="player_playing === false" class="uk-margin-left">{{ track.attributes.name }}</span>
             </div>
+            <div class="">
+              <div
+                  v-if="current_track_content && current_track"
+                  class="uk-margin-top uk-light uk-background-secondary"
+              >
+                <h3 v-if="current_track?.attributes?.name">Crédits {{ current_track.attributes.name }}</h3>
+                <StrapiBlocks :content="current_track_content"></StrapiBlocks>
+              </div>
+              <div
+                  v-if="current_album_content"
+                  class="uk-margin-top uk-background-secondary"
+              >
+                <h3 v-if="tileAudio?.data?.attributes?.title">Crédits {{ tileAudio.data.attributes.title }}</h3>
+                <StrapiBlocks :content="current_album_content"></StrapiBlocks>
+              </div>
+            </div>
           </div>
-        </div>
-        <div
-            v-if="current_content"
-            class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
-        >
-          <StrapiBlocks :content="current_content"></StrapiBlocks>
         </div>
       </div>
     </div>
@@ -134,8 +145,10 @@ export default {
     return {
       player_playing: false,
       player_track: null,
+      current_track: null,
       current_image_url: null,
-      current_content: null,
+      current_album_content: null,
+      current_track_content: null,
       current_image_full_url: null,
       current_time: '0:00',
       total_time: '0:00',
@@ -227,6 +240,7 @@ export default {
     playerStop() {
       this.stopAll(false);
       this.player_playing = false;
+      this.current_track = null
       this.trackPlay();
     },
     stopAll(reset_time = true) {
@@ -265,13 +279,11 @@ export default {
       const song_content = track?.attributes?.content;
       const album_image =
           this.tileAudio?.data?.attributes?.tile?.image?.data?.attributes;
-      const album_content = this.tileAudio?.data?.attributes?.content;
+      this.current_album_content = this.tileAudio?.data?.attributes?.content;
       let image = song_image || album_image;
-      this.current_content = song_content || album_content;
-      if (this.player_playing) {
-        this.current_content = album_content;
-      }
+      this.current_track_content = song_content;
       this.current_image_full_url = image.url;
+      this.current_track = track
       if (image) {
         this.current_image_url = image.formats.thumbnail.url;
         if (image?.formats?.small) {
@@ -321,5 +333,10 @@ export default {
 <style scoped>
 .player-icon:hover {
   cursor: pointer;
+}
+
+.audio_player {
+  width: 220px;
+  height: 35px;
 }
 </style>
