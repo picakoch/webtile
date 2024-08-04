@@ -8,17 +8,21 @@
       <h2 class="uk-modal-title">
         {{ tileText?.data?.attributes?.tile.title }}
       </h2>
-      <div class="" uk-grid>
+      <div class="" uk-grid v-if="pdf">
         <div class="uk-width-1-1 uk-margin-top uk-text-center">
-           <div v-for="page in pages" :key="page" class="uk-margin-bottom">
-          <VuePDF v-if="pdf" :pdf="pdf" intent="display" fit-parent :page="page">
-            <div>
-              Chargement du contenu...
-            </div>
-          </VuePDF>
-           </div>
+          <div v-for="page in pages" :key="page" class="uk-margin-bottom">
+            <VuePDF v-if="pdf" :pdf="pdf" intent="display" fit-parent :page="page">
+              <div>
+                Chargement du contenu...
+              </div>
+            </VuePDF>
+          </div>
         </div>
       </div>
+      <StrapiBlocks
+            v-else-if="tileText?.data?.attributes?.description"
+            :content="tileText?.data?.attributes?.description"
+          ></StrapiBlocks>
     </div>
   </div>
 </template>
@@ -27,6 +31,7 @@
 import {TEXT_Q} from "@/lib/queries";
 import uk from "uikit";
 import {VuePDF, usePDF} from '@tato30/vue-pdf'
+import {StrapiBlocks} from "vue-strapi-blocks-renderer";
 
 export default {
   name: "TileText",
@@ -35,7 +40,7 @@ export default {
       type: String,
     },
   },
-  components: {VuePDF},
+  components: {StrapiBlocks, VuePDF},
   data() {
     return {
       tileText: {},
@@ -63,9 +68,14 @@ export default {
         };
       },
       result: function () {
-        const {pdf, pages} = usePDF(this.$store.getters.backend_url + this.tileText.data.attributes.media.data.attributes.url)
-        this.pdf = pdf
-        this.pages = pages
+        if (this.tileText.data.attributes?.media?.data?.attributes?.url) {
+          const {
+            pdf,
+            pages
+          } = usePDF(this.$store.getters.backend_url + this.tileText.data.attributes.media.data.attributes.url)
+          this.pdf = pdf
+          this.pages = pages
+        }
       },
     },
   },
