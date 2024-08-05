@@ -10,6 +10,7 @@ export const store = createStore({
       category_break: process.env.VUE_APP_CATEGORY_BREAK || "true",
       image_border: process.env.VUE_APP_IMAGE_BORDER || "true",
       backend_url: process.env.VUE_APP_STRAPI_API_URL,
+      support_enabled: process.env.VUE_APP_SUPPORT_ENABLED || "true",
     };
   },
   getters: {
@@ -34,46 +35,49 @@ export const store = createStore({
     image_border: (state) => {
       return state.image_border === "true";
     },
+    support_enabled: (state) => {
+      return state.support_enabled === "true";
+    },
     headline_enabled: (state) => {
       let exp_date = new Date(state.config?.headline_expiration);
       let now = new Date();
       return !exp_date || now < exp_date;
     },
     label_date: (state) => {
-      return state.config?.label_date || "Date"
+      return state.config?.label_date || "Date";
     },
     label_theme: (state) => {
-      return state.config?.label_theme || "Thème"
+      return state.config?.label_theme || "Thème";
     },
     label_media: (state) => {
-      return state.config?.label_media || "Media"
+      return state.config?.label_media || "Media";
     },
     label_bio: (state) => {
-      return state.config?.label_bio  || "Biographie"
+      return state.config?.label_bio || "Biographie";
     },
     label_contact: (state) => {
-      return state.config?.label_contact || "Contact"
+      return state.config?.label_contact || "Contact";
     },
     label_newsletter: (state) => {
-      return state.config?.label_newsletter  || "Newsletter"
+      return state.config?.label_newsletter || "Newsletter";
     },
     label_contacts: (state) => {
-      return state.config?.label_contacts || "Contacts"
+      return state.config?.label_contacts || "Contacts";
     },
     label_support: (state) => {
-      return state.config?.label_support || "Soutenir"
+      return state.config?.label_support || "Soutenir";
     },
     label_music: (state) => {
-      return state.config?.label_music || "Musiques"
+      return state.config?.label_music || "Musiques";
     },
     label_images: (state) => {
-      return state.config?.label_images || "Photos"
+      return state.config?.label_images || "Photos";
     },
     label_video: (state) => {
-      return state.config?.label_video   || "Videos"
+      return state.config?.label_video || "Videos";
     },
     label_text: (state) => {
-      return state.config?.label_text || "Textes"
+      return state.config?.label_text || "Textes";
     },
   },
   mutations: {

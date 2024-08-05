@@ -16,7 +16,7 @@ import TileText from "@/components/TileText.vue";
 
 export default {
   name: "TileDetails",
-  components: {TileText, TileVideo, TileImage, TileAudio },
+  components: { TileText, TileVideo, TileImage, TileAudio },
   props: {
     id: {
       type: String,
