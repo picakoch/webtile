@@ -183,7 +183,6 @@ export default {
       contact_subcat: [
         this.$store.getters.label_newsletter,
         this.$store.getters.label_contacts,
-        this.$store.getters.label_support,
       ],
       q: "",
       search_active: false,
@@ -198,7 +197,6 @@ export default {
   },
   methods: {
     doSearch() {
-      this.$log.debug("(navbar) Search", this.q);
       if (this.q.length > 2) {
         this.$emit("search_tile", this.q);
       }
@@ -210,17 +208,17 @@ export default {
       this.$emit("search_tile", "");
     },
     changeSubCats() {
-      console.log("SUBCATS");
-      console.log(this.$route);
       if (this.$route.name === "contact") {
         this.sub_cats = this.contact_subcat;
       } else {
         this.sub_cats = this.sub_categories;
       }
-      this.$log.debug(this.sub_cats);
     },
   },
   mounted() {
+    if (this.$store.getters.support_enabled) {
+      this.contact_subcat.push(this.$store.getters.label_support);
+    }
     this.changeSubCats();
   },
   watch: {
