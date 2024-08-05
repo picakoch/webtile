@@ -1,5 +1,5 @@
 <template>
-  <h2 class="uk-light uk-margin-left  main-title">Biographie</h2>
+  <h2 class="uk-light uk-margin-left main-title">Biographie</h2>
 
   <div
     v-if="$store.getters.config?.biography"

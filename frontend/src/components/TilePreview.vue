@@ -21,15 +21,17 @@
       >
         <p class="uk-h5 uk-margin-remove">
           <span class=""
-                ><unicon
-                  :name="TILE_ICONS[type]"
-                  fill="white"
-                  width="30"
-                  height="30"
-                  v-if="type"
-                ></unicon
-              ></span>
-          <span class="uk-margin-left" v-if="tile?.title">{{ tile.title }}</span>
+            ><unicon
+              :name="TILE_ICONS[type]"
+              fill="white"
+              width="30"
+              height="30"
+              v-if="type"
+            ></unicon
+          ></span>
+          <span class="uk-margin-left" v-if="tile?.title">{{
+            tile.title
+          }}</span>
         </p>
       </div>
     </div>
@@ -38,7 +40,7 @@
 
 <script>
 import VLazyImage from "v-lazy-image";
-import {TILE_ICONS} from "../lib/constants"
+import { TILE_ICONS } from "../lib/constants";
 
 export default {
   name: "TilePreview",
@@ -55,7 +57,7 @@ export default {
     return {
       tile_width: 0,
       border_size: 8,
-      TILE_ICONS: TILE_ICONS
+      TILE_ICONS: TILE_ICONS,
     };
   },
   methods: {
@@ -106,6 +108,6 @@ export default {
   cursor: pointer;
 }
 .uk-overlay.main-overlay {
-    padding: 20px 20px;
+  padding: 20px 20px;
 }
 </style>

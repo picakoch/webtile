@@ -132,11 +132,11 @@ export default {
       }
 
       if (this.name === "type") {
-        const obj = {}
-        obj[this.$store.getters.label_music] = audio
-        obj[this.$store.getters.label_images] = image
-        obj[this.$store.getters.label_video] = video
-        obj[this.$store.getters.label_text] = text
+        const obj = {};
+        obj[this.$store.getters.label_music] = audio;
+        obj[this.$store.getters.label_images] = image;
+        obj[this.$store.getters.label_video] = video;
+        obj[this.$store.getters.label_text] = text;
         return obj;
       }
       let allTiles = image.concat(text, audio, video);
