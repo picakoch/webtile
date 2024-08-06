@@ -206,8 +206,8 @@ export default {
 .grid-item {
   margin-bottom: 18px;
 }
-.tile-preview > img.img_border {
-  border: 8px solid #eee;
+img.img_border {
+  border: 8px solid #fff;
 }
 
 .tile_border {
