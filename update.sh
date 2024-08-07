@@ -9,10 +9,10 @@ docker compose up -d
 
 echo "Rebuild frontend"
 cd ../frontend
-
+echo $PATH
+echo $HOME
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-nvm use v18.20.1
+source ~/.nvm/nvm.sh
 
 yarn
 yarn build
