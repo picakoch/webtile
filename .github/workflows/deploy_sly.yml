@@ -25,7 +25,6 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          source ~/.bashrc
           cd ~/slyapollinaire
           git pull
           ./update.sh
