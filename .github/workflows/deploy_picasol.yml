@@ -25,6 +25,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
         script: |
+          source ~/.bashrc
           cd ~/picasol
           git pull
           ./update.sh
