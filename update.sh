@@ -13,7 +13,6 @@ echo $PATH
 echo $HOME
 export NVM_DIR="$HOME/.nvm"
 source ~/.nvm/nvm.sh
-nvm use v18.20.1
 
 yarn
 yarn build
