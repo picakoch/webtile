@@ -20,3 +20,4 @@ It also include a config type with global configuration:
 
 It uses VueJS 3 (options API) for the frontend, which is basically a masonry wall of items.
 
+Design is based on [UIKit](https://getuikit.com/)
