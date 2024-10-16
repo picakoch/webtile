@@ -75,7 +75,7 @@ export const CONFIG_Q = gql`
 
 export const TAGS_Q = gql`
   query {
-    tags(sort: "rank", pagination: { limit: 100 }) {
+    tags(sort: "rank", pagination: { limit: 1000 }) {
       data {
         id
         attributes {
@@ -88,7 +88,7 @@ export const TAGS_Q = gql`
 
 export const IMAGES_Q = gql`
     query {
-        tileImages(sort: "tile.date:desc", pagination: { limit: 100 }) {
+        tileImages(sort: "tile.date:desc", pagination: { limit: 1000 }) {
             data {
                 id
                 attributes {
@@ -101,7 +101,7 @@ export const IMAGES_Q = gql`
 
 export const TEXTS_Q = gql`
     query {
-        tileTexts(sort: "tile.date:desc", pagination: { limit: 100 }) {
+        tileTexts(sort: "tile.date:desc", pagination: { limit: 1000 }) {
             data {
                 id
                 attributes {
@@ -123,7 +123,7 @@ export const TEXTS_Q = gql`
 
 export const VIDEOS_Q = gql`
     query {
-        tileVideos(sort: "tile.date:desc", pagination: { limit: 100 }) {
+        tileVideos(sort: "tile.date:desc", pagination: { limit: 1000 }) {
             data {
                 id
                 attributes {
@@ -136,7 +136,7 @@ export const VIDEOS_Q = gql`
 
 export const AUDIOS_Q = gql`
     query {
-        tileAudios(sort: "tile.date:desc", pagination: { limit: 100 }) {
+        tileAudios(sort: "tile.date:desc", pagination: { limit: 1000 }) {
             data {
                 id
                 attributes {
