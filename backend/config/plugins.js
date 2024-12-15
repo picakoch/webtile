@@ -104,4 +104,9 @@ module.exports = ({env}) => ({
       ],
     },
   },
+  upload: {
+    config: {
+      sizeLimit: 2500 * 1024 * 1024 // 2.560Gb in bytes
+    }
+  }
 });

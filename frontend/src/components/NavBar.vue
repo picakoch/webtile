@@ -9,7 +9,7 @@
       }); height: 100px; width: 100%; opacity: 1`"
     >
       <nav
-        class="uk-navbar-container"
+        class="uk-navbar-container uk-margin-small-right"
         uk-navbar
         style="background: none; height: 55px"
       >
@@ -115,7 +115,7 @@
       </nav>
 
       <nav
-        class="uk-navbar-container"
+        class="uk-navbar-container  uk-margin-small-right"
         uk-navbar
         style="background: none; height: 30px"
       >
@@ -129,7 +129,7 @@
             uk-scrollspy-nav="closest: li; scroll: true"
           >
             <li
-              v-for="(sub_category, index) in sub_cats.slice(0, 5)"
+              v-for="(sub_category, index) in sub_cats.slice(0, max_level2_elements)"
               :key="index"
               class="nav-item"
             >
@@ -140,7 +140,7 @@
           </ul>
           <ul
             class="uk-navbar-nav nav-center uk-navbar-nav-level2"
-            v-if="sub_cats.length >= 5"
+            v-if="sub_cats.length >= max_level2_elements"
           >
             <li>
               <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
@@ -150,7 +150,7 @@
                   uk-scrollspy-nav="closest: li; scroll: true"
                 >
                   <li
-                    v-for="(sub_category, index) in sub_cats.slice(5)"
+                    v-for="(sub_category, index) in sub_cats.slice(max_level2_elements)"
                     :key="index"
                     class="nav-item"
                   >
@@ -187,6 +187,7 @@ export default {
       q: "",
       search_active: false,
       sub_cats: [],
+      max_level2_elements: 20,
     };
   },
   props: {
@@ -273,7 +274,7 @@ export default {
 }
 
 .nav-item {
-  max-width: 200px;
+  max-width: 260px;
 }
 
 .uk-search-input {
