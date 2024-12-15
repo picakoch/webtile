@@ -81,8 +81,8 @@ export default {
     },
     sortTime(a, b) {
       return (
-        new Date(a?.attributes?.tile?.date) -
-        new Date(b?.attributes?.tile?.date)
+        new Date(b?.attributes?.tile?.date) -
+        new Date(a?.attributes?.tile?.date)
       );
     },
   },
