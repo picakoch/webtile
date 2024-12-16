@@ -5,15 +5,6 @@
     </div>
     <template v-else-if="$store.getters.category_break">
       <div v-for="group in sorted_items" :key="group" class="tile-group">
-        <div class="uk-text-center" v-if="!$store.getters.headers_as_tile">
-          <h2
-            :id="`tile_group_${group[0]}`"
-            v-if="group"
-            class="white_text uk-padding"
-          >
-            {{ group[0] }}
-          </h2>
-        </div>
         <TileGrid :items="group[1]" :title="group[0]"></TileGrid>
       </div>
     </template>
@@ -62,7 +53,6 @@ export default {
       // get parent path property
       if (this.$route.matched.length >= 2) {
         let path = this.$route.matched[this.$route.matched.length - 2].path;
-        this.$log.debug(path);
         let realPath = path.replace(
           /:\w+/g,
           (param) => this.$route.params[param.substr(1)]
@@ -102,7 +92,6 @@ export default {
       }
     },
     all_items() {
-      console.log("Evaluate all_items");
       let ret = [];
       this.sorted_items.forEach((e) => {
         let title = {
@@ -111,7 +100,9 @@ export default {
           large: false,
           id: `tile_group_${e[0]}`,
         };
-        ret = [...ret, title, ...e[1]];
+        ret = [...ret, title, ...e[1].map((ee,i) => {
+          return {tile: ee, id: i === 0 ? `tile_group_${e[0]}` : `tile_${ee.ic}`}
+        })];
       });
       return ret;
     },

@@ -12,20 +12,21 @@
     <div class="gutter-sizer"></div>
     <template v-for="item in all_items" :key="item.id">
       <TilePreview
-        :tile="item.attributes.tile"
-        :type="item.__typename"
+        :tile="item.tile.attributes.tile"
+        :type="item.tile.__typename"
+        :title_id="item.id"
         @click="tileClicked(item)"
-        v-if="item.hasOwnProperty('__typename')"
+        v-if="item.hasOwnProperty('tile')"
       ></TilePreview>
       <div
         class="tile-preview uk-light uk-text-center grid-item"
         :class="{
-          'grid-item--width2': item.large,
-          'grid-item--width1': !item.large,
+          'grid-item--width2': item.large && $store.getters.headers_as_tile,
+          'grid-item--width1': !item.large && $store.getters.headers_as_tile,
         }"
         :style="{ height: `${title_height}px` }"
         :id="item.id"
-        v-else
+        v-else-if="$store.getters.headers_as_tile"
       >
         <div class="tile_border uk-width-1-1 uk-height-1-1">
           <h2 class="uk-position-center uk-position-relative">
@@ -64,7 +65,7 @@ export default {
         );
       } else {
         this.$router.push({
-          path: `${this.$route.path}/${TILE_NAMES[item.__typename]}_${item.id}`,
+          path: `${this.$route.path}/${TILE_NAMES[item.tile.__typename]}_${item.tile.id}`,
         });
       }
     },
