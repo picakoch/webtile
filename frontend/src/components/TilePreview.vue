@@ -54,7 +54,7 @@ export default {
     },
     title_id: {
       type: String,
-    }
+    },
   },
   data() {
     return {
@@ -94,8 +94,8 @@ export default {
       return (this.thumb.height * this.tile_width) / this.thumb.width;
     },
     tile_id: function () {
-      if (this.title_id){
-        return this.title_id
+      if (this.title_id) {
+        return this.title_id;
       }
       return "tile_" + this.tile.id;
     },

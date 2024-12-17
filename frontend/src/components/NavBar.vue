@@ -115,7 +115,7 @@
       </nav>
 
       <nav
-        class="uk-navbar-container  uk-margin-small-right"
+        class="uk-navbar-container uk-margin-small-right"
         uk-navbar
         style="background: none; height: 30px"
       >
@@ -129,7 +129,10 @@
             uk-scrollspy-nav="closest: li; scroll: true"
           >
             <li
-              v-for="(sub_category, index) in sub_cats.slice(0, max_level2_elements)"
+              v-for="(sub_category, index) in sub_cats.slice(
+                0,
+                max_level2_elements
+              )"
               :key="index"
               class="nav-item"
             >
@@ -150,7 +153,9 @@
                   uk-scrollspy-nav="closest: li; scroll: true"
                 >
                   <li
-                    v-for="(sub_category, index) in sub_cats.slice(max_level2_elements)"
+                    v-for="(sub_category, index) in sub_cats.slice(
+                      max_level2_elements
+                    )"
                     :key="index"
                     class="nav-item"
                   >
