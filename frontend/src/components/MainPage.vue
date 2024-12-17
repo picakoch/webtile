@@ -149,17 +149,14 @@ export default {
               ret_items[tag_name] = fTiles;
             }
           });
-        } else {
-          return [];
         }
-        console.log(ret_items)
-        Object.keys(ret_items).forEach(k => {
-          ret_items[k] = ret_items[k].map((e, i) => {
-            return {tile: e, id: i === 0 ? `tile_group_${k}` : `tile_${e.id}`}
-          })
-        })
-        return ret_items
       }
+      Object.keys(ret_items).forEach(k => {
+        ret_items[k] = ret_items[k].map((e, i) => {
+          return {tile: e, id: i === 0 ? `tile_group_${k}` : `tile_${e.id}`}
+        })
+      })
+      return ret_items
     },
   },
   apollo: {
