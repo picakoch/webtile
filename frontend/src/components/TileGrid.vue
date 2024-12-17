@@ -65,7 +65,9 @@ export default {
         );
       } else {
         this.$router.push({
-          path: `${this.$route.path}/${TILE_NAMES[item.tile.__typename]}_${item.tile.id}`,
+          path: `${this.$route.path}/${TILE_NAMES[item.tile.__typename]}_${
+            item.tile.id
+          }`,
         });
       }
     },

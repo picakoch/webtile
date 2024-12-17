@@ -10,8 +10,8 @@
     </template>
     <template v-else>
       <TileGrid
-          :items="all_items"
-          :key="name + '_' + q.replace(' ', '')"
+        :items="all_items"
+        :key="name + '_' + q.replace(' ', '')"
       ></TileGrid>
     </template>
     <router-view></router-view>
@@ -20,12 +20,12 @@
 
 <script>
 import TileGrid from "@/components/TileGrid.vue";
-import {IMAGES_Q, VIDEOS_Q, AUDIOS_Q, TEXTS_Q, SEARCH_Q} from "@/lib/queries";
+import { IMAGES_Q, VIDEOS_Q, AUDIOS_Q, TEXTS_Q, SEARCH_Q } from "@/lib/queries";
 import uk from "uikit";
 
 export default {
   name: "MainPage",
-  components: {TileGrid},
+  components: { TileGrid },
   props: {
     name: String,
     q: {
@@ -35,15 +35,15 @@ export default {
   },
   data() {
     return {
-      tileImages: {data: []},
-      tileVideos: {data: []},
-      tileTexts: {data: []},
-      tileAudios: {data: []},
+      tileImages: { data: [] },
+      tileVideos: { data: [] },
+      tileTexts: { data: [] },
+      tileAudios: { data: [] },
       search: {
-        tileAudios: {data: []},
-        tileImages: {data: []},
-        tileVideos: {data: []},
-        tileTexts: {data: []},
+        tileAudios: { data: [] },
+        tileImages: { data: [] },
+        tileVideos: { data: [] },
+        tileTexts: { data: [] },
       },
     };
   },
@@ -54,8 +54,8 @@ export default {
       if (this.$route.matched.length >= 2) {
         let path = this.$route.matched[this.$route.matched.length - 2].path;
         let realPath = path.replace(
-            /:\w+/g,
-            (param) => this.$route.params[param.substr(1)]
+          /:\w+/g,
+          (param) => this.$route.params[param.substr(1)]
         );
         this.$router.push(realPath);
       } else {
@@ -71,8 +71,8 @@ export default {
     },
     sortTime(a, b) {
       return (
-          new Date(b?.attributes?.tile?.date) -
-          new Date(a?.attributes?.tile?.date)
+        new Date(b?.attributes?.tile?.date) -
+        new Date(a?.attributes?.tile?.date)
       );
     },
   },
@@ -112,7 +112,7 @@ export default {
         video = this.search.tileVideos.data;
         text = this.search.tileTexts.data;
       }
-      let ret_items = {}
+      let ret_items = {};
       if (this.name === "type") {
         ret_items[this.$store.getters.label_music] = audio;
         ret_items[this.$store.getters.label_images] = image;
@@ -122,9 +122,9 @@ export default {
         let allTiles = image.concat(text, audio, video);
         allTiles.sort(this.sortTime);
         if (
-            this.$store.getters.config?.headline &&
-            this.$store.getters.headline_as_tile === true &&
-            this.$store.getters.headline_enabled
+          this.$store.getters.config?.headline &&
+          this.$store.getters.headline_as_tile === true &&
+          this.$store.getters.headline_enabled
         ) {
           allTiles.unshift({
             is_title: true,
@@ -133,17 +133,17 @@ export default {
         }
         if (this.name === "time") {
           ret_items = Object.groupBy(allTiles, (e) =>
-              e?.attributes?.tile?.date
-                  ? new Date(e.attributes.tile.date).getFullYear()
-                  : new Date().getFullYear()
+            e?.attributes?.tile?.date
+              ? new Date(e.attributes.tile.date).getFullYear()
+              : new Date().getFullYear()
           );
         } else if (this.name === "theme") {
           this.$store.getters.tags.forEach((tag) => {
             let tag_name = tag?.attributes?.name;
             let fTiles = allTiles.filter((e) =>
-                e?.attributes?.tile?.tags?.data
-                    .map((ee) => ee.attributes.name)
-                    .includes(tag_name)
+              e?.attributes?.tile?.tags?.data
+                .map((ee) => ee.attributes.name)
+                .includes(tag_name)
             );
             if (fTiles.length > 0) {
               ret_items[tag_name] = fTiles;
@@ -151,12 +151,12 @@ export default {
           });
         }
       }
-      Object.keys(ret_items).forEach(k => {
+      Object.keys(ret_items).forEach((k) => {
         ret_items[k] = ret_items[k].map((e, i) => {
-          return {tile: e, id: i === 0 ? `tile_group_${k}` : `tile_${e.id}`}
-        })
-      })
-      return ret_items
+          return { tile: e, id: i === 0 ? `tile_group_${k}` : `tile_${e.id}` };
+        });
+      });
+      return ret_items;
     },
   },
   apollo: {
@@ -195,8 +195,8 @@ export default {
   watch: {
     sorted_items: function () {
       this.$emit(
-          "nav",
-          this.sorted_items.map((e) => e[0])
+        "nav",
+        this.sorted_items.map((e) => e[0])
       );
     },
     q: function () {
