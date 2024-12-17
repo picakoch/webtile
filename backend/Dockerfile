@@ -14,10 +14,10 @@ COPY package.json .
 COPY yarn.lock .
 COPY types .
 COPY src .
-COPY public .
 COPY favicon.png .
 COPY jsconfig.json .
 COPY server.js .
+RUN MKDIR public
 COPY config .
 COPY .env .
 RUN chown -R node:node /opt/app
