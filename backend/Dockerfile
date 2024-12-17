@@ -17,7 +17,7 @@ COPY src .
 COPY favicon.png .
 COPY jsconfig.json .
 COPY server.js .
-RUN MKDIR public
+RUN mkdir public
 COPY config .
 COPY .env .
 RUN chown -R node:node /opt/app
