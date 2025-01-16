@@ -29,7 +29,7 @@
         v-else-if="$store.getters.headers_as_tile"
       >
         <div class="tile_border uk-width-1-1 uk-height-1-1">
-          <h2 class="uk-position-center uk-position-relative">
+          <h2 class="uk-position-center uk-position-relative title-font">
             {{ item.title }}
           </h2>
         </div>
@@ -99,4 +99,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.title-font{
+    font-family: Augustus, "Times New Roman", Times, sans-serif;
+}
+</style>
