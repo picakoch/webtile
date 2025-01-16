@@ -79,9 +79,10 @@ export default {
       );
     },
     compute_items() {
-      this.$log.debug("Compute items");
-      if (this.$apollo.loading) {
+      this.$log.info("Compute items", this.tag, this.name);
+      if (this.$apollo.loading || this.name === "tag") {
         this.items = [];
+        return;
       }
       let image = this.tileImages.data;
       let audio = this.tileAudios.data;
@@ -150,6 +151,7 @@ export default {
           return { tile: e, id: i === 0 ? `tile_group_${k}` : `tile_${e.id}` };
         });
       });
+      this.$log.info("Done");
       this.items = ret_items;
     },
   },
@@ -237,6 +239,12 @@ export default {
       );
     },
     $route() {
+      this.compute_items();
+    },
+    name() {
+      this.compute_items();
+    },
+    tag() {
       this.compute_items();
     },
     q: function () {
