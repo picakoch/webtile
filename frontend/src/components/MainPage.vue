@@ -5,13 +5,13 @@
     </div>
     <template v-else-if="$store.getters.category_break">
       <div v-for="group in sorted_items" :key="group" class="tile-group">
-        <TileGrid :items="group[1]" :title="group[0]"></TileGrid>
+        <TileGrid :items="group[1]" :title="group[0]" :key="group"></TileGrid>
       </div>
     </template>
     <template v-else>
       <TileGrid
         :items="all_items"
-        :key="name + '_' + q.replace(' ', '')"
+        :key="name + '_' + q.replace(' ', '') + '_' + tag"
       ></TileGrid>
     </template>
     <router-view></router-view>
@@ -79,9 +79,10 @@ export default {
       );
     },
     compute_items() {
-      this.$log.debug("Compute items");
-      if (this.$apollo.loading) {
+      this.$log.debug("Compute items", this.tag, this.name);
+      if (this.$apollo.loading || this.name === "tag") {
         this.items = [];
+        return;
       }
       let image = this.tileImages.data;
       let audio = this.tileAudios.data;
@@ -172,6 +173,7 @@ export default {
         };
         ret = [...ret, title, ...e[1]];
       });
+      this.$log.info(ret);
       return ret;
     },
   },
@@ -236,7 +238,10 @@ export default {
         this.sorted_items.map((e) => e[0])
       );
     },
-    $route() {
+    name() {
+      this.compute_items();
+    },
+    tag() {
       this.compute_items();
     },
     q: function () {
