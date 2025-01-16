@@ -8,20 +8,16 @@ import BiographyPage from "@/components/BiographyPage.vue";
 const routes = [
   { path: "/", redirect: "/time" },
   {
-    path: "/:name",
+    path: "/tag",
     component: MainPage,
-    props: true,
-    name: "main",
-    children: [
-      { path: "/:id", name: "detail", component: TileDetails, props: true },
-    ],
+    props: { name: "tag" },
+    name: "main_tag",
   },
-  { path: "/bio", name: "bio", component: BiographyPage },
-  { path: "/contact", name: "contact", component: ContactPage },
   {
     path: "/t",
-    name: "tag",
-    component: null,
+    name: "tags",
+    component: MainPage,
+    props: { name: "tag" },
     children: [
       {
         path: ":tag",
@@ -29,13 +25,37 @@ const routes = [
         props: true,
         name: "tag",
         children: [
-          { path: ":id", name: "detail", component: TileDetails, props: true },
+          {
+            path: ":id",
+            name: "detail-tag",
+            component: TileDetails,
+            props: true,
+          },
         ],
       },
     ],
   },
+  { path: "/bio", name: "bio", component: BiographyPage },
+  { path: "/contact", name: "contact", component: ContactPage },
+  {
+    path: "/time",
+    component: MainPage,
+    props: { name: "time" },
+    name: "main_time",
+    children: [
+      { path: ":id", name: "detail-time", component: TileDetails, props: true },
+    ],
+  },
+  {
+    path: "/type",
+    component: MainPage,
+    props: { name: "type" },
+    name: "main_type",
+    children: [
+      { path: ":id", name: "detail-type", component: TileDetails, props: true },
+    ],
+  },
   { path: "/:pathMatch(.*)*", name: "not-found", component: NotFound },
-  { path: "/:pathMatch(.*)", name: "bad-not-found", component: NotFound },
 ];
 
 const router = createRouter({
