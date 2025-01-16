@@ -124,6 +124,9 @@
           v-if="
             $route.name === 'tag' ||
             $route.name === 'main' ||
+            $route.name === 'main_time' ||
+            $route.name === 'main_type' ||
+            $route.name === 'main_tag' ||
             $route.name === 'contact'
           "
         >
@@ -290,10 +293,7 @@ export default {
       this.is_tag = false;
       if (this.$route.name === "contact") {
         this.sub_cats = this.contact_subcat;
-      } else if (
-        this.$route.params.name === "tag" ||
-        this.$route.name == "tag"
-      ) {
+      } else if (this.$route.name === "main_tag" || this.$route.name == "tag") {
         this.is_tag = true;
         this.sub_cats = this.$store.getters.tags.map((e) => e.attributes.name);
       } else {
