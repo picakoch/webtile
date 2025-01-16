@@ -79,7 +79,6 @@ export default {
       this.title &&
       this.title !== ""
     ) {
-      console.log("add tile");
       this.all_items.unshift({
         is_title: true,
         title: this.title,

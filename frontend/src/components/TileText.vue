@@ -56,9 +56,6 @@ export default {
     document.getElementById("text_modal_" + this.id)?.remove();
   },
   mounted() {
-    console.log("AAA");
-    console.log(this.tileText);
-
     uk.modal("#text_modal_" + this.id).show();
   },
   computed: {},
