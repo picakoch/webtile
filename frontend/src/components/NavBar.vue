@@ -356,7 +356,7 @@ export default {
 
 .nav-text-main {
   font-size: 2.2em !important;
-  font-family: Augustus, "Times New Roman", Times, sans-serif;
+  font-family: Abel, "Times New Roman", Times, sans-serif;
 }
 
 .nav-item {
@@ -364,7 +364,7 @@ export default {
 }
 
 .nav-item > a {
-  font-family: Augustus, "Times New Roman", Times, sans-serif;
+  font-family: Abel, "Times New Roman", Times, sans-serif;
 }
 
 .uk-search-input {
