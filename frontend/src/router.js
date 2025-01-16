@@ -24,7 +24,7 @@ const routes = [
     component: null,
     children: [
       {
-        path: "/:tag",
+        path: ":tag",
         component: MainPage,
         props: true,
         name: "tag",

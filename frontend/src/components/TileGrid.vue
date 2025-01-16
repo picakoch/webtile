@@ -100,7 +100,7 @@ export default {
 </script>
 
 <style scoped>
-.title-font{
-    font-family: Augustus, "Times New Roman", Times, sans-serif;
+.title-font {
+  font-family: Augustus, "Times New Roman", Times, sans-serif;
 }
 </style>

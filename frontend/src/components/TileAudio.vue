@@ -360,27 +360,25 @@ export default {
 }
 
 @media (min-width: 1200px) {
-.audio_player {
-  width: 250px;
-  height: 35px;
-}
-
+  .audio_player {
+    width: 250px;
+    height: 35px;
+  }
 }
 
 @media (max-width: 1200px) {
-/* Hide the progress bar (time navigator) */
-audio::-webkit-media-controls-timeline {
-  display: none;
-}
+  /* Hide the progress bar (time navigator) */
+  audio::-webkit-media-controls-timeline {
+    display: none;
+  }
 
-/* For Firefox */
-audio::-moz-media-controls-progressbar {
-  display: none;
+  /* For Firefox */
+  audio::-moz-media-controls-progressbar {
+    display: none;
+  }
+  .audio_player {
+    width: 200px;
+    height: 35px;
+  }
 }
-.audio_player {
-  width: 200px;
-  height: 35px;
-}
-}
-
 </style>

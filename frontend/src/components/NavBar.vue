@@ -147,7 +147,7 @@
           </ul>
           <ul
             class="uk-navbar-nav nav-center uk-navbar-nav-level2"
-            v-if="sub_cats.length >= max_level2_elements  && !is_tag"
+            v-if="sub_cats.length >= max_level2_elements && !is_tag"
           >
             <li>
               <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
@@ -172,9 +172,8 @@
             </li>
           </ul>
 
-
           <ul
-            v-if="sub_cats.length > 0 &&is_tag"
+            v-if="sub_cats.length > 0 && is_tag"
             class="uk-navbar-nav uk-navbar-nav-level2"
           >
             <li
@@ -186,20 +185,19 @@
               class="nav-item"
             >
               <RouterLink
-                      :to="'/t/' + slugify(sub_category)"
-                      :key="'cat_' + slugify(sub_category)"
-                      :class="{
-                        'uk-active': isActiveTag(sub_category),
-                      }"
-                    >
+                :to="'/t/' + slugify(sub_category)"
+                :key="'cat_' + slugify(sub_category)"
+                :class="{
+                  'uk-active': isActiveTag(sub_category),
+                }"
+              >
                 {{ sub_category }}
-                    </RouterLink>
-
+              </RouterLink>
             </li>
           </ul>
           <ul
             class="uk-navbar-nav nav-center uk-navbar-nav-level2"
-            v-if="sub_cats.length >= max_level2_elements  && is_tag"
+            v-if="sub_cats.length >= max_level2_elements && is_tag"
           >
             <li>
               <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
@@ -222,7 +220,7 @@
                         'uk-active': isActiveTag(sub_category),
                       }"
                     >
-                {{ sub_category }}
+                      {{ sub_category }}
                     </RouterLink>
                   </li>
                 </ul>
@@ -236,7 +234,7 @@
 </template>
 
 <script>
-import {slugify} from "@/lib/utils";
+import { slugify } from "@/lib/utils";
 
 export default {
   name: "NavBar",
@@ -268,12 +266,14 @@ export default {
   },
   methods: {
     slugify,
-    isActive(category){
-      this.$log.info(category.id, this.is_tag, (this.$route.path === '/' + category.id) || (this.is_tag && category.id == "tag"))
-      return (this.$route.path === '/' + category.id) || (this.is_tag && category.id == "tag")
+    isActive(category) {
+      return (
+        this.$route.path === "/" + category.id ||
+        (this.is_tag && category.id == "tag")
+      );
     },
-    isActiveTag(category){
-      return (this.$route.params.tag === slugify(category))
+    isActiveTag(category) {
+      return this.$route.params.tag === slugify(category);
     },
     doSearch() {
       if (this.q.length > 2) {
@@ -287,17 +287,18 @@ export default {
       this.$emit("search_tile", "");
     },
     changeSubCats() {
-      this.is_tag = false
-        this.$log.info("Change subcat", this.$route)
+      this.is_tag = false;
       if (this.$route.name === "contact") {
         this.sub_cats = this.contact_subcat;
-      } else if (this.$route.params.name === "tag" || this.$route.name == "tag") {
-        this.is_tag = true
-        this.sub_cats = this.$store.getters.tags.map(e => e.attributes.name);
+      } else if (
+        this.$route.params.name === "tag" ||
+        this.$route.name == "tag"
+      ) {
+        this.is_tag = true;
+        this.sub_cats = this.$store.getters.tags.map((e) => e.attributes.name);
       } else {
         this.sub_cats = this.sub_categories;
       }
-        this.$log.info(this.sub_cats)
     },
   },
   mounted() {
@@ -363,7 +364,7 @@ export default {
 }
 
 .nav-item > a {
-    font-family: Augustus, "Times New Roman", Times, sans-serif;
+  font-family: Augustus, "Times New Roman", Times, sans-serif;
 }
 
 .uk-search-input {

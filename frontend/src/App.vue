@@ -75,7 +75,6 @@ export default {
       fetchPolicy: "cache-first",
       result(res) {
         this.$store.commit("setConfig", res.data.config?.data?.attributes);
-        this.$log.info(res.data.config);
         this.$nextTick(() => {
           document.title = this.$store.getters.config?.title;
         });
