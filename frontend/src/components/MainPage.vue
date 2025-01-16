@@ -37,6 +37,7 @@ export default {
   },
   data() {
     return {
+      items: [],
       tileImages: { data: [] },
       tileVideos: { data: [] },
       tileTexts: { data: [] },
@@ -77,31 +78,10 @@ export default {
         new Date(a?.attributes?.tile?.date)
       );
     },
-  },
-  computed: {
-    sorted_items() {
-      if (this.name === "time") {
-        return Object.entries(this.items).sort((a, b) => -(a[0] - b[0]));
-      } else {
-        return Object.entries(this.items).sort((a, b) => a[0] - b[0]);
-      }
-    },
-    all_items() {
-      let ret = [];
-      this.sorted_items.forEach((e) => {
-        let title = {
-          is_title: true,
-          title: e[0],
-          large: false,
-          id: `tile_group_${e[0]}`,
-        };
-        ret = [...ret, title, ...e[1]];
-      });
-      return ret;
-    },
-    items() {
+    compute_items() {
+      this.$log.debug("Compute items");
       if (this.$apollo.loading) {
-        return [];
+        this.items = [];
       }
       let image = this.tileImages.data;
       let audio = this.tileAudios.data;
@@ -159,7 +139,7 @@ export default {
                 .map((ee) => ee.attributes.name)
                 .includes(tag_name)
             );
-            if (fTiles.length > 0 && slugify(tag_name) == this.tag) {
+            if (fTiles.length > 0 && slugify(tag_name) === this.tag) {
               ret_items[tag_name] = fTiles;
             }
           });
@@ -170,21 +150,64 @@ export default {
           return { tile: e, id: i === 0 ? `tile_group_${k}` : `tile_${e.id}` };
         });
       });
-      return ret_items;
+      this.items = ret_items;
+    },
+  },
+  computed: {
+    sorted_items() {
+      if (this.name === "time") {
+        return Object.entries(this.items).sort((a, b) => -(a[0] - b[0]));
+      } else {
+        return Object.entries(this.items).sort((a, b) => a[0] - b[0]);
+      }
+    },
+    all_items() {
+      let ret = [];
+      this.sorted_items.forEach((e) => {
+        let title = {
+          is_title: true,
+          title: e[0],
+          large: false,
+          id: `tile_group_${e[0]}`,
+        };
+        ret = [...ret, title, ...e[1]];
+      });
+      return ret;
     },
   },
   apollo: {
     $query: {
       loadingKey: "loading",
     },
-    tileImages: IMAGES_Q,
-    tileAudios: AUDIOS_Q,
-    tileVideos: VIDEOS_Q,
-    tileTexts: TEXTS_Q,
+    tileImages: {
+      query: IMAGES_Q,
+      result() {
+        this.compute_items();
+      },
+    },
+    tileAudios: {
+      query: AUDIOS_Q,
+      result() {
+        this.compute_items();
+      },
+    },
+    tileVideos: {
+      query: VIDEOS_Q,
+      result() {
+        this.compute_items();
+      },
+    },
+    tileTexts: {
+      query: TEXTS_Q,
+      result() {
+        this.compute_items();
+      },
+    },
     search: {
       query: SEARCH_Q,
       result(res) {
         this.$log.debug(res);
+        this.compute_items();
       },
       variables() {
         return {
@@ -213,8 +236,12 @@ export default {
         this.sorted_items.map((e) => e[0])
       );
     },
+    $route() {
+      this.compute_items();
+    },
     q: function () {
       this.$log.debug("Q changed...", this.q);
+      this.compute_items();
     },
   },
 };
