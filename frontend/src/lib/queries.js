@@ -75,7 +75,7 @@ export const CONFIG_Q = gql`
 
 export const TAGS_Q = gql`
   query {
-    tags(sort: "rank", pagination: { limit: 1000 }) {
+    tags(sort: "rank", pagination: { limit: 500 }) {
       data {
         id
         attributes {
@@ -88,7 +88,7 @@ export const TAGS_Q = gql`
 
 export const IMAGES_Q = gql`
     query {
-        tileImages(sort: "tile.date:desc", pagination: { limit: 1000 }) {
+        tileImages(sort: "tile.date:desc", pagination: { limit: 500 }) {
             data {
                 id
                 attributes {
@@ -101,7 +101,7 @@ export const IMAGES_Q = gql`
 
 export const TEXTS_Q = gql`
     query {
-        tileTexts(sort: "tile.date:desc", pagination: { limit: 1000 }) {
+        tileTexts(sort: "tile.date:desc", pagination: { limit: 500 }) {
             data {
                 id
                 attributes {
@@ -123,7 +123,7 @@ export const TEXTS_Q = gql`
 
 export const VIDEOS_Q = gql`
     query {
-        tileVideos(sort: "tile.date:desc", pagination: { limit: 1000 }) {
+        tileVideos(sort: "tile.date:desc", pagination: { limit: 500 }) {
             data {
                 id
                 attributes {
@@ -136,7 +136,7 @@ export const VIDEOS_Q = gql`
 
 export const AUDIOS_Q = gql`
     query {
-        tileAudios(sort: "tile.date:desc", pagination: { limit: 1000 }) {
+        tileAudios(sort: "tile.date:desc", pagination: { limit: 500 }) {
             data {
                 id
                 attributes {
@@ -157,7 +157,7 @@ export const IMAGE_Q = gql`
                 id
                 attributes {
                     description
-                    images {
+                    images(pagination: { limit: 100 }) {
                         data {
                             id
                             attributes {
@@ -205,7 +205,7 @@ export const AUDIO_Q = gql`
                 attributes {
                     content
                     title
-                    tracks {
+                    tracks(pagination: { limit: 100 }) {
                         data {
                             id
                             attributes {
@@ -266,7 +266,7 @@ export const TEXT_Q = gql`
 export const SEARCH_Q = gql`
     query doSearch($query: String!){
         search(query: $query) {
-            tileImages {
+            tileImages(pagination: { limit: 20 }) {
                 data {
                     id
                     attributes {
@@ -274,7 +274,7 @@ export const SEARCH_Q = gql`
                     }
                 }
             }
-            tileVideos {
+            tileVideos(pagination: { limit: 20 }) {
                 data {
                     id
                     attributes {
@@ -282,7 +282,7 @@ export const SEARCH_Q = gql`
                     }
                 }
             }
-            tileTexts {
+            tileTexts(pagination: { limit: 20 }) {
                 data {
                     id
                     attributes {
@@ -290,7 +290,7 @@ export const SEARCH_Q = gql`
                     }
                 }
             }
-            tileAudios {
+            tileAudios(pagination: { limit: 20 }) {
                 data {
                     id
                     attributes {

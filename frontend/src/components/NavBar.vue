@@ -65,7 +65,7 @@
                       :to="'/' + category.id"
                       :key="'cat_' + category.id"
                       :class="{
-                        'uk-active': $route.path === '/' + category.id,
+                        'uk-active': isActive(category),
                       }"
                     >
                       {{ category.label }}
@@ -121,10 +121,14 @@
       >
         <div
           class="nav-overlay uk-navbar-right uk-visible@m"
-          v-if="$route.name === 'main' || $route.name === 'contact'"
+          v-if="
+            $route.name === 'tag' ||
+            $route.name === 'main' ||
+            $route.name === 'contact'
+          "
         >
           <ul
-            v-if="sub_cats.length > 0"
+            v-if="sub_cats.length > 0 && !is_tag"
             class="uk-navbar-nav uk-navbar-nav-level2 uk-navbar-spy"
             uk-scrollspy-nav="closest: li; scroll: true"
           >
@@ -143,7 +147,7 @@
           </ul>
           <ul
             class="uk-navbar-nav nav-center uk-navbar-nav-level2"
-            v-if="sub_cats.length >= max_level2_elements"
+            v-if="sub_cats.length >= max_level2_elements && !is_tag"
           >
             <li>
               <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
@@ -167,6 +171,62 @@
               </div>
             </li>
           </ul>
+
+          <ul
+            v-if="sub_cats.length > 0 && is_tag"
+            class="uk-navbar-nav uk-navbar-nav-level2"
+          >
+            <li
+              v-for="(sub_category, index) in sub_cats.slice(
+                0,
+                max_level2_elements
+              )"
+              :key="index"
+              class="nav-item"
+            >
+              <RouterLink
+                :to="'/t/' + slugify(sub_category)"
+                :key="'cat_' + slugify(sub_category)"
+                :class="{
+                  'uk-active': isActiveTag(sub_category),
+                }"
+              >
+                {{ sub_category }}
+              </RouterLink>
+            </li>
+          </ul>
+          <ul
+            class="uk-navbar-nav nav-center uk-navbar-nav-level2"
+            v-if="sub_cats.length >= max_level2_elements && is_tag"
+          >
+            <li>
+              <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
+              <div class="uk-navbar-dropdown uk-light uk-background-secondary">
+                <ul
+                  class="uk-nav uk-navbar-dropdown-nav uk-navbar-spy"
+                  uk-scrollspy-nav="closest: li; scroll: true"
+                >
+                  <li
+                    v-for="(sub_category, index) in sub_cats.slice(
+                      max_level2_elements
+                    )"
+                    :key="index"
+                    class="nav-item"
+                  >
+                    <RouterLink
+                      :to="'/t/' + slugify(sub_category)"
+                      :key="'cat_' + slugify(sub_category)"
+                      :class="{
+                        'uk-active': isActiveTag(sub_category),
+                      }"
+                    >
+                      {{ sub_category }}
+                    </RouterLink>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
         </div>
       </nav>
     </div>
@@ -174,13 +234,15 @@
 </template>
 
 <script>
+import { slugify } from "@/lib/utils";
+
 export default {
   name: "NavBar",
   data() {
     return {
       categories: [
         { id: "time", label: this.$store.getters.label_date },
-        { id: "theme", label: this.$store.getters.label_theme },
+        { id: "tag", label: this.$store.getters.label_theme },
         { id: "type", label: this.$store.getters.label_media },
         { id: "bio", label: this.$store.getters.label_bio },
         { id: "contact", label: this.$store.getters.label_contact },
@@ -192,6 +254,7 @@ export default {
       q: "",
       search_active: false,
       sub_cats: [],
+      is_tag: false,
       max_level2_elements: 20,
     };
   },
@@ -202,6 +265,16 @@ export default {
     },
   },
   methods: {
+    slugify,
+    isActive(category) {
+      return (
+        this.$route.path === "/" + category.id ||
+        (this.is_tag && category.id == "tag")
+      );
+    },
+    isActiveTag(category) {
+      return this.$route.params.tag === slugify(category);
+    },
     doSearch() {
       if (this.q.length > 2) {
         this.$emit("search_tile", this.q);
@@ -214,8 +287,15 @@ export default {
       this.$emit("search_tile", "");
     },
     changeSubCats() {
+      this.is_tag = false;
       if (this.$route.name === "contact") {
         this.sub_cats = this.contact_subcat;
+      } else if (
+        this.$route.params.name === "tag" ||
+        this.$route.name == "tag"
+      ) {
+        this.is_tag = true;
+        this.sub_cats = this.$store.getters.tags.map((e) => e.attributes.name);
       } else {
         this.sub_cats = this.sub_categories;
       }
@@ -247,7 +327,7 @@ export default {
   color: #ccc;
   padding-left: 10px;
   padding-right: 10px;
-  border-top: 4px solid #eee;
+  border-top: 2px solid #eee;
   border-color: #00000000;
 }
 
@@ -276,10 +356,15 @@ export default {
 
 .nav-text-main {
   font-size: 2.2em !important;
+  font-family: Augustus, "Times New Roman", Times, sans-serif;
 }
 
 .nav-item {
   max-width: 260px;
+}
+
+.nav-item > a {
+  font-family: Augustus, "Times New Roman", Times, sans-serif;
 }
 
 .uk-search-input {
@@ -307,6 +392,6 @@ export default {
 
 .uk-navbar-nav-level2 > li > a {
   min-height: 25px;
-  font-size: 1em;
+  font-size: 0.8em;
 }
 </style>

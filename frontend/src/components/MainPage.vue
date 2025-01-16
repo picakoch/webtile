@@ -22,12 +22,14 @@
 import TileGrid from "@/components/TileGrid.vue";
 import { IMAGES_Q, VIDEOS_Q, AUDIOS_Q, TEXTS_Q, SEARCH_Q } from "@/lib/queries";
 import uk from "uikit";
+import { slugify } from "@/lib/utils";
 
 export default {
   name: "MainPage",
   components: { TileGrid },
   props: {
     name: String,
+    tag: String,
     q: {
       type: String,
       default: "",
@@ -146,6 +148,18 @@ export default {
                 .includes(tag_name)
             );
             if (fTiles.length > 0) {
+              ret_items[tag_name] = fTiles;
+            }
+          });
+        } else if (this.tag && this.tag.length > 1) {
+          this.$store.getters.tags.forEach((tag) => {
+            let tag_name = tag?.attributes?.name;
+            let fTiles = allTiles.filter((e) =>
+              e?.attributes?.tile?.tags?.data
+                .map((ee) => ee.attributes.name)
+                .includes(tag_name)
+            );
+            if (fTiles.length > 0 && slugify(tag_name) == this.tag) {
               ret_items[tag_name] = fTiles;
             }
           });
