@@ -21,14 +21,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.main-title {
-  color: #fff;
-}
-
-h1,
-h2,
-h3 {
-  font-family: Augustus, "Times New Roman", Times, sans-serif;
-}
-</style>
