@@ -226,7 +226,7 @@ img.img_border {
 }
 
 h1,h2,h3,h4{
-    font-family: Augustus, "Times New Roman", Times, sans-serif !important;
+    font-family: Abel, "Times New Roman", Times, sans-serif !important;
 }
 
 .main-title {
