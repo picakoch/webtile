@@ -67,6 +67,8 @@ export const CONFIG_Q = gql`
           label_images
           label_video
           label_text
+          donation_url
+          support_text
         }
       }
     }
@@ -211,6 +213,7 @@ export const AUDIO_Q = gql`
                             attributes {
                                 name
                                 content
+                                can_download
                                 image {
                                     data {
                                         id

@@ -4,6 +4,7 @@ import NotFound from "@/components/NotFound";
 import TileDetails from "@/components/TileDetails";
 import ContactPage from "@/components/ContactPage.vue";
 import BiographyPage from "@/components/BiographyPage.vue";
+import SupportProject from "@/components/SupportProject.vue";
 
 const routes = [
   { path: "/", redirect: "/time" },
@@ -17,7 +18,7 @@ const routes = [
     path: "/t",
     name: "tags",
     component: MainPage,
-    props: { name: "tag" },
+    props: { name: "tags" },
     children: [
       {
         path: ":tag",
@@ -35,8 +36,37 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/media",
+    component: MainPage,
+    props: { name: "media" },
+    name: "main_media",
+  },
+  {
+    path: "/m",
+    name: "medias",
+    component: MainPage,
+    props: { name: "medias" },
+    children: [
+      {
+        path: ":media",
+        component: MainPage,
+        props: true,
+        name: "media",
+        children: [
+          {
+            path: ":id",
+            name: "detail-media",
+            component: TileDetails,
+            props: true,
+          },
+        ],
+      },
+    ],
+  },
   { path: "/bio", name: "bio", component: BiographyPage },
   { path: "/contact", name: "contact", component: ContactPage },
+  { path: "/support", name: "support", component: SupportProject },
   {
     path: "/time",
     component: MainPage,
@@ -44,15 +74,6 @@ const routes = [
     name: "main_time",
     children: [
       { path: ":id", name: "detail-time", component: TileDetails, props: true },
-    ],
-  },
-  {
-    path: "/type",
-    component: MainPage,
-    props: { name: "type" },
-    name: "main_type",
-    children: [
-      { path: ":id", name: "detail-type", component: TileDetails, props: true },
     ],
   },
   { path: "/:pathMatch(.*)*", name: "not-found", component: NotFound },

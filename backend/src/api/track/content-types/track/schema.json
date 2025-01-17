@@ -39,6 +39,10 @@
     },
     "content": {
       "type": "blocks"
+    },
+    "can_download": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

@@ -79,6 +79,12 @@ export const store = createStore({
     label_text: (state) => {
       return state.config?.label_text || "Textes";
     },
+    donation_url: (state) => {
+      return state.config?.donation_url || null;
+    },
+    support_text: (state) => {
+      return state.config?.support_text;
+    },
   },
   mutations: {
     setConfig(state, cfg) {

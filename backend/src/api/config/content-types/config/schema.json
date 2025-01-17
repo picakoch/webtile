@@ -89,6 +89,12 @@
     },
     "label_images": {
       "type": "string"
+    },
+    "donation_url": {
+      "type": "string"
+    },
+    "support_text": {
+      "type": "blocks"
     }
   }
 }

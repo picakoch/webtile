@@ -34,7 +34,7 @@
               <RouterLink
                 :to="'/' + category.id"
                 :key="'cat_' + category.id"
-                :class="{ 'uk-active': $route.path === '/' + category.id }"
+                :class="{ 'uk-active': isActiveCat(category) }"
               >
                 {{ category.label }}
               </RouterLink>
@@ -57,7 +57,7 @@
               <div class="uk-navbar-dropdown uk-background-secondary uk-light">
                 <ul class="uk-nav uk-navbar-dropdown-nav">
                   <li
-                    v-for="category in categories"
+                    v-for="category in f_categories"
                     :key="category.id"
                     class="nav-item"
                   >
@@ -123,15 +123,17 @@
           class="nav-overlay uk-navbar-right uk-visible@m"
           v-if="
             $route.name === 'tag' ||
+            $route.name === 'media' ||
             $route.name === 'main' ||
             $route.name === 'main_time' ||
             $route.name === 'main_type' ||
             $route.name === 'main_tag' ||
+            $route.name === 'main_media' ||
             $route.name === 'contact'
           "
         >
           <ul
-            v-if="sub_cats.length > 0 && !is_tag"
+            v-if="sub_cats.length > 0 && !is_tag && !is_media"
             class="uk-navbar-nav uk-navbar-nav-level2 uk-navbar-spy"
             uk-scrollspy-nav="closest: li; scroll: true"
           >
@@ -176,7 +178,7 @@
           </ul>
 
           <ul
-            v-if="sub_cats.length > 0 && is_tag"
+            v-if="sub_cats.length > 0 && (is_tag || is_media)"
             class="uk-navbar-nav uk-navbar-nav-level2"
           >
             <li
@@ -188,10 +190,10 @@
               class="nav-item"
             >
               <RouterLink
-                :to="'/t/' + slugify(sub_category)"
+                :to="'/' + prefix + '/' + slugify(sub_category)"
                 :key="'cat_' + slugify(sub_category)"
                 :class="{
-                  'uk-active': isActiveTag(sub_category),
+                  'uk-active': isActiveSubCat(sub_category),
                 }"
               >
                 {{ sub_category }}
@@ -217,10 +219,10 @@
                     class="nav-item"
                   >
                     <RouterLink
-                      :to="'/t/' + slugify(sub_category)"
+                      :to="'/' + prefix + '/' + slugify(sub_category)"
                       :key="'cat_' + slugify(sub_category)"
                       :class="{
-                        'uk-active': isActiveTag(sub_category),
+                        'uk-active': isActiveSubCat(sub_category),
                       }"
                     >
                       {{ sub_category }}
@@ -246,18 +248,23 @@ export default {
       categories: [
         { id: "time", label: this.$store.getters.label_date },
         { id: "tag", label: this.$store.getters.label_theme },
-        { id: "type", label: this.$store.getters.label_media },
+        { id: "media", label: this.$store.getters.label_media },
         { id: "bio", label: this.$store.getters.label_bio },
         { id: "contact", label: this.$store.getters.label_contact },
+        { id: "support", label: this.$store.getters.label_support },
       ],
-      contact_subcat: [
-        this.$store.getters.label_newsletter,
-        this.$store.getters.label_contacts,
+      contact_subcat: [],
+      media_subcat: [
+        this.$store.getters.label_music,
+        this.$store.getters.label_video,
+        this.$store.getters.label_images,
+        this.$store.getters.label_text,
       ],
       q: "",
       search_active: false,
       sub_cats: [],
       is_tag: false,
+      is_media: false,
       max_level2_elements: 20,
     };
   },
@@ -265,6 +272,19 @@ export default {
     sub_categories: {
       type: Array,
       default: () => [],
+    },
+  },
+  computed: {
+    prefix() {
+      return this.is_tag ? "t" : this.is_media ? "m" : "";
+    },
+    f_categories() {
+      return this.categories.filter((e) => {
+        if (e.id === "support" && !this.$store.getters.support_enabled) {
+          return false;
+        }
+        return true;
+      });
     },
   },
   methods: {
@@ -275,8 +295,21 @@ export default {
         (this.is_tag && category.id == "tag")
       );
     },
-    isActiveTag(category) {
-      return this.$route.params.tag === slugify(category);
+    isActiveCat(category) {
+      if (this.$route.path === "/" + category.id) {
+        return true;
+      }
+      if (category.id === this.$route.name) {
+        return true;
+      }
+      return false;
+    },
+    isActiveSubCat(category) {
+      if (this.is_tag) {
+        return this.$route.params.tag === slugify(category);
+      } else if (this.is_media) {
+        return this.$route.params.media === slugify(category);
+      }
     },
     doSearch() {
       if (this.q.length > 2) {
@@ -296,6 +329,12 @@ export default {
       } else if (this.$route.name === "main_tag" || this.$route.name == "tag") {
         this.is_tag = true;
         this.sub_cats = this.$store.getters.tags.map((e) => e.attributes.name);
+      } else if (
+        this.$route.name === "main_media" ||
+        this.$route.name == "media"
+      ) {
+        this.is_media = true;
+        this.sub_cats = this.media_subcat;
       } else {
         this.sub_cats = this.sub_categories;
       }
@@ -391,7 +430,7 @@ export default {
 }
 
 .uk-navbar-nav-level2 > li > a {
-  min-height: 25px;
+  min-height: 30px;
   font-size: 0.8em;
 }
 </style>
