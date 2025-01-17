@@ -1,6 +1,4 @@
 <template>
-  <h2 class="uk-light uk-margin-left main-title">Biographie</h2>
-
   <div
     v-if="$store.getters.config?.biography"
     class="uk-light uk-margin uk-margin-left uk-margin-right"
@@ -26,5 +24,11 @@ export default {
 <style scoped>
 .main-title {
   color: #fff;
+}
+
+h1,
+h2,
+h3 {
+  font-family: Augustus, "Times New Roman", Times, sans-serif;
 }
 </style>

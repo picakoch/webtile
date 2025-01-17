@@ -11,7 +11,7 @@
     <template v-else>
       <TileGrid
         :items="all_items"
-        :key="name + '_' + q.replace(' ', '') + '_' + tag"
+        :key="name + '_' + q.replace(' ', '') + '_' + tag + '_' + media"
       ></TileGrid>
     </template>
     <router-view></router-view>
@@ -30,6 +30,7 @@ export default {
   props: {
     name: String,
     tag: String,
+    media: String,
     q: {
       type: String,
       default: "",
@@ -79,7 +80,22 @@ export default {
       );
     },
     compute_items() {
-      this.$log.debug("Compute items", this.tag, this.name);
+      this.$log.debug("Compute items", this.name, this.tag, this.media);
+      if (this.name === "tag" && !this.tag) {
+        const tags = this.$store.getters.tags;
+        if (tags.length > 0) {
+          this.$router.push(
+            "/t/" + slugify(this.$store.getters.tags[0]?.attributes?.name)
+          );
+          this.items = [];
+          return;
+        }
+      }
+      if (this.name === "media" && !this.media) {
+        this.$router.push("/m/" + slugify(this.$store.getters.label_music));
+        this.items = [];
+        return;
+      }
       if (this.$apollo.loading || this.name === "tag") {
         this.items = [];
         return;
@@ -144,6 +160,16 @@ export default {
               ret_items[tag_name] = fTiles;
             }
           });
+        } else if (this.media && this.media.length > 1) {
+          if (this.media === slugify(this.$store.getters.label_music)) {
+            ret_items[this.$store.getters.label_music] = audio;
+          } else if (this.media === slugify(this.$store.getters.label_images)) {
+            ret_items[this.$store.getters.label_images] = image;
+          } else if (this.media === slugify(this.$store.getters.label_video)) {
+            ret_items[this.$store.getters.label_video] = video;
+          } else if (this.media === slugify(this.$store.getters.label_text)) {
+            ret_items[this.$store.getters.label_text] = text;
+          }
         }
       }
       Object.keys(ret_items).forEach((k) => {
@@ -242,6 +268,9 @@ export default {
       this.compute_items();
     },
     tag() {
+      this.compute_items();
+    },
+    media() {
       this.compute_items();
     },
     q: function () {

@@ -821,6 +821,8 @@ export interface ApiConfigConfig extends Schema.SingleType {
     label_text: Attribute.String;
     label_video: Attribute.String;
     label_images: Attribute.String;
+    donation_url: Attribute.String;
+    support_text: Attribute.Blocks;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1061,6 +1063,7 @@ export interface ApiTrackTrack extends Schema.CollectionType {
       'api::tile-audio.tile-audio'
     >;
     content: Attribute.Blocks;
+    can_download: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

@@ -104,9 +104,12 @@
               <audio
                 :id="`audio_track_${id}_${track.id}`"
                 controls
+                preload="auto"
                 class="audio_player"
                 v-show="player_playing === false"
-                controlsList="noplaybackrate"
+                :controlsList="`noplaybackrate ${
+                  track.attributes.can_download === true ? '' : 'nodownload'
+                }`"
                 @play="trackPlay(track)"
                 @ended="trackEnded(track)"
               >
@@ -127,18 +130,12 @@
                 v-if="current_track_content && current_track"
                 class="uk-margin-top uk-light uk-background-secondary"
               >
-                <h3 v-if="current_track?.attributes?.name">
-                  Crédits {{ current_track.attributes.name }}
-                </h3>
                 <StrapiBlocks :content="current_track_content"></StrapiBlocks>
               </div>
               <div
                 v-if="tileAudio?.data?.attributes?.content"
                 class="uk-margin-top uk-background-secondary"
               >
-                <h3 v-if="tileAudio?.data?.attributes?.title">
-                  Crédits {{ tileAudio.data.attributes.title }}
-                </h3>
                 <StrapiBlocks
                   :content="tileAudio?.data?.attributes?.content"
                 ></StrapiBlocks>
