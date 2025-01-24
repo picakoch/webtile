@@ -4,9 +4,7 @@
       <div
         class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
       >
-        <h2
-          class="uk-light uk-margin-left main-title"
-        >
+        <h2 class="uk-light uk-margin-left main-title">
           {{ $store.getters.label_newsletter }}
         </h2>
         <newsletter-subscription></newsletter-subscription>
@@ -29,13 +27,17 @@
           ></StrapiBlocks>
         </div>
 
-         <h2
-          class="uk-light uk-margin-left main-title"
-          id="tile_group_Newsletter"
+        <template
+          v-if="$store.getter.support_enabled && $store.getters.support_text"
         >
-          {{ $store.getters.label_support }}
-        </h2>
-        <SupportProject></SupportProject>
+          <h2
+            class="uk-light uk-margin-left main-title"
+            id="tile_group_Newsletter"
+          >
+            {{ $store.getters.label_support }}
+          </h2>
+          <SupportProject></SupportProject>
+        </template>
       </div>
     </div>
   </div>

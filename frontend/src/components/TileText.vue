@@ -84,7 +84,7 @@ export default {
 </script>
 
 <style scoped>
-.pdf-container{
+.pdf-container {
   margin-left: auto;
   margin-right: auto;
   max-width: 1000px;

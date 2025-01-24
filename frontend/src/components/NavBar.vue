@@ -417,19 +417,17 @@ export default {
 }
 
 .uk-navbar-nav > li > a:hover {
-  color: #fff;
   text-decoration: underline;
   text-underline-offset: 5px;
 }
 
 .uk-navbar-nav > li > .uk-active {
-  color: #fff;
   text-decoration: underline;
 }
 
 .uk-navbar-nav > li.uk-active > a,
 .uk-navbar-dropdown-nav > li.uk-active > a {
-  color: #fff;
+  text-decoration: underline;
 }
 
 .nav-text-main {
