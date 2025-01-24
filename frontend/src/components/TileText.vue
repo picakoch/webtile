@@ -87,6 +87,6 @@ export default {
 .pdf-container{
   margin-left: auto;
   margin-right: auto;
-  max-width: 1100px;
+  max-width: 1000px;
 }
 </style>
