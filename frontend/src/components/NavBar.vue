@@ -401,9 +401,10 @@ export default {
 .uk-navbar-nav > li > a {
   font-size: 1.2em;
   font-weight: 600;
-  color: #ccc;
+  color: #fff;
   padding-left: 10px;
   padding-right: 10px;
+  text-underline-offset: 5px;
   border-top: 2px solid #eee;
   border-color: #00000000;
 }
@@ -419,6 +420,8 @@ export default {
 
 .uk-navbar-nav > li > a:hover {
   color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 5px;
 }
 
 .uk-navbar-nav > li > .uk-active {
