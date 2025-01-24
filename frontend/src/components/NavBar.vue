@@ -405,8 +405,6 @@ export default {
   padding-left: 10px;
   padding-right: 10px;
   text-underline-offset: 5px;
-  border-top: 2px solid #eee;
-  border-color: #00000000;
 }
 
 .uk-navbar-nav.nav-center > li > a {
@@ -425,8 +423,8 @@ export default {
 }
 
 .uk-navbar-nav > li > .uk-active {
-  border-color: #ccc;
   color: #fff;
+  text-decoration: underline;
 }
 
 .uk-navbar-nav > li.uk-active > a,
