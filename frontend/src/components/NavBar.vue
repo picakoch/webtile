@@ -10,7 +10,7 @@
     >
       <nav
         class="uk-navbar-container uk-margin-small-right"
-        uk-navbar
+        uk-navbar="mode: click"
         style="background: none; height: 55px"
       >
         <div class="uk-navbar-left uk-margin-left">
@@ -54,22 +54,31 @@
           <ul class="uk-navbar-nav">
             <li>
               <a href="#"><span uk-icon="icon: menu"></span></a>
-              <div class="uk-navbar-dropdown uk-background-secondary uk-light">
+              <div
+                class="uk-navbar-dropdown uk-background-secondary uk-light"
+                ref="dropdown"
+              >
                 <ul class="uk-nav uk-navbar-dropdown-nav">
                   <li
-                    v-for="category in f_categories"
+                    v-for="category in mobile_categories"
                     :key="category.id"
                     class="nav-item"
                   >
                     <RouterLink
-                      :to="'/' + category.id"
+                      :to="category.id"
+                      v-if="category.id"
                       :key="'cat_' + category.id"
+                      class="uk-navbar-dropdown-close"
+                      @click="closeDropdown"
                       :class="{
                         'uk-active': isActive(category),
                       }"
                     >
                       {{ category.label }}
                     </RouterLink>
+                    <span v-else>
+                      {{ category.label }}
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -240,6 +249,7 @@
 
 <script>
 import { slugify } from "@/lib/utils";
+import uk from "uikit";
 
 export default {
   name: "NavBar",
@@ -251,7 +261,6 @@ export default {
         { id: "media", label: this.$store.getters.label_media },
         { id: "bio", label: this.$store.getters.label_bio },
         { id: "contact", label: this.$store.getters.label_contact },
-        { id: "support", label: this.$store.getters.label_support },
       ],
       contact_subcat: [],
       media_subcat: [
@@ -278,17 +287,49 @@ export default {
     prefix() {
       return this.is_tag ? "t" : this.is_media ? "m" : "";
     },
-    f_categories() {
-      return this.categories.filter((e) => {
-        if (e.id === "support" && !this.$store.getters.support_enabled) {
-          return false;
-        }
-        return true;
+    mobile_categories() {
+      const cats = [
+        { id: "/time", label: this.$store.getters.label_date },
+        { id: "/bio", label: this.$store.getters.label_bio },
+        { id: "/contact", label: this.$store.getters.label_contact },
+        { id: null, label: this.$store.getters.label_media },
+        {
+          id: "/m/" + slugify(this.$store.getters.label_music),
+          label: this.$store.getters.label_music,
+        },
+        {
+          id: "/m/" + slugify(this.$store.getters.label_video),
+          label: this.$store.getters.label_video,
+        },
+        {
+          id: "/m/" + slugify(this.$store.getters.label_images),
+          label: this.$store.getters.label_images,
+        },
+        {
+          id: "/m/" + slugify(this.$store.getters.label_text),
+          label: this.$store.getters.label_text,
+        },
+        { id: null, label: this.$store.getters.label_theme },
+      ];
+      this.$store.getters.tags.forEach((t) => {
+        cats.push({
+          id: "/t/" + slugify(t.attributes.name),
+          label: t.attributes.name,
+        });
       });
+
+      return cats;
     },
   },
   methods: {
     slugify,
+    closeDropdown() {
+      const dropdown = this.$refs.dropdown;
+      this.$log.info(dropdown);
+      if (dropdown) {
+        uk.dropdown(dropdown).hide();
+      }
+    },
     isActive(category) {
       return (
         this.$route.path === "/" + category.id ||

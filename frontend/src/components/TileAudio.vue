@@ -25,7 +25,7 @@
                     $store.getters.backend_url + current_image_url
                   "
                   :alt="tileAudio?.data?.attributes?.title"
-                  style="height: 75vh"
+                  style="height: 75vh; object-fit: contain"
                 />
               </a>
             </div>

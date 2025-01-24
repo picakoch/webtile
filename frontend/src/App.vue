@@ -225,8 +225,11 @@ img.img_border {
   scrollbar-width: none; /* Firefox */
 }
 
-h1,h2,h3,h4{
-    font-family: Abel, "Times New Roman", Times, sans-serif !important;
+h1,
+h2,
+h3,
+h4 {
+  font-family: Abel, "Times New Roman", Times, sans-serif !important;
 }
 
 .main-title {

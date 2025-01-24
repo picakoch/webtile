@@ -32,15 +32,37 @@
       </div>
     </div>
   </div>
+  <div class="uk-divider"></div>
+  <div
+    class="uk-grid-divider uk-child-width-1-1@m"
+    uk-grid
+    v-if="$store.getters.support_enabled"
+  >
+    <div>
+      <div
+        class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
+      >
+        <h2
+          class="uk-light uk-margin-left main-title"
+          id="tile_group_Newsletter"
+        >
+          {{ $store.getters.label_support }}
+        </h2>
+        <SupportProject></SupportProject>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 import NewsletterSubscription from "@/components/NewsletterSubscription.vue";
+import SupportProject from "@/components/SupportProject.vue";
 
 export default {
   name: "ContactPage",
   components: {
+    SupportProject,
     NewsletterSubscription,
     StrapiBlocks,
   },
@@ -49,4 +71,3 @@ export default {
   },
 };
 </script>
-
