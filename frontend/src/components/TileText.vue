@@ -9,7 +9,7 @@
         {{ tileText?.data?.attributes?.tile.title }}
       </h2>
       <div class="" uk-grid v-if="pdf">
-        <div class="uk-width-1-1 uk-margin-top uk-text-center">
+        <div class="uk-width-1-1 uk-margin-top uk-text-center pdf-container">
           <div v-for="page in pages" :key="page" class="uk-margin-bottom">
             <VuePDF
               v-if="pdf"
@@ -83,4 +83,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.pdf-container{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1100px;
+}
+</style>

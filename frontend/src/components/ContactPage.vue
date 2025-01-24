@@ -6,7 +6,6 @@
       >
         <h2
           class="uk-light uk-margin-left main-title"
-          id="tile_group_Newsletter"
         >
           {{ $store.getters.label_newsletter }}
         </h2>
@@ -29,20 +28,8 @@
             :content="$store.getters.config?.contacts"
           ></StrapiBlocks>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="uk-divider"></div>
-  <div
-    class="uk-grid-divider uk-child-width-1-1@m"
-    uk-grid
-    v-if="$store.getters.support_enabled"
-  >
-    <div>
-      <div
-        class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
-      >
-        <h2
+
+         <h2
           class="uk-light uk-margin-left main-title"
           id="tile_group_Newsletter"
         >
