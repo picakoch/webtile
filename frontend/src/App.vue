@@ -235,4 +235,8 @@ h4 {
 .main-title {
   color: #fff;
 }
+p{
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}
 </style>
