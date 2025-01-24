@@ -382,9 +382,6 @@ export default {
     },
   },
   mounted() {
-    if (this.$store.getters.support_enabled) {
-      this.contact_subcat.push(this.$store.getters.label_support);
-    }
     this.changeSubCats();
   },
   watch: {
