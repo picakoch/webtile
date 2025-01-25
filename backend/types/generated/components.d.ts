@@ -1,18 +1,18 @@
-import type { Schema, Attribute } from '@strapi/strapi';
+import type { Attribute, Schema } from '@strapi/strapi';
 
 export interface MainTile extends Schema.Component {
   collectionName: 'components_main_tiles';
   info: {
+    description: '';
     displayName: 'tile';
     icon: 'book';
-    description: '';
   };
   attributes: {
-    title: Attribute.String & Attribute.Required;
-    image: Attribute.Media<'images'> & Attribute.Required;
-    tags: Attribute.Relation<'main.tile', 'oneToMany', 'api::tag.tag'>;
     date: Attribute.Date & Attribute.Required;
+    image: Attribute.Media<'images'> & Attribute.Required;
     large: Attribute.Boolean & Attribute.DefaultTo<false>;
+    tags: Attribute.Relation<'main.tile', 'oneToMany', 'api::tag.tag'>;
+    title: Attribute.String & Attribute.Required;
   };
 }
 
