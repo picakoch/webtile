@@ -410,7 +410,7 @@ export default {
 .uk-navbar-nav.nav-center > li > a {
   font-size: 1.2em;
   font-weight: 600;
-  color: #ccc;
+  color: #fff;
   padding-left: 5px;
   padding-right: 5px;
   border: none;
@@ -419,15 +419,19 @@ export default {
 .uk-navbar-nav > li > a:hover {
   text-decoration: underline;
   text-underline-offset: 5px;
+    color: #fff;
 }
 
 .uk-navbar-nav > li > .uk-active {
+  color: #fff;
   text-decoration: underline;
 }
 
 .uk-navbar-nav > li.uk-active > a,
 .uk-navbar-dropdown-nav > li.uk-active > a {
   text-decoration: underline;
+    color: #fff;
+
 }
 
 .nav-text-main {
