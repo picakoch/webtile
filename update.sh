@@ -14,6 +14,7 @@ echo $HOME
 export NVM_DIR="$HOME/.nvm"
 source ~/.nvm/nvm.sh
 
+nvm use 20
 yarn
 yarn build
 
