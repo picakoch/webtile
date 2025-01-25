@@ -28,7 +28,7 @@
         </div>
 
         <template
-          v-if="$store.getter.support_enabled && $store.getters.support_text"
+          v-if="$store.getters.support_enabled && $store.getters.support_text"
         >
           <h2
             class="uk-light uk-margin-left main-title"
