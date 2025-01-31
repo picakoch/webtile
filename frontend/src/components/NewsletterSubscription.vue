@@ -6,7 +6,7 @@
         @submit.prevent="subscribe"
       >
         <fieldset class="uk-fieldset uk-light">
-          <h2 class="uk-legend">Inscrivez-vous à la newsletter</h2>
+          <h3 class="uk-legend">Inscrption</h3>
 
           <StrapiBlocks
             v-if="$store.getters.config?.newsletter_description"
@@ -65,7 +65,7 @@
         @submit.prevent="unsubscribe"
       >
         <fieldset class="uk-fieldset uk-light">
-          <h2 class="uk-legend">Déinscription</h2>
+          <h3 class="uk-legend">Désinscription</h3>
 
           <div class="uk-margin">
             <label class="uk-form-label" for="form-stacked-text">Email *</label>
@@ -83,7 +83,7 @@
             <input
               type="submit"
               class="uk-dark uk-button uk-button-default"
-              value="Déinscription"
+              value="Désinscription"
             />
           </div>
         </fieldset>
