@@ -11,6 +11,7 @@
     >
       <a
         class="uk-dark uk-button uk-button-default"
+        target="_blank"
         :href="$store.getters.donation_url"
       >
         Faire un don
