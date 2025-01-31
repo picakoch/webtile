@@ -6,7 +6,7 @@
         @submit.prevent="subscribe"
       >
         <fieldset class="uk-fieldset uk-light">
-          <h3 class="uk-legend">Inscrption</h3>
+          <h3 class="uk-legend">Inscription</h3>
 
           <StrapiBlocks
             v-if="$store.getters.config?.newsletter_description"
