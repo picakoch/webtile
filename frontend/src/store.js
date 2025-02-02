@@ -11,6 +11,8 @@ export const store = createStore({
       image_border: process.env.VUE_APP_IMAGE_BORDER || "true",
       backend_url: process.env.VUE_APP_STRAPI_API_URL,
       support_enabled: process.env.VUE_APP_SUPPORT_ENABLED || "true",
+      media_enabled: process.env.VUE_APP_MEDIA_ENABLED || "true",
+      newsletter_enabled: process.env.VUE_APP_NEWSLETTER_ENABLED || "true",
     };
   },
   getters: {
@@ -37,6 +39,12 @@ export const store = createStore({
     },
     support_enabled: (state) => {
       return state.support_enabled === "true";
+    },
+    media_enabled: (state) => {
+      return state.media_enabled === "true";
+    },
+    newsletter_enabled: (state) => {
+      return state.newsletter_enabled === "true";
     },
     headline_enabled: (state) => {
       let exp_date = new Date(state.config?.headline_expiration);
