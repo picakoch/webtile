@@ -255,13 +255,6 @@ export default {
   name: "NavBar",
   data() {
     return {
-      categories: [
-        { id: "time", label: this.$store.getters.label_date },
-        { id: "tag", label: this.$store.getters.label_theme },
-        { id: "media", label: this.$store.getters.label_media },
-        { id: "bio", label: this.$store.getters.label_bio },
-        { id: "contact", label: this.$store.getters.label_contact },
-      ],
       contact_subcat: [],
       media_subcat: [
         this.$store.getters.label_music,
@@ -286,6 +279,24 @@ export default {
   computed: {
     prefix() {
       return this.is_tag ? "t" : this.is_media ? "m" : "";
+    },
+    categories() {
+      if (this.$store.getters.media_enabled) {
+        return [
+          { id: "time", label: this.$store.getters.label_date },
+          { id: "tag", label: this.$store.getters.label_theme },
+          { id: "media", label: this.$store.getters.label_media },
+          { id: "bio", label: this.$store.getters.label_bio },
+          { id: "contact", label: this.$store.getters.label_contact },
+        ];
+      } else {
+        return [
+          { id: "time", label: this.$store.getters.label_date },
+          { id: "tag", label: this.$store.getters.label_theme },
+          { id: "bio", label: this.$store.getters.label_bio },
+          { id: "contact", label: this.$store.getters.label_contact },
+        ];
+      }
     },
     mobile_categories() {
       const cats = [
@@ -419,7 +430,7 @@ export default {
 .uk-navbar-nav > li > a:hover {
   text-decoration: underline;
   text-underline-offset: 5px;
-    color: #fff;
+  color: #fff;
 }
 
 .uk-navbar-nav > li > .uk-active {
@@ -430,8 +441,7 @@ export default {
 .uk-navbar-nav > li.uk-active > a,
 .uk-navbar-dropdown-nav > li.uk-active > a {
   text-decoration: underline;
-    color: #fff;
-
+  color: #fff;
 }
 
 .nav-text-main {

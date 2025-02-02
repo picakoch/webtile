@@ -1,6 +1,6 @@
 <template>
   <div class="uk-grid-divider uk-child-width-1-2@m" uk-grid>
-    <div>
+    <div v-if="$store.getters.newsletter_enabled">
       <div
         class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
       >
