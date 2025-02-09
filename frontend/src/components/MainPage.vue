@@ -23,9 +23,11 @@ import TileGrid from "@/components/TileGrid.vue";
 import { IMAGES_Q, VIDEOS_Q, AUDIOS_Q, TEXTS_Q, SEARCH_Q } from "@/lib/queries";
 import uk from "uikit";
 import { slugify } from "@/lib/utils";
+import metaManager from "@/mixins/metaManager";
 
 export default {
   name: "MainPage",
+  mixins: [metaManager],
   components: { TileGrid },
   props: {
     name: String,
@@ -82,6 +84,7 @@ export default {
     compute_items() {
       this.$log.debug("Compute items", this.name, this.tag, this.media);
       if (this.name === "tag" && !this.tag) {
+        this.updateMetaTags(this.$store.getters.label_theme);
         const tags = this.$store.getters.tags;
         if (tags.length > 0) {
           this.$router.push(
@@ -92,6 +95,7 @@ export default {
         }
       }
       if (this.name === "media" && !this.media) {
+        this.updateMetaTags(this.$store.getters.label_music);
         this.$router.push("/m/" + slugify(this.$store.getters.label_music));
         this.items = [];
         return;
@@ -131,6 +135,7 @@ export default {
           });
         }
         if (this.name === "time") {
+          this.updateMetaTags(this.$store.getters.label_date);
           ret_items = Object.groupBy(allTiles, (e) =>
             e?.attributes?.tile?.date
               ? new Date(e.attributes.tile.date).getFullYear()
@@ -149,6 +154,7 @@ export default {
             }
           });
         } else if (this.tag && this.tag.length > 1) {
+          this.updateMetaTags(this.tag);
           this.$store.getters.tags.forEach((tag) => {
             let tag_name = tag?.attributes?.name;
             let fTiles = allTiles.filter((e) =>
@@ -161,6 +167,7 @@ export default {
             }
           });
         } else if (this.media && this.media.length > 1) {
+          this.updateMetaTags(this.media);
           if (this.media === slugify(this.$store.getters.label_music)) {
             ret_items[this.$store.getters.label_music] = audio;
           } else if (this.media === slugify(this.$store.getters.label_images)) {

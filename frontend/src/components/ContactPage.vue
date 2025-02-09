@@ -47,16 +47,26 @@
 import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 import NewsletterSubscription from "@/components/NewsletterSubscription.vue";
 import SupportProject from "@/components/SupportProject.vue";
+import metaManager from "@/mixins/metaManager";
 
 export default {
   name: "ContactPage",
+  mixins: [metaManager],
   components: {
     SupportProject,
     NewsletterSubscription,
     StrapiBlocks,
   },
+  created() {
+    this.updateMetaTags(this.$store.getters.label_contact);
+  },
   data() {
     return {};
+  },
+  watch: {
+    $route: function () {
+      this.updateMetaTags(this.$store.getters.label_contact);
+    },
   },
 };
 </script>
