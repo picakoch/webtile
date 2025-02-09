@@ -6,7 +6,7 @@
       :style="`background-image: url(${
         $store.getters.backend_url +
         $store.getters?.config?.banner?.data?.attributes?.formats
-      }); height: 100px; width: 100%; opacity: 1`"
+      }); height: 92px; width: 100%; opacity: 1`"
     >
       <nav
         class="uk-navbar-container uk-margin-small-right"
@@ -16,12 +16,21 @@
         <div class="uk-navbar-left uk-margin-left">
           <ul class="uk-navbar-nav">
             <li>
-              <RouterLink to="/time" class="nav-text-main"
-                >{{ $store.getters.config?.title }}
+              <RouterLink to="/time" class="nav-text-main">
+                <template v-if="$store.getters.config?.logo?.data?.attributes">
+                  <img
+                    class="logo"
+                    :src="
+                      $store.getters.backend_url +
+                      $store.getters?.config?.logo?.data?.attributes?.formats
+                    "
+                    :alt="$store.getters.config?.title"
+                  />
+                </template>
+                <template v-else>
+                  {{ $store.getters.config?.title }}
+                </template>
               </RouterLink>
-              <span class="nav-text-subtitle">{{
-                $store.getters.config?.subtitle
-              }}</span>
             </li>
             <li style="width: 30px">&nbsp;</li>
           </ul>
@@ -53,7 +62,7 @@
           </ul>
         </div>
 
-        <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 100px">
+        <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 92px">
           <ul class="uk-navbar-nav">
             <li>
               <a href="#"><span uk-icon="icon: menu"></span></a>
@@ -131,6 +140,16 @@
         uk-navbar
         style="background: none; height: 30px"
       >
+        <div
+          class="uk-navbar-left uk-visible@m"
+          v-if="$store.getters.config?.subtitle"
+        >
+          <ul class="uk-navbar-nav">
+            <li class="nav-item nav-subtitle uk-margin-left">
+              {{ $store.getters.config?.subtitle }}
+            </li>
+          </ul>
+        </div>
         <div
           class="nav-overlay uk-navbar-right uk-visible@m"
           v-if="
@@ -449,11 +468,14 @@ export default {
 
 .nav-text-main {
   font-size: 2.2em !important;
+  text-align: left !important;
   font-family: Roboto, "Times New Roman", Times, sans-serif;
 }
 
-.nav-text-subtitle {
+.nav-subtitle {
   font-size: 1.1em !important;
+  text-align: left !important;
+  max-width: 500px !important;
   color: #fff;
   padding-left: 10px;
 }
@@ -492,5 +514,9 @@ export default {
 .uk-navbar-nav-level2 > li > a {
   min-height: 30px;
   font-size: 0.8em;
+}
+
+.logo {
+  max-height: 40px;
 }
 </style>
