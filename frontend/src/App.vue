@@ -26,7 +26,9 @@
       </div>
       <div class="uk-text-muted">
         design/dev <a target="_blank" href="https://www.n21.fr">N21</a> |
-        <a target="_blank" href="https://github.com/picakoch/webtile">webtile</a>
+        <a target="_blank" href="https://github.com/picakoch/webtile"
+          >webtile</a
+        >
       </div>
     </div>
   </template>

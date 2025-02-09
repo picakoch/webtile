@@ -95,6 +95,16 @@
     },
     "support_text": {
       "type": "blocks"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "logo": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

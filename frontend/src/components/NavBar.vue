@@ -19,6 +19,9 @@
               <RouterLink to="/time" class="nav-text-main"
                 >{{ $store.getters.config?.title }}
               </RouterLink>
+              <span class="nav-text-subtitle">{{
+                $store.getters.config?.subtitle
+              }}</span>
             </li>
             <li style="width: 30px">&nbsp;</li>
           </ul>
@@ -447,6 +450,12 @@ export default {
 .nav-text-main {
   font-size: 2.2em !important;
   font-family: Roboto, "Times New Roman", Times, sans-serif;
+}
+
+.nav-text-subtitle {
+  font-size: 1.1em !important;
+  color: #fff;
+  padding-left: 10px;
 }
 
 .nav-item {

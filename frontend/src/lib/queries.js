@@ -49,6 +49,15 @@ export const CONFIG_Q = gql`
               }
             }
           }
+          logo {
+            data {
+              id
+              attributes {
+                formats: url
+                url
+              }
+            }
+          }
           headline
           contacts
           contact_footer
@@ -69,6 +78,7 @@ export const CONFIG_Q = gql`
           label_text
           donation_url
           support_text
+          subtitle
         }
       }
     }
