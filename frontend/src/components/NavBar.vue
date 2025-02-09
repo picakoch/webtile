@@ -147,6 +147,10 @@
           <ul class="uk-navbar-nav">
             <li class="nav-item nav-subtitle uk-margin-left">
               {{ $store.getters.config?.subtitle }}
+              <template v-if="$store.getters.config?.subtitle_line2">
+                <br />
+                {{ $store.getters.config?.subtitle_line2 }}
+              </template>
             </li>
           </ul>
         </div>

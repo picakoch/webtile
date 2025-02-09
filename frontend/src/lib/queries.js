@@ -79,6 +79,7 @@ export const CONFIG_Q = gql`
           donation_url
           support_text
           subtitle
+          subtitle_line2
         }
       }
     }
