@@ -495,7 +495,7 @@ export default {
 .uk-search-input {
   color: #fff;
   font-size: 2em;
-  font-family: "Times New Roman", Times, sans-serif;
+  font-family: Roboto, "Times New Roman", Times, sans-serif;
 }
 
 .uk-search-navbar .uk-search-input {
