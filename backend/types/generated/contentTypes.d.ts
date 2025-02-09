@@ -404,6 +404,7 @@ export interface ApiConfigConfig extends Schema.SingleType {
     logo: Attribute.Media<'images'>;
     newsletter_description: Attribute.Blocks;
     subtitle: Attribute.String;
+    subtitle_line2: Attribute.String;
     support_text: Attribute.Blocks;
     title: Attribute.String;
     updatedAt: Attribute.DateTime;
