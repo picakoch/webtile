@@ -401,7 +401,9 @@ export interface ApiConfigConfig extends Schema.SingleType {
     label_text: Attribute.String;
     label_theme: Attribute.String & Attribute.DefaultTo<'Th\u00E8me'>;
     label_video: Attribute.String;
+    logo: Attribute.Media<'images'>;
     newsletter_description: Attribute.Blocks;
+    subtitle: Attribute.String;
     support_text: Attribute.Blocks;
     title: Attribute.String;
     updatedAt: Attribute.DateTime;
