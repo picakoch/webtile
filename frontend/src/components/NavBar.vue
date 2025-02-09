@@ -18,10 +18,17 @@
             <li>
               <RouterLink to="/time" class="nav-text-main">
                 <template v-if="$store.getters.config?.logo?.data?.attributes">
-                  <img class="logo" :src="$store.getters.backend_url + $store.getters?.config?.logo?.data?.attributes?.formats" :alt="$store.getters.config?.title">
+                  <img
+                    class="logo"
+                    :src="
+                      $store.getters.backend_url +
+                      $store.getters?.config?.logo?.data?.attributes?.formats
+                    "
+                    :alt="$store.getters.config?.title"
+                  />
                 </template>
                 <template v-else>
-                {{ $store.getters.config?.title }}
+                  {{ $store.getters.config?.title }}
                 </template>
               </RouterLink>
             </li>
@@ -133,7 +140,10 @@
         uk-navbar
         style="background: none; height: 30px"
       >
-        <div class="uk-navbar-left uk-visible@m" v-if="$store.getters.config?.subtitle">
+        <div
+          class="uk-navbar-left uk-visible@m"
+          v-if="$store.getters.config?.subtitle"
+        >
           <ul class="uk-navbar-nav">
             <li class="nav-item nav-subtitle uk-margin-left">
               {{ $store.getters.config?.subtitle }}
@@ -458,13 +468,13 @@ export default {
 
 .nav-text-main {
   font-size: 2.2em !important;
-  text-align: left !important;;
+  text-align: left !important;
   font-family: Augustus, "Times New Roman", Times, sans-serif;
 }
 
 .nav-subtitle {
   font-size: 1.1em !important;
-  text-align: left !important;;
+  text-align: left !important;
   max-width: 500px !important;
   color: #fff;
   padding-left: 10px;
