@@ -6,7 +6,7 @@
       :style="`background-image: url(${
         $store.getters.backend_url +
         $store.getters?.config?.banner?.data?.attributes?.formats
-      }); height: 100px; width: 100%; opacity: 1`"
+      }); height: 92px; width: 100%; opacity: 1`"
     >
       <nav
         class="uk-navbar-container uk-margin-small-right"
@@ -16,8 +16,13 @@
         <div class="uk-navbar-left uk-margin-left">
           <ul class="uk-navbar-nav">
             <li>
-              <RouterLink to="/time" class="nav-text-main"
-                >{{ $store.getters.config?.title }}
+              <RouterLink to="/time" class="nav-text-main">
+                <template v-if="$store.getters.config?.logo?.data?.attributes">
+                  <img class="logo" :src="$store.getters.backend_url + $store.getters?.config?.logo?.data?.attributes?.formats" :alt="$store.getters.config?.title">
+                </template>
+                <template v-else>
+                {{ $store.getters.config?.title }}
+                </template>
               </RouterLink>
             </li>
             <li style="width: 30px">&nbsp;</li>
@@ -50,7 +55,7 @@
           </ul>
         </div>
 
-        <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 100px">
+        <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 92px">
           <ul class="uk-navbar-nav">
             <li>
               <a href="#"><span uk-icon="icon: menu"></span></a>
@@ -499,5 +504,9 @@ export default {
 .uk-navbar-nav-level2 > li > a {
   min-height: 30px;
   font-size: 0.8em;
+}
+
+.logo {
+  max-height: 40px;
 }
 </style>
