@@ -9,14 +9,24 @@
 
 <script>
 import { StrapiBlocks } from "vue-strapi-blocks-renderer";
+import metaManager from "@/mixins/metaManager";
 
 export default {
   name: "BiographyPage",
+  mixins: [metaManager],
   components: {
     StrapiBlocks,
   },
+  created() {
+    this.updateMetaTags(this.$store.getters.label_bio);
+  },
   data() {
     return {};
+  },
+  watch: {
+    $route: function () {
+      this.updateMetaTags(this.$store.getters.label_bio);
+    },
   },
 };
 </script>
