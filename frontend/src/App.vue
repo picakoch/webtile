@@ -239,7 +239,8 @@ h4 {
   color: #fff;
 }
 p {
-  margin-top: 5px !important;
-  margin-bottom: 5px !important;
+  margin-top: 2x !important;
+  margin-bottom: 2px !important;
+  text-justify: distribute !important;
 }
 </style>
