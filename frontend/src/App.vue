@@ -238,9 +238,10 @@ h4 {
 .main-title {
   color: #fff;
 }
-* + p {
+p {
   margin-top: 2px !important;
   margin-bottom: 2px !important;
-  text-justify: distribute !important;
+  text-align: justify;
+  text-justify: distribute;
 }
 </style>
