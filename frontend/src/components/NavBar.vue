@@ -483,7 +483,7 @@ export default {
 .nav-text-main {
   font-size: 2.2em !important;
   text-align: left !important;
-  font-family: "Mrs Saint Delafield", Times, sans-serif;
+  font-family: "Crimson Text", Times, sans-serif;
 }
 
 .nav-subtitle {
@@ -499,13 +499,13 @@ export default {
 }
 
 .nav-item > a {
-  font-family: "Mrs Saint Delafield", Times, sans-serif;
+  font-family: "Crimson Text", Times, sans-serif;
 }
 
 .uk-search-input {
   color: #fff;
   font-size: 2em;
-  font-family: "Mrs Saint Delafield", Times, sans-serif;
+  font-family: "Crimson Text", Times, sans-serif;
 }
 
 .uk-search-navbar .uk-search-input {
