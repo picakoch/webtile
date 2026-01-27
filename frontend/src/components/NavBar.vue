@@ -6,7 +6,7 @@
       :style="`background-image: url(${
         $store.getters.backend_url +
         $store.getters?.config?.banner?.data?.attributes?.formats
-      }); height: 92px; width: 100%; opacity: 1`"
+      }); height: 120px; width: 100%; opacity: 1`"
     >
       <nav
         class="uk-navbar-container uk-margin-small-right"
@@ -532,6 +532,6 @@ export default {
 }
 
 .logo {
-  max-height: 40px;
+  max-height: 120px;
 }
 </style>
