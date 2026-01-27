@@ -100,6 +100,6 @@ export default {
 
 <style scoped>
 .title-font {
-  font-family: Augustus, "Times New Roman", Times, sans-serif;
+  font-family: "Mrs Saint Delafield", Times, sans-serif;
 }
 </style>
