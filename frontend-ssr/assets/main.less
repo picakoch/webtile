@@ -1,0 +1,149 @@
+#app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@import "../node_modules/uikit/src/less/uikit.less";
+@import "theme.less";
+
+.spinner {
+  color: white;
+  margin-left: auto;
+}
+
+.uk-spinner svg * {
+  stroke-width: 2px !important;
+}
+
+.footer {
+  height: 80px;
+}
+
+.footer *,
+.headline *,
+.white_text {
+  color: #ccc;
+}
+
+.tile-preview {
+  color: #eee;
+}
+
+.grid-sizer,
+.grid-item--width1 {
+  width: 93%;
+}
+
+.grid-sizer2,
+.grid-item--width2 {
+  width: 93%;
+}
+
+.gutter-sizer {
+  width: 2%;
+}
+
+@media screen and (min-width: 700px) {
+  /* 2 columns */
+  .gutter-sizer {
+    width: 3%;
+  }
+
+  .grid-sizer,
+  .grid-item--width1 {
+    width: 46%;
+  }
+
+  .grid-sizer2,
+  .grid-item--width2 {
+    width: 95%;
+  }
+}
+
+@media screen and (min-width: 950px) {
+  .gutter-sizer {
+    width: 2%;
+  }
+
+  .grid-sizer,
+  .grid-item--width1 {
+    width: 31%;
+  }
+
+  .grid-sizer2,
+  .grid-item--width2 {
+    width: 64%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .gutter-sizer {
+    width: 1.5%;
+  }
+
+  .grid-sizer,
+  .grid-item--width1 {
+    width: 23.2%;
+  }
+
+  .grid-sizer2,
+  .grid-item--width2 {
+    width: 47.9%;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .gutter-sizer {
+    width: 1%;
+  }
+
+  .grid-sizer,
+  .grid-item--width1 {
+    width: 18.8%;
+  }
+
+  .grid-sizer2,
+  .grid-item--width2 {
+    width: 39%;
+  }
+}
+
+.grid-item {
+  margin-bottom: 18px;
+}
+
+.tile-preview > img.img_border {
+  border: 8px solid #eee;
+}
+
+.tile_border {
+  position: relative;
+  border: solid 8px #eee;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: Augustus, "Times New Roman", Times, sans-serif !important;
+}
+
+.main-title {
+  color: #fff;
+}
+
+p {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}

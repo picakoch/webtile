@@ -1,0 +1,28 @@
+{
+  "name": "frontend-ssr",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.11.3",
+    "@tato30/vue-pdf": "^1.11.5",
+    "nuxt": "^4.3.0",
+    "uikit": "^3.25.9",
+    "vue": "^3.5.27",
+    "vue-masonry": "^0.16.0",
+    "vue-router": "^4.6.4",
+    "vue-strapi-blocks-renderer": "^1.1.1",
+    "vue-unicons": "^3.3.1"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^3.1.1",
+    "@nuxtjs/apollo": "^5.0.0-alpha.16",
+    "less": "^4.5.1"
+  }
+}
