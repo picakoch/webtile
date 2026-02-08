@@ -1,9 +1,6 @@
 <template>
   <div class="uk-margin-top" style="min-height: 80vh">
-    <div v-if="pending" class="uk-position-center">
-      <div class="spinner" uk-spinner="ratio: 3"></div>
-    </div>
-    <template v-else-if="appStore.category_break">
+    <template v-if="appStore.category_break">
       <div v-for="group in sorted_items" :key="group" class="tile-group">
         <TileGrid :items="group[1]" :title="group[0]" :key="group"></TileGrid>
       </div>
@@ -191,7 +188,7 @@ const compute_items = () => {
   items.value = ret_items;
 };
 
-const { pending } = await useAsyncData(
+await useAsyncData(
   `main-data-${props.name}-${props.tag}-${props.media}-${props.q}`,
   async () => {
     const [images, videos, audios, texts, searchResults] = await Promise.all([

@@ -3,9 +3,8 @@
     <NuxtRouteAnnouncer />
     <NavBar :sub_categories="sub_categories" @search_tile="onSearch" />
     <div
-      uk-alert
       style="border: 8px #ccc solid"
-      class="uk-margin-top uk-margin-left uk-margin-right headline uk-background-secondary"
+      class="uk-alert uk-margin-top uk-margin-left uk-margin-right headline uk-background-secondary"
       v-if="config?.headline && !headline_as_tile && headline_enabled"
     >
       <a href class="uk-alert-close" uk-close></a>

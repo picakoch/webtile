@@ -1,4 +1,5 @@
 <template>
+  <ClientOnly>
   <div uk-modal :id="'audio_modal_' + id" class="uk-modal-full">
     <div
       class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary"
@@ -147,6 +148,7 @@
       </div>
     </div>
   </div>
+    </ClientOnly>
 </template>
 
 <script setup>

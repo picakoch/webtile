@@ -1,9 +1,15 @@
 <template>
-  <div :id="'image_' + id" uk-lightbox></div>
+  <div>
+    <SimpleLightbox
+      ref="lightbox"
+      :images="images"
+    />
+  </div>
 </template>
 
 <script setup>
 import { IMAGE_Q } from "~/queries/queries";
+import SimpleLightbox from "./SimpleLightbox.vue";
 
 const props = defineProps({
   id: {
@@ -14,7 +20,8 @@ const props = defineProps({
 
 const { $apollo } = useNuxtApp();
 const appStore = useAppStore();
-const empty_gallery = ref(false);
+const lightbox = ref(null);
+const images = ref([]);
 
 onMounted(async () => {
   try {
@@ -26,7 +33,7 @@ onMounted(async () => {
     });
 
     const description = data?.tileImage?.data?.attributes?.description;
-    const images =
+    images.value =
       data?.tileImage?.data?.attributes?.images?.data.map((e) => {
         let url = e.attributes.formats.thumbnail.url;
         let caption = e.attributes.caption;
@@ -45,16 +52,14 @@ onMounted(async () => {
         };
       }) || [];
 
-    if (images.length === 0) {
-      empty_gallery.value = true;
-    } else {
-      const { UIkit } = await import("uikit");
-      UIkit.lightboxPanel({ items: images }).show();
+    // Show lightbox immediately if images exist
+    if (images.value.length > 0) {
+      nextTick(() => {
+        lightbox.value?.show(0);
+      });
     }
   } catch (error) {
     console.error("Error fetching tile image:", error);
   }
 });
 </script>
-
-<style scoped></style>

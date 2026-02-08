@@ -1,15 +1,13 @@
 <template>
   <div>
     <div
-      uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
-      class="uk-background-cover"
+      class="uk-background-cover navbar-sticky"
       :style="`background-image: url(${
         backend_url + config?.banner?.data?.attributes?.formats
       }); height: 92px; width: 100%; opacity: 1`"
     >
       <nav
         class="uk-navbar-container uk-margin-small-right"
-        uk-navbar="mode: click"
         style="background: none; height: 55px"
       >
         <div class="uk-navbar-left uk-margin-left">
@@ -50,10 +48,14 @@
             <li class="nav-item">
               <a
                 class="uk-navbar-toggle"
-                uk-search-icon
-                uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
+                @click.prevent="toggleSearch"
                 href="#"
-              ></a>
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <circle fill="none" stroke="#fff" stroke-width="1.1" cx="9" cy="9" r="7"></circle>
+                  <path fill="none" stroke="#fff" stroke-width="1.1" d="M14,14 L18,18 L14,14 Z"></path>
+                </svg>
+              </a>
             </li>
           </ul>
         </div>
@@ -61,10 +63,18 @@
         <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 92px">
           <ul class="uk-navbar-nav">
             <li>
-              <a href="#"><span uk-icon="icon: menu"></span></a>
+              <a href="#" @click.prevent="toggleMobileMenu">
+                <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <rect y="9" width="20" height="2" fill="#fff"></rect>
+                  <rect y="3" width="20" height="2" fill="#fff"></rect>
+                  <rect y="15" width="20" height="2" fill="#fff"></rect>
+                </svg>
+              </a>
               <div
                 class="uk-navbar-dropdown uk-background-secondary uk-light"
                 ref="dropdown"
+                :class="{ 'uk-open': mobileMenuOpen }"
+                :style="{ display: mobileMenuOpen ? 'block' : 'none' }"
               >
                 <ul class="uk-nav uk-navbar-dropdown-nav">
                   <li
@@ -76,8 +86,7 @@
                       :to="category.id"
                       v-if="category.id"
                       :key="'cat_' + category.id"
-                      class="uk-navbar-dropdown-close"
-                      @click="closeDropdown"
+                      @click="closeMobileMenu"
                       :class="{
                         'uk-active': isActive(category),
                       }"
@@ -94,17 +103,20 @@
             <li>
               <a
                 class="uk-navbar-toggle test"
-                uk-search-icon
                 v-show="!search_active"
-                uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
-                @click="search_active = true"
+                @click.prevent="openSearch"
                 href="#"
-              ></a>
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <circle fill="none" stroke="#fff" stroke-width="1.1" cx="9" cy="9" r="7"></circle>
+                  <path fill="none" stroke="#fff" stroke-width="1.1" d="M14,14 L18,18 L14,14 Z"></path>
+                </svg>
+              </a>
             </li>
           </ul>
         </div>
 
-        <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+        <div class="nav-overlay uk-navbar-left uk-flex-1" :class="{ 'search-visible': searchVisible }" :style="{ display: searchVisible ? 'flex' : 'none' }">
           <div class="uk-navbar-item uk-width-expand">
             <form
               class="uk-search uk-search-navbar uk-width-1-1"
@@ -112,28 +124,30 @@
             >
               <input
                 v-model="q"
+                ref="searchInput"
                 class="uk-search-input"
                 type="search"
                 placeholder="Rechercher"
                 aria-label="Rechercher"
-                autofocus
               />
             </form>
           </div>
 
           <a
             class="uk-navbar-toggle"
-            uk-close
-            uk-toggle="target: .nav-overlay; animation: uk-animation-fade"
+            @click.prevent="closeSearch"
             href="#"
-            @click="resetSearch"
-          ></a>
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+              <line fill="none" stroke="#fff" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line>
+              <line fill="none" stroke="#fff" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line>
+            </svg>
+          </a>
         </div>
       </nav>
 
       <nav
         class="uk-navbar-container uk-margin-small-right"
-        uk-navbar
         style="background: none; height: 30px"
       >
         <div class="uk-navbar-left uk-visible@m" v-if="config?.subtitle">
@@ -163,8 +177,7 @@
         >
           <ul
             v-if="sub_cats.length > 0 && !is_tag && !is_media"
-            class="uk-navbar-nav uk-navbar-nav-level2 uk-navbar-spy"
-            uk-scrollspy-nav="closest: li; scroll: true"
+            class="uk-navbar-nav uk-navbar-nav-level2"
           >
             <li
               v-for="(sub_category, index) in sub_cats.slice(
@@ -184,12 +197,19 @@
             v-if="sub_cats.length >= max_level2_elements && !is_tag"
           >
             <li>
-              <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
-              <div class="uk-navbar-dropdown uk-light uk-background-secondary">
-                <ul
-                  class="uk-nav uk-navbar-dropdown-nav uk-navbar-spy"
-                  uk-scrollspy-nav="closest: li; scroll: true"
-                >
+              <a href="#" @click.prevent="toggleMoreMenu">
+                <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="3" cy="10" r="2" fill="#fff"></circle>
+                  <circle cx="10" cy="10" r="2" fill="#fff"></circle>
+                  <circle cx="17" cy="10" r="2" fill="#fff"></circle>
+                </svg>
+              </a>
+              <div
+                class="uk-navbar-dropdown uk-light uk-background-secondary"
+                :class="{ 'uk-open': moreMenuOpen }"
+                :style="{ display: moreMenuOpen ? 'block' : 'none' }"
+              >
+                <ul class="uk-nav uk-navbar-dropdown-nav">
                   <li
                     v-for="(sub_category, index) in sub_cats.slice(
                       max_level2_elements,
@@ -197,7 +217,7 @@
                     :key="index"
                     class="nav-item"
                   >
-                    <a :href="`#tile_group_${sub_category}`" class="uk-light">
+                    <a :href="`#tile_group_${sub_category}`" class="uk-light" @click="closeMoreMenu">
                       {{ sub_category }}
                     </a>
                   </li>
@@ -234,12 +254,19 @@
             v-if="sub_cats.length >= max_level2_elements && is_tag"
           >
             <li>
-              <a href="#"><span uk-icon="icon: more; ratio: 1.2"></span></a>
-              <div class="uk-navbar-dropdown uk-light uk-background-secondary">
-                <ul
-                  class="uk-nav uk-navbar-dropdown-nav uk-navbar-spy"
-                  uk-scrollspy-nav="closest: li; scroll: true"
-                >
+              <a href="#" @click.prevent="toggleMoreMenu">
+                <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="3" cy="10" r="2" fill="#fff"></circle>
+                  <circle cx="10" cy="10" r="2" fill="#fff"></circle>
+                  <circle cx="17" cy="10" r="2" fill="#fff"></circle>
+                </svg>
+              </a>
+              <div
+                class="uk-navbar-dropdown uk-light uk-background-secondary"
+                :class="{ 'uk-open': moreMenuOpen }"
+                :style="{ display: moreMenuOpen ? 'block' : 'none' }"
+              >
+                <ul class="uk-nav uk-navbar-dropdown-nav">
                   <li
                     v-for="(sub_category, index) in sub_cats.slice(
                       max_level2_elements,
@@ -253,6 +280,7 @@
                       :class="{
                         'uk-active': isActiveSubCat(sub_category),
                       }"
+                      @click="closeMoreMenu"
                     >
                       {{ sub_category }}
                     </NuxtLink>
@@ -269,7 +297,6 @@
 
 <script setup>
 import { slugify } from "~/utils/utils.js";
-import uk from "uikit";
 import { useAppStore } from "../stores/app.js";
 
 const appStore = useAppStore();
@@ -308,11 +335,15 @@ const media_subcat = ref([
 ]);
 const q = ref("");
 const search_active = ref(false);
+const searchVisible = ref(false);
+const mobileMenuOpen = ref(false);
+const moreMenuOpen = ref(false);
 const sub_cats = ref([]);
 const is_tag = ref(false);
 const is_media = ref(false);
 const max_level2_elements = ref(20);
 const dropdown = ref(null);
+const searchInput = ref(null);
 
 const prefix = computed(() => {
   return is_tag.value ? "t" : is_media.value ? "m" : "";
@@ -381,10 +412,42 @@ const mobile_categories = computed(() => {
   return cats;
 });
 
-const closeDropdown = () => {
-  if (dropdown.value) {
-    uk.dropdown(dropdown.value).hide();
+const toggleMobileMenu = () => {
+  mobileMenuOpen.value = !mobileMenuOpen.value;
+};
+
+const closeMobileMenu = () => {
+  mobileMenuOpen.value = false;
+};
+
+const toggleMoreMenu = () => {
+  moreMenuOpen.value = !moreMenuOpen.value;
+};
+
+const closeMoreMenu = () => {
+  moreMenuOpen.value = false;
+};
+
+const toggleSearch = () => {
+  searchVisible.value = !searchVisible.value;
+  if (searchVisible.value) {
+    nextTick(() => {
+      searchInput.value?.focus();
+    });
   }
+};
+
+const openSearch = () => {
+  search_active.value = true;
+  searchVisible.value = true;
+  nextTick(() => {
+    searchInput.value?.focus();
+  });
+};
+
+const closeSearch = () => {
+  searchVisible.value = false;
+  resetSearch();
 };
 
 const isActive = (category) => {
@@ -460,6 +523,32 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Add styles for dropdown visibility */
+.uk-navbar-dropdown {
+  position: absolute;
+  z-index: 1020;
+  box-sizing: border-box;
+  min-width: 200px;
+  padding: 15px;
+  background: #222;
+  color: #fff;
+  display: none;
+}
+
+.uk-navbar-dropdown.uk-open {
+  display: block;
+}
+
+.search-visible {
+  display: flex !important;
+}
+
+.navbar-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 980;
+}
+
 .uk-navbar-nav > li > a {
   font-size: 1.2em;
   font-weight: 600;
