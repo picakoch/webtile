@@ -62,6 +62,11 @@ app.use(router);
 app.use(store);
 app.use(VueLogger, options);
 app.use(Unicon);
-await router.isReady();
 
-app.mount("#app");
+router.isReady().then(() => {
+  app.mount('#app')
+
+  if (typeof window !== 'undefined') {
+    document.dispatchEvent(new Event('app-rendered'))
+  }
+})

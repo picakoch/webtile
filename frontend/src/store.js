@@ -5,14 +5,14 @@ export const store = createStore({
     return {
       config: {},
       tags: [],
-      headline_as_tile: process.env.VUE_APP_HEADLINE_AS_TILE || "false",
-      headers_as_tile: process.env.VUE_APP_HEADERS_AS_TILE || "false",
-      category_break: process.env.VUE_APP_CATEGORY_BREAK || "true",
-      image_border: process.env.VUE_APP_IMAGE_BORDER || "true",
-      backend_url: process.env.VUE_APP_STRAPI_API_URL,
-      support_enabled: process.env.VUE_APP_SUPPORT_ENABLED || "true",
-      media_enabled: process.env.VUE_APP_MEDIA_ENABLED || "true",
-      newsletter_enabled: process.env.VUE_APP_NEWSLETTER_ENABLED || "true",
+      headline_as_tile: import.meta.env.VITE_HEADLINE_AS_TILE || "false",
+      headers_as_tile: import.meta.env.VITE_HEADERS_AS_TILE || "false",
+      category_break: import.meta.env.VITE_CATEGORY_BREAK || "true",
+      image_border: import.meta.env.VITE_IMAGE_BORDER || "true",
+      backend_url: import.meta.env.VITE_STRAPI_API_URL,
+      support_enabled: import.meta.env.VITE_SUPPORT_ENABLED || "true",
+      media_enabled: import.meta.env.VITE_MEDIA_ENABLED || "true",
+      newsletter_enabled: import.meta.env.VITE_NEWSLETTER_ENABLED || "true",
     };
   },
   getters: {
