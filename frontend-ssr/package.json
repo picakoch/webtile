@@ -13,6 +13,7 @@
     "@pinia/nuxt": "^0.11.3",
     "@tato30/vue-pdf": "^1.11.5",
     "nuxt": "^4.3.0",
+    "prettier": "^3.8.1",
     "uikit": "^3.25.9",
     "vue": "^3.5.27",
     "vue-masonry": "^0.16.0",

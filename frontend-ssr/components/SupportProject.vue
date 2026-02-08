@@ -21,7 +21,8 @@
 </template>
 
 <script setup>
-import { StrapiBlocks } from "vue-strapi-blocks-renderer"
+import { StrapiBlocks } from "vue-strapi-blocks-renderer";
+import { useAppStore } from "../stores/app.js";
 
-const appStore = useAppStore()
+const appStore = useAppStore();
 </script>

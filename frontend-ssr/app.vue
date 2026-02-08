@@ -20,35 +20,37 @@
       </div>
       <div class="uk-text-muted">
         design/dev <a target="_blank" href="https://www.n21.fr">N21</a> |
-        <a target="_blank" href="https://github.com/picakoch/webtile">webtile</a>
+        <a target="_blank" href="https://github.com/picakoch/webtile"
+          >webtile</a
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { StrapiBlocks } from "vue-strapi-blocks-renderer"
-import { useAppStore } from "./stores/app.js"
-import NavBar from "../components/NavBar.vue"
+import { StrapiBlocks } from "vue-strapi-blocks-renderer";
+import { useAppStore } from "./stores/app.js";
+import NavBar from "../components/NavBar.vue";
 
-const appStore = useAppStore()
+const appStore = useAppStore();
 
-const sub_categories = ref([])
-const q = ref("")
+const sub_categories = ref([]);
+const q = ref("");
 
-const config = computed(() => appStore.config)
-const headline_as_tile = computed(() => appStore.headlineAsTile)
-const headline_enabled = computed(() => appStore.headline_enabled)
+const config = computed(() => appStore.config);
+const headline_as_tile = computed(() => appStore.headlineAsTile);
+const headline_enabled = computed(() => appStore.headline_enabled);
 
 const onNav = (keys) => {
-  sub_categories.value = keys
-}
+  sub_categories.value = keys;
+};
 
 const onSearch = (searchQuery) => {
-  q.value = searchQuery
-}
+  q.value = searchQuery;
+};
 
 useHead({
-  title: computed(() => config.value?.title || 'Webtile')
-})
+  title: computed(() => config.value?.title || "Webtile"),
+});
 </script>

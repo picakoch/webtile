@@ -5,16 +5,18 @@
 </template>
 
 <script setup>
+import TileDetails from "../../../components/TileDetails.vue";
+
 const props = defineProps({
   media: {
     type: String,
-    required: true
+    required: true,
   },
   id: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const tileId = computed(() => `${props.media}_${props.id}`)
+const tileId = computed(() => `${props.media}_${props.id}`);
 </script>

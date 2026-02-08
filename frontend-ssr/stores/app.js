@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useAppStore = defineStore('app', {
+export const useAppStore = defineStore("app", {
   state: () => ({
     config: {},
     tags: [],
@@ -13,13 +13,8 @@ export const useAppStore = defineStore('app', {
     media_enabled: process.env.MEDIA_ENABLED || "true",
     newsletter_enabled: process.env.NEWSLETTER_ENABLED || "true",
   }),
-  
-  getters: {
-    // Remove these - they shadow the state!
-    // config: (state) => state.config,
-    // tags: (state) => state.tags,
-    // backend_url: (state) => state.backend_url,
 
+  getters: {
     headlineAsTile: (state) => state.headline_as_tile === "true",
     headersAsTile: (state) => state.headers_as_tile === "true",
     categoryBreak: (state) => state.category_break === "true",
@@ -27,13 +22,13 @@ export const useAppStore = defineStore('app', {
     supportEnabled: (state) => state.support_enabled === "true",
     mediaEnabled: (state) => state.media_enabled === "true",
     newsletterEnabled: (state) => state.newsletter_enabled === "true",
-    
+
     headline_enabled: (state) => {
       let exp_date = new Date(state.config?.headline_expiration);
       let now = new Date();
       return !exp_date || now < exp_date;
     },
-    
+
     label_date: (state) => state.config?.label_date || "Date",
     label_theme: (state) => state.config?.label_theme || "Thème",
     label_media: (state) => state.config?.label_media || "Media",
@@ -49,13 +44,18 @@ export const useAppStore = defineStore('app', {
     donation_url: (state) => state.config?.donation_url || null,
     support_text: (state) => state.config?.support_text,
   },
-  
+
   actions: {
     setConfig(cfg) {
-      this.config = cfg
+      this.config = cfg;
     },
     setTags(tags) {
-      this.tags = tags
+      this.tags = tags;
     },
+  },
+  hydrate(state, initialState) {
+    // This ensures the state from server is used on client
+    state.config = initialState.config || {}
+    state.tags = initialState.tags || []
   }
-})
+});

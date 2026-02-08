@@ -32,55 +32,55 @@
 </template>
 
 <script setup>
-import { TEXT_Q } from '~/queries/queries'
-import { VuePDF, usePDF } from "@tato30/vue-pdf"
-import { StrapiBlocks } from "vue-strapi-blocks-renderer"
+import { TEXT_Q } from "~/queries/queries";
+import { VuePDF, usePDF } from "@tato30/vue-pdf";
+import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 
 const props = defineProps({
   id: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const { $apollo } = useNuxtApp()
-const appStore = useAppStore()
+const { $apollo } = useNuxtApp();
+const appStore = useAppStore();
 
-const tileText = ref({})
-const pdf = ref(null)
-const pages = ref([])
+const tileText = ref({});
+const pdf = ref(null);
+const pages = ref([]);
 
 onMounted(async () => {
   // Clean up any existing modal
-  const existingModal = document.getElementById("text_modal_" + props.id)
-  existingModal?.remove()
+  const existingModal = document.getElementById("text_modal_" + props.id);
+  existingModal?.remove();
 
   try {
     const { data } = await $apollo.defaultClient.query({
       query: TEXT_Q,
       variables: {
-        id: props.id
-      }
-    })
+        id: props.id,
+      },
+    });
 
-    tileText.value = data
+    tileText.value = data;
 
     if (tileText.value.data.attributes?.media?.data?.attributes?.url) {
       const { pdf: pdfDoc, pages: pdfPages } = usePDF(
         appStore.backend_url +
-          tileText.value.data.attributes.media.data.attributes.url
-      )
-      pdf.value = pdfDoc
-      pages.value = pdfPages
+          tileText.value.data.attributes.media.data.attributes.url,
+      );
+      pdf.value = pdfDoc;
+      pages.value = pdfPages;
     }
 
     // Show the modal
-    const { UIkit } = await import('uikit')
-    UIkit.modal("#text_modal_" + props.id).show()
+    const { UIkit } = await import("uikit");
+    UIkit.modal("#text_modal_" + props.id).show();
   } catch (error) {
-    console.error('Error fetching tile text:', error)
+    console.error("Error fetching tile text:", error);
   }
-})
+});
 </script>
 
 <style scoped>

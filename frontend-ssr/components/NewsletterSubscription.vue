@@ -106,23 +106,25 @@
 </template>
 
 <script setup>
-import gql from "graphql-tag"
-import { StrapiBlocks } from "vue-strapi-blocks-renderer"
+import gql from "graphql-tag";
+import { StrapiBlocks } from "vue-strapi-blocks-renderer";
+import { useAppStore } from "../stores/app.js";
 
-const { $apollo } = useNuxtApp()
+const appStore = useAppStore();
+const { $apollo } = useNuxtApp();
 
-const email = ref("")
-const name = ref("")
-const email_unsubscribe = ref("")
-const subscription_message = ref("")
-const unsubscription_message = ref("")
-const pending = ref(false)
-const pendingUnsubscribe = ref(false)
+const email = ref("");
+const name = ref("");
+const email_unsubscribe = ref("");
+const subscription_message = ref("");
+const unsubscription_message = ref("");
+const pending = ref(false);
+const pendingUnsubscribe = ref(false);
 
 const subscribe = async () => {
-  resetMessage()
+  resetMessage();
   if (name.value !== "" && email.value !== "") {
-    pending.value = true
+    pending.value = true;
     try {
       await $apollo.defaultClient.mutate({
         mutation: gql`
@@ -130,9 +132,7 @@ const subscribe = async () => {
             $name: String!
             $email: String!
           ) {
-            createNewsletterSubscription(
-              data: { name: $name, email: $email }
-            ) {
+            createNewsletterSubscription(data: { name: $name, email: $email }) {
               data {
                 id
                 attributes {
@@ -146,25 +146,26 @@ const subscribe = async () => {
           name: name.value,
           email: email.value,
         },
-      })
-      subscription_message.value = "Vous êtes maintenant inscrit.e à la newsletter. Merci!"
-      resetForm()
+      });
+      subscription_message.value =
+        "Vous êtes maintenant inscrit.e à la newsletter. Merci!";
+      resetForm();
     } catch (error) {
-      console.error(error)
-      subscription_message.value = "Vous êtes déjà inscrit.e à la newsletter."
-      resetForm()
+      console.error(error);
+      subscription_message.value = "Vous êtes déjà inscrit.e à la newsletter.";
+      resetForm();
     } finally {
-      pending.value = false
+      pending.value = false;
     }
   } else {
-    subscription_message.value = "Merci de remplir tous les champs."
+    subscription_message.value = "Merci de remplir tous les champs.";
   }
-}
+};
 
 const unsubscribe = async () => {
-  resetMessage()
+  resetMessage();
   if (email_unsubscribe.value !== "") {
-    pendingUnsubscribe.value = true
+    pendingUnsubscribe.value = true;
     try {
       const { data } = await $apollo.defaultClient.query({
         query: gql`
@@ -183,7 +184,7 @@ const unsubscribe = async () => {
           email: email_unsubscribe.value,
         },
         fetchPolicy: "no-cache",
-      })
+      });
 
       if (data?.newsletterSubscriptions?.data[0]?.id) {
         await $apollo.defaultClient.mutate({
@@ -203,31 +204,32 @@ const unsubscribe = async () => {
             id: data?.newsletterSubscriptions?.data[0]?.id,
           },
           fetchPolicy: "no-cache",
-        })
-        unsubscription_message.value = "Vous êtes maintenant désinscrit.e à la newsletter."
-        resetForm()
+        });
+        unsubscription_message.value =
+          "Vous êtes maintenant désinscrit.e à la newsletter.";
+        resetForm();
       } else {
-        unsubscription_message.value = "Vous n'êtes pas inscrit..."
+        unsubscription_message.value = "Vous n'êtes pas inscrit...";
       }
     } catch (error) {
-      console.error(error)
-      unsubscription_message.value = "Vous n'êtes pas inscrit..."
+      console.error(error);
+      unsubscription_message.value = "Vous n'êtes pas inscrit...";
     } finally {
-      pendingUnsubscribe.value = false
+      pendingUnsubscribe.value = false;
     }
   } else {
-    unsubscription_message.value = "Merci de remplir tous les champs."
+    unsubscription_message.value = "Merci de remplir tous les champs.";
   }
-}
+};
 
 const resetForm = () => {
-  email.value = ""
-  name.value = ""
-  email_unsubscribe.value = ""
-}
+  email.value = "";
+  name.value = "";
+  email_unsubscribe.value = "";
+};
 
 const resetMessage = () => {
-  unsubscription_message.value = ""
-  subscription_message.value = ""
-}
+  unsubscription_message.value = "";
+  subscription_message.value = "";
+};
 </script>

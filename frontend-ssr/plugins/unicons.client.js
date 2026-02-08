@@ -1,4 +1,4 @@
-import Unicon from 'vue-unicons'
+import Unicon from "vue-unicons";
 import {
   uniPlayCircle,
   uniPauseCircle,
@@ -9,7 +9,7 @@ import {
   uniVideo,
   uniFile,
   uniImages,
-} from 'vue-unicons/dist/icons'
+} from "vue-unicons/dist/icons";
 
 Unicon.add([
   uniPlayCircle,
@@ -21,8 +21,8 @@ Unicon.add([
   uniVideo,
   uniFile,
   uniImages,
-])
+]);
 
 export default defineNuxtPlugin(() => {
   // Plugin initialization if needed
-})
+});

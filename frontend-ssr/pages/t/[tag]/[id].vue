@@ -8,13 +8,13 @@
 const props = defineProps({
   tag: {
     type: String,
-    required: true
+    required: true,
   },
   id: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const tileId = computed(() => `tag_${props.id}`)
+const tileId = computed(() => `tag_${props.id}`);
 </script>

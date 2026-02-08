@@ -150,215 +150,215 @@
 </template>
 
 <script setup>
-import { AUDIO_Q } from '~/queries/queries'
-import { StrapiBlocks } from "vue-strapi-blocks-renderer"
+import { AUDIO_Q } from "~/queries/queries";
+import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 
 const props = defineProps({
   id: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const { $apollo } = useNuxtApp()
-const appStore = useAppStore()
+const { $apollo } = useNuxtApp();
+const appStore = useAppStore();
 
-const player_playing = ref(false)
-const player_track = ref(null)
-const current_track = ref(null)
-const current_image_url = ref(null)
-const current_album_content = ref(null)
-const current_track_content = ref(null)
-const current_image_full_url = ref(null)
-const current_time = ref("0:00")
-const total_time = ref("0:00")
-const tileAudio = ref({})
+const player_playing = ref(false);
+const player_track = ref(null);
+const current_track = ref(null);
+const current_image_url = ref(null);
+const current_album_content = ref(null);
+const current_track_content = ref(null);
+const current_image_full_url = ref(null);
+const current_time = ref("0:00");
+const total_time = ref("0:00");
+const tileAudio = ref({});
 
 const imageSrc = computed(() => {
-  return `${appStore.backend_url}${current_image_full_url.value}`
-})
+  return `${appStore.backend_url}${current_image_full_url.value}`;
+});
 
 const player_track_index = computed(() => {
-  let tracks = tileAudio.value?.data?.attributes?.tracks?.data
+  let tracks = tileAudio.value?.data?.attributes?.tracks?.data;
   if (player_playing.value && tracks) {
     let index = tracks.findIndex((e) => {
-      return e.id === player_track.value.id
-    })
-    return index + 1
+      return e.id === player_track.value.id;
+    });
+    return index + 1;
   }
-  return 0
-})
+  return 0;
+});
 
 const secsToString = (sec_num) => {
-  var minutes = Math.floor(sec_num / 60)
-  var seconds = sec_num - minutes * 60
+  var minutes = Math.floor(sec_num / 60);
+  var seconds = sec_num - minutes * 60;
   if (minutes < 10) {
-    minutes = "0" + minutes
+    minutes = "0" + minutes;
   }
   if (seconds < 10) {
-    seconds = "0" + seconds
+    seconds = "0" + seconds;
   }
-  return minutes + ":" + seconds
-}
+  return minutes + ":" + seconds;
+};
 
 const refreshDuration = () => {
   if (player_playing.value && player_track.value) {
     let el = document.getElementById(
-      `audio_track_${props.id}_${player_track.value.id}`
-    )
+      `audio_track_${props.id}_${player_track.value.id}`,
+    );
     if (el) {
-      current_time.value = secsToString(Math.floor(el.currentTime))
-      total_time.value = secsToString(Math.floor(el.duration))
+      current_time.value = secsToString(Math.floor(el.currentTime));
+      total_time.value = secsToString(Math.floor(el.duration));
     }
   }
-  setTimeout(refreshDuration, 500)
-}
+  setTimeout(refreshDuration, 500);
+};
 
 const nextTrack = (d = 1) => {
-  let current_track_id = player_track.value.id
-  let tracks = tileAudio.value?.data?.attributes?.tracks?.data
+  let current_track_id = player_track.value.id;
+  let tracks = tileAudio.value?.data?.attributes?.tracks?.data;
   if (player_playing.value) {
     let index = tracks.findIndex((e) => {
-      return e.id === player_track.value.id
-    })
+      return e.id === player_track.value.id;
+    });
     if (index < tracks.length && index >= 0) {
-      index = (index + d) % tracks.length
-      player_track.value = tracks[index]
-      playerPlay()
+      index = (index + d) % tracks.length;
+      player_track.value = tracks[index];
+      playerPlay();
     }
   }
   let el = document.getElementById(
-    `audio_track_${props.id}_${current_track_id}`
-  )
+    `audio_track_${props.id}_${current_track_id}`,
+  );
   if (el) {
-    el.currentTime = 0
+    el.currentTime = 0;
   }
-}
+};
 
 const playerPlayClicked = () => {
-  player_track.value = tileAudio.value?.data?.attributes?.tracks?.data[0]
-  playerPlay()
-}
+  player_track.value = tileAudio.value?.data?.attributes?.tracks?.data[0];
+  playerPlay();
+};
 
 const playerPlay = () => {
-  player_playing.value = true
+  player_playing.value = true;
   if (player_track.value === null) {
-    player_track.value = tileAudio.value?.data?.attributes?.tracks?.data[0]
+    player_track.value = tileAudio.value?.data?.attributes?.tracks?.data[0];
   }
   if (!player_track.value) {
-    return
+    return;
   }
-  trackPlay(player_track.value)
+  trackPlay(player_track.value);
   let el = document.getElementById(
-    `audio_track_${props.id}_${player_track.value.id}`
-  )
+    `audio_track_${props.id}_${player_track.value.id}`,
+  );
   if (el) {
-    el.play()
+    el.play();
   }
-}
+};
 
 const playerStop = () => {
-  stopAll(false)
-  player_playing.value = false
-  current_track.value = null
-  trackPlay()
-}
+  stopAll(false);
+  player_playing.value = false;
+  current_track.value = null;
+  trackPlay();
+};
 
 const stopAll = (reset_time = true) => {
-  const els = [...document.getElementsByTagName("audio")]
+  const els = [...document.getElementsByTagName("audio")];
   els.forEach((e) => {
-    e.pause()
+    e.pause();
     if (reset_time) {
-      e.currentTime = 0
+      e.currentTime = 0;
     }
-  })
-}
+  });
+};
 
 const trackEnded = (track) => {
-  let tracks = tileAudio.value?.data?.attributes?.tracks?.data
-  let current_track_id = null
+  let tracks = tileAudio.value?.data?.attributes?.tracks?.data;
+  let current_track_id = null;
   if (player_playing.value && player_track.value.id === track.id) {
     let index = tracks.findIndex((e) => {
-      return e.id === track.id
-    })
-    current_track_id = tracks[index].id
+      return e.id === track.id;
+    });
+    current_track_id = tracks[index].id;
     if (index < tracks.length - 1 && index >= 0) {
-      player_track.value = tracks[index + 1]
+      player_track.value = tracks[index + 1];
     } else {
-      player_track.value = tracks[0]
+      player_track.value = tracks[0];
     }
-    playerPlay()
+    playerPlay();
   }
   let el = document.getElementById(
-    `audio_track_${props.id}_${current_track_id}`
-  )
+    `audio_track_${props.id}_${current_track_id}`,
+  );
   if (el) {
-    el.currentTime = 0
+    el.currentTime = 0;
   }
-}
+};
 
 const trackPlay = (track) => {
-  const song_image = track?.attributes?.image?.data?.attributes
-  const song_content = track?.attributes?.content
+  const song_image = track?.attributes?.image?.data?.attributes;
+  const song_content = track?.attributes?.content;
   const album_image =
-    tileAudio.value?.data?.attributes?.tile?.image?.data?.attributes
-  current_album_content.value = tileAudio.value?.data?.attributes?.content
-  let image = song_image || album_image
-  current_track_content.value = song_content
-  current_image_full_url.value = image.url
-  current_track.value = track
+    tileAudio.value?.data?.attributes?.tile?.image?.data?.attributes;
+  current_album_content.value = tileAudio.value?.data?.attributes?.content;
+  let image = song_image || album_image;
+  current_track_content.value = song_content;
+  current_image_full_url.value = image.url;
+  current_track.value = track;
   if (image) {
-    current_image_url.value = image.formats.thumbnail.url
+    current_image_url.value = image.formats.thumbnail.url;
     if (image?.formats?.small) {
-      current_image_url.value = image.formats.small.url
+      current_image_url.value = image.formats.small.url;
     }
     if (image?.formats?.medium) {
-      current_image_url.value = image.formats.medium.url
+      current_image_url.value = image.formats.medium.url;
     }
   }
   if (track) {
-    player_track.value = track
+    player_track.value = track;
     tileAudio.value?.data?.attributes?.tracks?.data.forEach((e) => {
       if (e.id !== track.id) {
-        let el = document.getElementById(`audio_track_${props.id}_${e.id}`)
+        let el = document.getElementById(`audio_track_${props.id}_${e.id}`);
         if (el) {
-          el.pause()
+          el.pause();
           if (!player_playing.value) {
-            el.currentTime = 0
+            el.currentTime = 0;
           }
         }
       }
-    })
+    });
   } else {
-    stopAll()
+    stopAll();
   }
-}
+};
 
 onMounted(async () => {
   // Clean up any existing modal
-  const existingModal = document.getElementById("audio_modal_" + props.id)
-  existingModal?.remove()
+  const existingModal = document.getElementById("audio_modal_" + props.id);
+  existingModal?.remove();
 
   try {
     const { data } = await $apollo.defaultClient.query({
       query: AUDIO_Q,
       variables: {
-        id: props.id
-      }
-    })
+        id: props.id,
+      },
+    });
 
-    tileAudio.value = data
-    
-    trackPlay()
-    refreshDuration()
+    tileAudio.value = data;
+
+    trackPlay();
+    refreshDuration();
 
     // Show the modal
-    const { UIkit } = await import('uikit')
-    UIkit.modal("#audio_modal_" + props.id).show()
+    const { UIkit } = await import("uikit");
+    UIkit.modal("#audio_modal_" + props.id).show();
   } catch (error) {
-    console.error('Error fetching tile audio:', error)
+    console.error("Error fetching tile audio:", error);
   }
-})
+});
 </script>
 
 <style scoped>

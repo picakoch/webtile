@@ -4,8 +4,7 @@
       uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky"
       class="uk-background-cover"
       :style="`background-image: url(${
-        backend_url +
-        config?.banner?.data?.attributes?.formats
+        backend_url + config?.banner?.data?.attributes?.formats
       }); height: 92px; width: 100%; opacity: 1`"
     >
       <nav
@@ -20,10 +19,7 @@
                 <template v-if="config?.logo?.data?.attributes">
                   <img
                     class="logo"
-                    :src="
-                      backend_url +
-                      config?.logo?.data?.attributes?.formats
-                    "
+                    :src="backend_url + config?.logo?.data?.attributes?.formats"
                     :alt="config?.title"
                   />
                 </template>
@@ -140,10 +136,7 @@
         uk-navbar
         style="background: none; height: 30px"
       >
-        <div
-          class="uk-navbar-left uk-visible@m"
-          v-if="config?.subtitle"
-        >
+        <div class="uk-navbar-left uk-visible@m" v-if="config?.subtitle">
           <ul class="uk-navbar-nav">
             <li class="nav-item nav-subtitle uk-margin-left">
               {{ config?.subtitle }}
@@ -176,7 +169,7 @@
             <li
               v-for="(sub_category, index) in sub_cats.slice(
                 0,
-                max_level2_elements
+                max_level2_elements,
               )"
               :key="index"
               class="nav-item"
@@ -199,7 +192,7 @@
                 >
                   <li
                     v-for="(sub_category, index) in sub_cats.slice(
-                      max_level2_elements
+                      max_level2_elements,
                     )"
                     :key="index"
                     class="nav-item"
@@ -220,7 +213,7 @@
             <li
               v-for="(sub_category, index) in sub_cats.slice(
                 0,
-                max_level2_elements
+                max_level2_elements,
               )"
               :key="index"
               class="nav-item"
@@ -249,7 +242,7 @@
                 >
                   <li
                     v-for="(sub_category, index) in sub_cats.slice(
-                      max_level2_elements
+                      max_level2_elements,
                     )"
                     :key="index"
                     class="nav-item"
@@ -275,55 +268,55 @@
 </template>
 
 <script setup>
-import { slugify } from "~/utils/utils.js"
-import uk from "uikit"
-import {useAppStore} from "../stores/app.js";
+import { slugify } from "~/utils/utils.js";
+import uk from "uikit";
+import { useAppStore } from "../stores/app.js";
 
-const appStore = useAppStore()
-const route = useRoute()
-const router = useRouter()
+const appStore = useAppStore();
+const route = useRoute();
+const router = useRouter();
 
-const config = computed(() => appStore.config)
-const backend_url = computed(() => appStore.backend_url)
-const tags = computed(() => appStore.tags)
-const media_enabled = computed(() => appStore.media_enabled)
-const label_music = computed(() => appStore.label_music)
-const label_video = computed(() => appStore.label_video)
-const label_images = computed(() => appStore.label_images)
-const label_text = computed(() => appStore.label_text)
-const label_date = computed(() => appStore.label_date)
-const label_theme = computed(() => appStore.label_theme)
-const label_media = computed(() => appStore.label_media)
-const label_bio = computed(() => appStore.label_bio)
-const label_contact = computed(() => appStore.label_contact)
+const config = computed(() => appStore.config);
+const backend_url = computed(() => appStore.backend_url);
+const tags = computed(() => appStore.tags);
+const media_enabled = computed(() => appStore.media_enabled);
+const label_music = computed(() => appStore.label_music);
+const label_video = computed(() => appStore.label_video);
+const label_images = computed(() => appStore.label_images);
+const label_text = computed(() => appStore.label_text);
+const label_date = computed(() => appStore.label_date);
+const label_theme = computed(() => appStore.label_theme);
+const label_media = computed(() => appStore.label_media);
+const label_bio = computed(() => appStore.label_bio);
+const label_contact = computed(() => appStore.label_contact);
 
-const emit = defineEmits(['search_tile', 'nav'])
+const emit = defineEmits(["search_tile", "nav"]);
 
 const props = defineProps({
   sub_categories: {
     type: Array,
     default: () => [],
   },
-})
+});
 
-const contact_subcat = ref([])
+const contact_subcat = ref([]);
 const media_subcat = ref([
   label_music.value,
   label_video.value,
   label_images.value,
   label_text.value,
-])
-const q = ref("")
-const search_active = ref(false)
-const sub_cats = ref([])
-const is_tag = ref(false)
-const is_media = ref(false)
-const max_level2_elements = ref(20)
-const dropdown = ref(null)
+]);
+const q = ref("");
+const search_active = ref(false);
+const sub_cats = ref([]);
+const is_tag = ref(false);
+const is_media = ref(false);
+const max_level2_elements = ref(20);
+const dropdown = ref(null);
 
 const prefix = computed(() => {
-  return is_tag.value ? "t" : is_media.value ? "m" : ""
-})
+  return is_tag.value ? "t" : is_media.value ? "m" : "";
+});
 
 const categories = computed(() => {
   if (media_enabled.value) {
@@ -333,19 +326,19 @@ const categories = computed(() => {
       { id: "media", label: label_media.value },
       { id: "bio", label: label_bio.value },
       { id: "contact", label: label_contact.value },
-    ]
+    ];
   } else {
     return [
       { id: "time", label: label_date.value },
       { id: "tag", label: label_theme.value },
       { id: "bio", label: label_bio.value },
       { id: "contact", label: label_contact.value },
-    ]
+    ];
   }
-})
+});
 
 const mobile_categories = computed(() => {
-  let cats = []
+  let cats = [];
   if (media_enabled.value) {
     cats = [
       { id: "/time", label: label_date.value },
@@ -369,99 +362,101 @@ const mobile_categories = computed(() => {
         label: label_text.value,
       },
       { id: null, label: label_theme.value },
-    ]
+    ];
   } else {
     cats = [
       { id: "/time", label: label_date.value },
       { id: "/bio", label: label_bio.value },
       { id: "/contact", label: label_contact.value },
       { id: null, label: label_theme.value },
-    ]
+    ];
   }
   tags?.value?.forEach((t) => {
     cats.push({
       id: "/t/" + slugify(t.attributes.name),
       label: t.attributes.name,
-    })
-  })
+    });
+  });
 
-  return cats
-})
+  return cats;
+});
 
 const closeDropdown = () => {
   if (dropdown.value) {
-    uk.dropdown(dropdown.value).hide()
+    uk.dropdown(dropdown.value).hide();
   }
-}
+};
 
 const isActive = (category) => {
   return (
-    route.path === "/" + category.id ||
-    (is_tag.value && category.id == "tag")
-  )
-}
+    route.path === "/" + category.id || (is_tag.value && category.id == "tag")
+  );
+};
 
 const isActiveCat = (category) => {
   if (route.path === "/" + category.id) {
-    return true
+    return true;
   }
   if (category.id === route.name) {
-    return true
+    return true;
   }
-  return false
-}
+  return false;
+};
 
 const isActiveSubCat = (category) => {
   if (is_tag.value) {
-    return route.params.tag === slugify(category)
+    return route.params.tag === slugify(category);
   } else if (is_media.value) {
-    return route.params.media === slugify(category)
+    return route.params.media === slugify(category);
   }
-}
+};
 
 const doSearch = () => {
   if (q.value.length > 2) {
-    emit("search_tile", q.value)
+    emit("search_tile", q.value);
   }
-}
+};
 
 const resetSearch = () => {
-  q.value = ""
-  search_active.value = false
-  emit("search_tile", "")
-}
+  q.value = "";
+  search_active.value = false;
+  emit("search_tile", "");
+};
 
 const changeSubCats = () => {
-  is_tag.value = false
+  is_tag.value = false;
   if (route.name === "contact") {
-    sub_cats.value = contact_subcat.value
+    sub_cats.value = contact_subcat.value;
   } else if (route.name === "tag" || route.name == "t-tag") {
-    is_tag.value = true
-    sub_cats.value = tags.value.map((e) => e.attributes.name)
-  } else if (
-    route.name === "media" ||
-    route.name == "m-media"
-  ) {
-    is_media.value = true
-    sub_cats.value = media_subcat.value
+    is_tag.value = true;
+    sub_cats.value = tags.value.map((e) => e.attributes.name);
+  } else if (route.name === "media" || route.name == "m-media") {
+    is_media.value = true;
+    sub_cats.value = media_subcat.value;
   } else {
-    sub_cats.value = props.sub_categories
+    sub_cats.value = props.sub_categories;
   }
-}
+};
 
-watch(() => route.path, () => {
-  nextTick(() => {
-    changeSubCats()
-  })
-})
+watch(
+  () => route.path,
+  () => {
+    nextTick(() => {
+      changeSubCats();
+    });
+  },
+);
 
-watch(() => props.sub_categories, () => {
-  changeSubCats()
-})
+watch(
+  () => props.sub_categories,
+  () => {
+    changeSubCats();
+  },
+);
 
 onMounted(() => {
-  changeSubCats()
-})
+  changeSubCats();
+});
 </script>
 
 <style scoped>

@@ -3,15 +3,13 @@
 </template>
 
 <script setup>
-import { slugify } from '~/utils/utils'
+import { slugify } from "~/utils/utils";
+import { useAppStore } from "../stores/app.js";
 
-const appStore = useAppStore()
-const router = useRouter()
-
-onMounted(() => {
-  const tags = appStore.tags
-  if (tags.length > 0) {
-    router.push('/t/' + slugify(tags[0]?.attributes?.name))
-  }
-})
+const appStore = useAppStore();
+if (appStore.tags.length > 0){
+navigateTo("/t/" + slugify(appStore.tags[0]?.attributes?.name), { replace: true });
+} else {
+navigateTo("/time", { replace: true });
+}
 </script>

@@ -39,59 +39,55 @@
 </template>
 
 <script setup>
-import { TILE_NAMES } from '~/utils/constants'
+import { TILE_NAMES } from "~/utils/constants";
 
 const props = defineProps({
   items: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
   title: {
     type: String,
-    default: ''
-  }
-})
+    default: "",
+  },
+});
 
-const emit = defineEmits(['tile-clicked'])
+const emit = defineEmits(["tile-clicked"]);
 
-const col_width = ref(300)
-const title_height = ref(200)
-const all_items = ref([])
+const col_width = ref(300);
+const title_height = ref(200);
+const all_items = ref([]);
 
-const appStore = useAppStore()
-const headers_as_tile = computed(() => appStore.headers_as_tile)
-const route = useRoute()
+const appStore = useAppStore();
+const headers_as_tile = computed(() => appStore.headers_as_tile);
+const route = useRoute();
 
 const tileClicked = (item) => {
-  const tileName = TILE_NAMES[item.tile.__typename]
-  
+  const tileName = TILE_NAMES[item.tile.__typename];
+
   if (tileName === "text_url") {
     window.open(
       appStore.backend_url + item.attributes.media.data.attributes.url,
-      "_blank"
-    )
+      "_blank",
+    );
   } else {
-    const tileType = TILE_NAMES[item.tile.__typename]
-    navigateTo(`${route.path}/${tileType}_${item.tile.id}`)
+    const tileType = TILE_NAMES[item.tile.__typename];
+    navigateTo(`${route.path}/${tileType}_${item.tile.id}`);
   }
-}
+};
 
 onMounted(() => {
-  all_items.value = props.items.slice()
-  
-  if (
-    headers_as_tile.value &&
-    props.title &&
-    props.title !== ""
-  ) {
+  all_items.value = props.items.slice();
+
+  if (headers_as_tile.value && props.title && props.title !== "") {
     all_items.value.unshift({
       is_title: true,
       title: props.title,
       large: false,
       id: `tile_group_${props.title}`,
-    })
+    });
   }
-})
+});
 </script>
 
 <style scoped>

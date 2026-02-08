@@ -12,17 +12,17 @@
 const props = defineProps({
   id: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
 const item_id = computed(() => {
-  return props.id.split("_")[1]
-})
+  return props.id.split("_")[1];
+});
 
 const item_cat = computed(() => {
-  return props.id.split("_")[0]
-})
+  return props.id.split("_")[0];
+});
 </script>
 
 <style scoped></style>
