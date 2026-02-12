@@ -325,29 +325,39 @@ export default {
       }
     },
     mobile_categories() {
-      const cats = [
-        { id: "/time", label: this.$store.getters.label_date },
-        { id: "/bio", label: this.$store.getters.label_bio },
-        { id: "/contact", label: this.$store.getters.label_contact },
-        { id: null, label: this.$store.getters.label_media },
-        {
-          id: "/m/" + slugify(this.$store.getters.label_music),
-          label: this.$store.getters.label_music,
-        },
-        {
-          id: "/m/" + slugify(this.$store.getters.label_video),
-          label: this.$store.getters.label_video,
-        },
-        {
-          id: "/m/" + slugify(this.$store.getters.label_images),
-          label: this.$store.getters.label_images,
-        },
-        {
-          id: "/m/" + slugify(this.$store.getters.label_text),
-          label: this.$store.getters.label_text,
-        },
-        { id: null, label: this.$store.getters.label_theme },
-      ];
+      let cats = [];
+      if (this.$store.getters.media_enabled) {
+        cats = [
+          { id: "/time", label: this.$store.getters.label_date },
+          { id: "/bio", label: this.$store.getters.label_bio },
+          { id: "/contact", label: this.$store.getters.label_contact },
+          { id: null, label: this.$store.getters.label_media },
+          {
+            id: "/m/" + slugify(this.$store.getters.label_music),
+            label: this.$store.getters.label_music,
+          },
+          {
+            id: "/m/" + slugify(this.$store.getters.label_video),
+            label: this.$store.getters.label_video,
+          },
+          {
+            id: "/m/" + slugify(this.$store.getters.label_images),
+            label: this.$store.getters.label_images,
+          },
+          {
+            id: "/m/" + slugify(this.$store.getters.label_text),
+            label: this.$store.getters.label_text,
+          },
+          { id: null, label: this.$store.getters.label_theme },
+        ];
+      } else {
+        cats = [
+          { id: "/time", label: this.$store.getters.label_date },
+          { id: "/bio", label: this.$store.getters.label_bio },
+          { id: "/contact", label: this.$store.getters.label_contact },
+          { id: null, label: this.$store.getters.label_theme },
+        ];
+      }
       this.$store.getters.tags.forEach((t) => {
         cats.push({
           id: "/t/" + slugify(t.attributes.name),
