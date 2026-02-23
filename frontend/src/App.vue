@@ -102,6 +102,18 @@ export default {
 
 @import "../node_modules/uikit/src/less/uikit.less";
 @import "theme.less";
+a {
+    color: @global-link-color !important;
+}
+
+a:hover {
+    color: @global-link-color !important;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: @global-link-color !important;
+}
 
 .spinner {
   color: white;
@@ -122,6 +134,9 @@ export default {
   color: #ccc;
 }
 
+.nav-item a {
+    color: #ccc !important;
+}
 .tile-preview {
   color: #eee;
 }
