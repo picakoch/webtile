@@ -56,6 +56,10 @@ export default {
   methods: {
     updatePath(e) {
       this.$log.debug("MODAL HIDDEN", e);
+      // Modal closed because we already left the detail route (e.g. browser back)
+      if (!this.$route.params.id) {
+        return;
+      }
       // get parent path property
       if (this.$route.matched.length >= 2) {
         let path = this.$route.matched[this.$route.matched.length - 2].path;
@@ -256,13 +260,18 @@ export default {
   },
   mounted() {
     var _self = this;
-    uk.util.on(document, "hidden", ".uk-lightbox", function (e) {
-      _self.updatePath(e);
-    });
-    uk.util.on(document, "hidden", ".uk-modal", function (e) {
-      _self.updatePath(e);
-      _self.stopAllTracks();
-    });
+    this.unbindHidden = [
+      uk.util.on(document, "hidden", ".uk-lightbox", function (e) {
+        _self.updatePath(e);
+      }),
+      uk.util.on(document, "hidden", ".uk-modal", function (e) {
+        _self.updatePath(e);
+        _self.stopAllTracks();
+      }),
+    ];
+  },
+  beforeUnmount() {
+    this.unbindHidden?.forEach((unbind) => unbind());
   },
   watch: {
     sorted_items: function () {
