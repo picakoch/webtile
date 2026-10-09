@@ -14,7 +14,10 @@ echo $HOME
 export NVM_DIR="$HOME/.nvm"
 source ~/.nvm/nvm.sh
 
-nvm use 20
+# Installs node 22 on first run; yarn comes from corepack (bundled with node)
+nvm install 22
+export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+corepack enable
 yarn
 yarn build
 
