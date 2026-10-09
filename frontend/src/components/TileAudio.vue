@@ -95,6 +95,16 @@
             >
               {{ current_time }} / {{ total_time }}
             </div>
+            <!-- Single element for "play all": swapping src on one element keeps
+                 auto-advance allowed on mobile / background tabs -->
+            <audio
+              ref="player"
+              preload="auto"
+              @ended="nextTrack()"
+              @timeupdate="refreshDuration"
+              @loadedmetadata="refreshDuration"
+              @error="playerError"
+            ></audio>
 
             <div
               v-for="track in tileAudio?.data?.attributes?.tracks?.data"
@@ -104,21 +114,15 @@
               <audio
                 :id="`audio_track_${id}_${track.id}`"
                 controls
-                preload="auto"
+                preload="metadata"
                 class="audio_player"
                 v-show="player_playing === false"
                 :controlsList="`noplaybackrate ${
                   track.attributes.can_download === true ? '' : 'nodownload'
                 }`"
+                :src="trackUrl(track)"
                 @play="trackPlay(track)"
-                @ended="trackEnded(track)"
               >
-                <source
-                  :src="
-                    $store.getters.backend_url +
-                    track.attributes.media.data.attributes.url
-                  "
-                />
                 Your browser does not support the audio element.
               </audio>
               <span v-show="player_playing === false" class="uk-margin-left">{{
@@ -171,8 +175,8 @@ export default {
       current_album_content: null,
       current_track_content: null,
       current_image_full_url: null,
-      current_time: "0:00",
-      total_time: "0:00",
+      current_time: "00:00",
+      total_time: "--:--",
     };
   },
   beforeMount() {
@@ -181,156 +185,138 @@ export default {
   mounted() {
     uk.modal("#audio_modal_" + this.id).show();
   },
+  beforeUnmount() {
+    // Pausing is not enough: detached media elements keep downloading and hold
+    // connections to the backend, which starves the next album that is opened.
+    this.audioElements().forEach((el) => {
+      el.pause();
+      el.removeAttribute("src");
+      el.load();
+    });
+    // UIkit moved the modal to <body>, so Vue won't remove it: do it here
+    uk.modal(this.$el).$destroy(true);
+  },
   computed: {
+    tracks() {
+      return this.tileAudio?.data?.attributes?.tracks?.data || [];
+    },
     player_track_index() {
-      let tracks = this.tileAudio?.data?.attributes?.tracks?.data;
-      if (this.player_playing && tracks) {
-        let index = tracks.findIndex((e) => {
-          return e.id === this.player_track.id;
-        });
-        return index + 1;
+      if (this.player_playing && this.player_track) {
+        return this.tracks.findIndex((e) => e.id === this.player_track.id) + 1;
       }
       return 0;
     },
   },
   methods: {
-    secsToString(sec_num) {
-      var minutes = Math.floor(sec_num / 60);
-      var seconds = sec_num - minutes * 60;
-
-      if (minutes < 10) {
-        minutes = "0" + minutes;
+    trackUrl(track) {
+      return (
+        this.$store.getters.backend_url +
+        track.attributes.media.data.attributes.url
+      );
+    },
+    audioElements() {
+      return [...(this.$el?.querySelectorAll?.("audio") || [])];
+    },
+    secsToString(sec) {
+      if (!Number.isFinite(sec)) {
+        return "--:--";
       }
-      if (seconds < 10) {
-        seconds = "0" + seconds;
-      }
-      return minutes + ":" + seconds;
+      sec = Math.floor(sec);
+      const minutes = Math.floor(sec / 60);
+      const seconds = sec - minutes * 60;
+      return (
+        String(minutes).padStart(2, "0") +
+        ":" +
+        String(seconds).padStart(2, "0")
+      );
     },
     refreshDuration() {
-      if (this.player_playing && this.player_track) {
-        let el = document.getElementById(
-          `audio_track_${this.id}_${this.player_track.id}`
-        );
-        if (el) {
-          this.current_time = this.secsToString(Math.floor(el.currentTime));
-          this.total_time = this.secsToString(Math.floor(el.duration));
-        }
+      const el = this.$refs.player;
+      if (el) {
+        this.current_time = this.secsToString(el.currentTime);
+        this.total_time = this.secsToString(el.duration);
       }
-      setTimeout(this.refreshDuration, 500);
     },
     nextTrack(d = 1) {
-      let current_track_id = this.player_track.id;
-      let tracks = this.tileAudio?.data?.attributes?.tracks?.data;
-      if (this.player_playing) {
-        let index = tracks.findIndex((e) => {
-          return e.id === this.player_track.id;
-        });
-        if (index < tracks.length && index >= 0) {
-          index = (index + d) % tracks.length;
-          this.player_track = tracks[index];
-          this.playerPlay();
-        }
+      if (!this.player_playing || !this.player_track || !this.tracks.length) {
+        return;
       }
-      let el = document.getElementById(
-        `audio_track_${this.id}_${current_track_id}`
-      );
-      if (el) {
-        el.currentTime = 0;
-      }
+      const n = this.tracks.length;
+      const index = this.tracks.findIndex((e) => e.id === this.player_track.id);
+      this.player_track = this.tracks[(((index + d) % n) + n) % n];
+      this.playerPlay();
     },
     playerPlayClicked() {
-      this.player_track = this.tileAudio?.data?.attributes?.tracks?.data[0];
+      this.player_track = this.tracks[0] || null;
       this.playerPlay();
     },
     playerPlay() {
-      this.player_playing = true;
-      if (this.player_track === null) {
-        this.player_track = this.tileAudio?.data?.attributes?.tracks?.data[0];
-      }
-      if (!this.player_track) {
+      const el = this.$refs.player;
+      if (!this.player_track || !el) {
         return;
       }
-      this.trackPlay(this.player_track);
-      let el = document.getElementById(
-        `audio_track_${this.id}_${this.player_track.id}`
-      );
-      if (el) {
-        el.play();
-      }
-    },
-    playerStop() {
-      this.stopAll(false);
-      this.player_playing = false;
-      this.current_track = null;
-      this.trackPlay();
-    },
-    stopAll(reset_time = true) {
-      const els = [...document.getElementsByTagName("audio")];
-      els.forEach((e) => {
-        e.pause();
-        if (reset_time) {
+      // Stop individual track players before switching to album mode
+      this.audioElements().forEach((e) => {
+        if (e !== el) {
+          e.pause();
           e.currentTime = 0;
         }
       });
-    },
-    trackEnded(track) {
-      let tracks = this.tileAudio?.data?.attributes?.tracks?.data;
-      let current_track_id = null;
-      if (this.player_playing && this.player_track.id === track.id) {
-        let index = tracks.findIndex((e) => {
-          return e.id === track.id;
-        });
-        current_track_id = tracks[index].id;
-        if (index < tracks.length - 1 && index >= 0) {
-          this.player_track = tracks[index + 1];
-        } else {
-          this.player_track = tracks[0];
+      this.player_playing = true;
+      this.showTrack(this.player_track);
+      this.current_time = "00:00";
+      this.total_time = "--:--";
+      el.src = this.trackUrl(this.player_track);
+      el.play().catch((err) => {
+        // e.g. NotAllowedError (autoplay policy) or AbortError (src changed
+        // again before playback started): don't leave the UI stuck on "playing"
+        if (err.name !== "AbortError") {
+          this.$log.error("Cannot play track", err);
+          this.playerStop();
         }
-        this.playerPlay();
+      });
+    },
+    playerError() {
+      if (this.player_playing) {
+        this.$log.error("Audio error", this.$refs.player?.error);
+        this.playerStop();
       }
-      let el = document.getElementById(
-        `audio_track_${this.id}_${current_track_id}`
-      );
-      if (el) {
-        el.currentTime = 0;
-      }
+    },
+    playerStop() {
+      this.$refs.player?.pause();
+      this.player_playing = false;
+      this.showTrack(null);
     },
     trackPlay(track) {
+      // A track was started from its own controls: stop everything else
+      if (this.player_playing) {
+        this.playerStop();
+      }
+      this.audioElements().forEach((el) => {
+        if (el.id !== `audio_track_${this.id}_${track.id}`) {
+          el.pause();
+          if (el.id) {
+            el.currentTime = 0;
+          }
+        }
+      });
+      this.showTrack(track);
+    },
+    showTrack(track) {
       const song_image = track?.attributes?.image?.data?.attributes;
-      const song_content = track?.attributes?.content;
       const album_image =
         this.tileAudio?.data?.attributes?.tile?.image?.data?.attributes;
+      const image = song_image || album_image;
       this.current_album_content = this.tileAudio?.data?.attributes?.content;
-      let image = song_image || album_image;
-      this.current_track_content = song_content;
-      this.current_image_full_url = image.url;
+      this.current_track_content = track?.attributes?.content;
       this.current_track = track;
       if (image) {
-        this.current_image_url = image.formats.thumbnail.url;
-        if (image?.formats?.small) {
-          this.current_image_url = image.formats.small.url;
-        }
-        if (image?.formats?.medium) {
-          this.current_image_url = image.formats.medium.url;
-        }
-      }
-      if (track) {
-        this.player_track = track;
-        this.tileAudio?.data?.attributes?.tracks?.data.forEach((e) => {
-          if (e.id !== track.id) {
-            let el = document.getElementById(`audio_track_${this.id}_${e.id}`);
-            if (el) {
-              el.pause();
-              if (!this.player_playing) {
-                el.currentTime = 0;
-              }
-            } else {
-              this.$log.debug("Cannot find ", `audio_track_${this.id}_${e.id}`);
-            }
-          }
-        });
-      } else {
-        this.stopAll();
+        this.current_image_full_url = image.url;
+        this.current_image_url =
+          image.formats?.medium?.url ||
+          image.formats?.small?.url ||
+          image.formats?.thumbnail?.url ||
+          image.url;
       }
     },
   },
@@ -343,8 +329,9 @@ export default {
         };
       },
       result: function () {
-        this.trackPlay();
-        this.refreshDuration();
+        if (!this.current_track) {
+          this.showTrack(null);
+        }
       },
     },
   },
