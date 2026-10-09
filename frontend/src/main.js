@@ -2,47 +2,14 @@ import { createApp, h } from "vue";
 import { createApolloProvider } from "@vue/apollo-option";
 import apolloClient from "./vue-apollo";
 import router from "./router";
-import VueLogger from "vuejs3-logger";
+import logger from "@/lib/logger";
 import { store } from "./store";
 import uk from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import { VueMasonryPlugin } from "vue-masonry";
-import Unicon from "vue-unicons";
-import {
-  uniPlayCircle,
-  uniPauseCircle,
-  uniSkipForward,
-  uniStepBackward,
-  uniStopCircle,
-  uniMusic,
-  uniVideo,
-  uniFile,
-  uniImages,
-} from "vue-unicons/dist/icons";
+import UniIcon from "@/components/UniIcon.vue";
 
-Unicon.add([
-  uniPlayCircle,
-  uniPauseCircle,
-  uniSkipForward,
-  uniStepBackward,
-  uniStopCircle,
-  uniMusic,
-  uniVideo,
-  uniFile,
-  uniImages,
-]);
-
-const isProduction = process.env.NODE_ENV === "production";
-
-const options = {
-  isEnabled: true,
-  logLevel: isProduction ? "error" : "debug",
-  stringifyArguments: false,
-  showLogLevel: true,
-  showMethodName: true,
-  separator: "|",
-  showConsoleColors: true,
-};
+const isProduction = import.meta.env.PROD;
 
 const apolloProvider = createApolloProvider({
   defaultClient: apolloClient,
@@ -60,8 +27,8 @@ app.use(apolloProvider);
 app.use(VueMasonryPlugin);
 app.use(router);
 app.use(store);
-app.use(VueLogger, options);
-app.use(Unicon);
-await router.isReady();
-
-app.mount("#app");
+app.use(logger, { level: isProduction ? "error" : "debug" });
+// Keeps the <unicon> tag used in templates since vue-unicons
+// eslint-disable-next-line vue/multi-word-component-names
+app.component("unicon", UniIcon);
+router.isReady().then(() => app.mount("#app"));
