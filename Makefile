@@ -6,6 +6,11 @@
 #   make install               install backend and frontend dependencies
 #   make merge-clients         merge main into every client branch and push
 #
+#   make load-backup           load picasol's latest production backup locally
+#   make load-backup SITE=slyapollinaire
+#   make backend-pg            Strapi on that restored Postgres copy
+#   make local-pg              same + frontend pointed at it
+#
 # Production runs the backend with docker compose (see update.sh); locally we
 # run Strapi directly with the SQLite database configured in backend/.env.
 
@@ -23,7 +28,14 @@ API          ?= https://api.picasol.fr
 export COREPACK_ENABLE_DOWNLOAD_PROMPT := 0
 NVM = export NVM_DIR="$$HOME/.nvm"; . "$$NVM_DIR/nvm.sh" && nvm use $(1) >/dev/null && corepack enable &&
 
-.PHONY: local front backend frontend install merge-clients
+# Local Postgres restored by scripts/load-backup.sh (UTC like the production
+# containers: Strapi stores datetimes without a timezone)
+SITE    ?= picasol
+PG_PORT ?= 5433
+PG_ENV  := TZ=UTC DATABASE_CLIENT=postgres DATABASE_HOST=127.0.0.1 DATABASE_PORT=$(PG_PORT) \
+	DATABASE_NAME=strapi DATABASE_USERNAME=strapi DATABASE_PASSWORD=strapi
+
+.PHONY: local front backend frontend install merge-clients load-backup backend-pg local-pg
 
 local:
 	$(MAKE) -j2 backend frontend API=$(LOCAL_API)
@@ -32,6 +44,16 @@ front: frontend
 
 backend:
 	cd backend && $(call NVM,$(BACKEND_NODE)) yarn serve
+
+load-backup:
+	PG_PORT=$(PG_PORT) ./scripts/load-backup.sh $(SITE)
+
+# Environment variables take precedence over backend/.env
+backend-pg:
+	cd backend && $(call NVM,$(BACKEND_NODE)) $(PG_ENV) yarn serve
+
+local-pg:
+	$(MAKE) -j2 backend-pg frontend API=$(LOCAL_API)
 
 # Environment variables take precedence over .env files in Vite
 frontend:
