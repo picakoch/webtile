@@ -58,6 +58,10 @@ export default {
   mounted() {
     uk.modal("#text_modal_" + this.id).show();
   },
+  beforeUnmount() {
+    // UIkit moved the modal to <body>, so Vue won't remove it: do it here
+    uk.modal(this.$el).$destroy(true);
+  },
   computed: {},
   methods: {},
   apollo: {
