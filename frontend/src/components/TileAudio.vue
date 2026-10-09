@@ -193,6 +193,8 @@ export default {
       el.removeAttribute("src");
       el.load();
     });
+    // UIkit moved the modal to <body>, so Vue won't remove it: do it here
+    uk.modal(this.$el).$destroy(true);
   },
   computed: {
     tracks() {

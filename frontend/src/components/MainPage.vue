@@ -56,6 +56,10 @@ export default {
   methods: {
     updatePath(e) {
       this.$log.debug("MODAL HIDDEN", e);
+      // Modal closed because we already left the detail route (e.g. browser back)
+      if (!this.$route.params.id) {
+        return;
+      }
       // get parent path property
       if (this.$route.matched.length >= 2) {
         let path = this.$route.matched[this.$route.matched.length - 2].path;

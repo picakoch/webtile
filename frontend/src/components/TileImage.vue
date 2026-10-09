@@ -19,7 +19,22 @@ export default {
     };
   },
   computed: {},
-  methods: {},
+  beforeUnmount() {
+    // The panel lives in <body>, outside Vue's tree: close it when leaving the route
+    if (this.panel && document.body.contains(this.panel.$el)) {
+      this.panel.$destroy(true);
+    }
+  },
+  methods: {
+    openPanel(options) {
+      // Apollo may deliver the result more than once: only open one panel
+      if (this.panel) {
+        return;
+      }
+      this.panel = uk.lightboxPanel(options);
+      this.panel.show();
+    },
+  },
   apollo: {
     tileImage: {
       query: IMAGE_Q,
@@ -46,7 +61,7 @@ export default {
         if (images.length === 0) {
           this.empty_gallery = true;
         } else {
-          uk.lightboxPanel({ items: images }).show();
+          this.openPanel({ items: images });
         }
       },
       variables() {
