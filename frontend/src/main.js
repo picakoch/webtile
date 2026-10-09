@@ -7,33 +7,9 @@ import { store } from "./store";
 import uk from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import { VueMasonryPlugin } from "vue-masonry";
-import Unicon from "vue-unicons";
-import {
-  uniPlayCircle,
-  uniPauseCircle,
-  uniSkipForward,
-  uniStepBackward,
-  uniStopCircle,
-  uniMusic,
-  uniVideo,
-  uniFile,
-  uniImages,
-} from "vue-unicons/dist/icons";
-
-Unicon.add([
-  uniPlayCircle,
-  uniPauseCircle,
-  uniSkipForward,
-  uniStepBackward,
-  uniStopCircle,
-  uniMusic,
-  uniVideo,
-  uniFile,
-  uniImages,
-]);
+import UniIcon from "@/components/UniIcon.vue";
 
 const isProduction = import.meta.env.PROD;
-
 
 const apolloProvider = createApolloProvider({
   defaultClient: apolloClient,
@@ -52,5 +28,7 @@ app.use(VueMasonryPlugin);
 app.use(router);
 app.use(store);
 app.use(logger, { level: isProduction ? "error" : "debug" });
-app.use(Unicon);
+// Keeps the <unicon> tag used in templates since vue-unicons
+// eslint-disable-next-line vue/multi-word-component-names
+app.component("unicon", UniIcon);
 router.isReady().then(() => app.mount("#app"));
