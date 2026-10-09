@@ -256,13 +256,18 @@ export default {
   },
   mounted() {
     var _self = this;
-    uk.util.on(document, "hidden", ".uk-lightbox", function (e) {
-      _self.updatePath(e);
-    });
-    uk.util.on(document, "hidden", ".uk-modal", function (e) {
-      _self.updatePath(e);
-      _self.stopAllTracks();
-    });
+    this.unbindHidden = [
+      uk.util.on(document, "hidden", ".uk-lightbox", function (e) {
+        _self.updatePath(e);
+      }),
+      uk.util.on(document, "hidden", ".uk-modal", function (e) {
+        _self.updatePath(e);
+        _self.stopAllTracks();
+      }),
+    ];
+  },
+  beforeUnmount() {
+    this.unbindHidden?.forEach((unbind) => unbind());
   },
   watch: {
     sorted_items: function () {
