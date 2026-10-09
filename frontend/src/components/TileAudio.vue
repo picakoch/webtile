@@ -13,7 +13,7 @@
           <div
             class="uk-card uk-card-default uk-card-body uk-light uk-background-secondary"
           >
-            <div uk-lightbox class="uk-text-center">
+            <div uk-lightbox class="uk-text-center" v-if="current_image_full_url">
               <a
                 class=""
                 :href="$store.getters.backend_url + current_image_full_url"

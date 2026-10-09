@@ -2,7 +2,7 @@ import { createApp, h } from "vue";
 import { createApolloProvider } from "@vue/apollo-option";
 import apolloClient from "./vue-apollo";
 import router from "./router";
-import VueLogger from "vuejs3-logger";
+import logger from "@/lib/logger";
 import { store } from "./store";
 import uk from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
@@ -32,17 +32,8 @@ Unicon.add([
   uniImages,
 ]);
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = import.meta.env.PROD;
 
-const options = {
-  isEnabled: true,
-  logLevel: isProduction ? "error" : "debug",
-  stringifyArguments: false,
-  showLogLevel: true,
-  showMethodName: true,
-  separator: "|",
-  showConsoleColors: true,
-};
 
 const apolloProvider = createApolloProvider({
   defaultClient: apolloClient,
@@ -60,8 +51,6 @@ app.use(apolloProvider);
 app.use(VueMasonryPlugin);
 app.use(router);
 app.use(store);
-app.use(VueLogger, options);
+app.use(logger, { level: isProduction ? "error" : "debug" });
 app.use(Unicon);
-await router.isReady();
-
-app.mount("#app");
+router.isReady().then(() => app.mount("#app"));

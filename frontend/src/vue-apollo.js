@@ -1,9 +1,10 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client/core";
+import { env } from "@/lib/env";
 
 // HTTP connection to the API
 const httpLink = createHttpLink({
   // You should use an absolute URL here
-  uri: process.env.VUE_APP_GRAPHQL_URL || "http://localhost:1337/graphql",
+  uri: env("GRAPHQL_URL", "http://localhost:1337/graphql"),
 });
 
 // Cache implementation
