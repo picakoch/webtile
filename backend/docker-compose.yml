@@ -4,7 +4,9 @@ services:
   strapi:
     container_name: ${APP_NAME}
     build: .
-    image: strapi:latest
+    # One image per site: a shared tag lets one site run another's build
+    # (and its baked-in .env)
+    image: ${APP_NAME}-strapi:latest
     restart: always
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
@@ -17,6 +19,8 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: ${NODE_ENV}
+      HOST: ${HOST}
+      PORT: ${PORT}
     ports:
       - "127.0.0.1:${PORT}:${PORT}"
     volumes:
