@@ -3,7 +3,7 @@
 git pull
 echo "Rebuild backend"
 cd backend
-docker compose down
+# Build first: if the build fails, the running containers are left alone
 docker compose build
 docker compose up -d
 
@@ -21,5 +21,14 @@ corepack enable
 yarn
 yarn build
 
-echo "Done."
 cd ..
+
+# nginx configuration from nginx/ (needs root: see scripts/update-vhosts.sh)
+echo "Update nginx vhosts"
+if sudo -n -l "$PWD/scripts/update-vhosts.sh" >/dev/null 2>&1; then
+  sudo -n "$PWD/scripts/update-vhosts.sh" || echo "!! vhost update failed (nginx left as it was)"
+else
+  echo "Skipped (needs root): sudo $PWD/scripts/update-vhosts.sh"
+fi
+
+echo "Done."
