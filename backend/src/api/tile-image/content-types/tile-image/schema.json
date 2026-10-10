@@ -34,6 +34,19 @@
     "tile_title": {
       "type": "string",
       "private": true
+    },
+    "slug": {
+      "type": "string"
+    },
+    "legacy_id": {
+      "type": "integer"
+    }
+  },
+  "config": {
+    "attributes": {
+      "legacy_id": {
+        "hidden": true
+      }
     }
   }
 }

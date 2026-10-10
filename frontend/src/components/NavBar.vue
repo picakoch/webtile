@@ -5,7 +5,7 @@
       class="uk-background-cover"
       :style="`background-image: url(${
         $store.getters.backend_url +
-        $store.getters?.config?.banner?.data?.attributes?.formats
+        $store.getters?.config?.banner?.formats
       }); height: 120px; width: 100%; opacity: 1`"
     >
       <nav
@@ -17,12 +17,12 @@
           <ul class="uk-navbar-nav">
             <li>
               <RouterLink to="/time" class="nav-text-main">
-                <template v-if="$store.getters.config?.logo?.data?.attributes">
+                <template v-if="$store.getters.config?.logo">
                   <img
                     class="logo"
                     :src="
                       $store.getters.backend_url +
-                      $store.getters?.config?.logo?.data?.attributes?.formats
+                      $store.getters?.config?.logo?.formats
                     "
                     :alt="$store.getters.config?.title"
                   />
@@ -360,8 +360,8 @@ export default {
       }
       this.$store.getters.tags.forEach((t) => {
         cats.push({
-          id: "/t/" + slugify(t.attributes.name),
-          label: t.attributes.name,
+          id: "/t/" + slugify(t.name),
+          label: t.name,
         });
       });
 
@@ -416,7 +416,7 @@ export default {
         this.sub_cats = this.contact_subcat;
       } else if (this.$route.name === "main_tag" || this.$route.name == "tag") {
         this.is_tag = true;
-        this.sub_cats = this.$store.getters.tags.map((e) => e.attributes.name);
+        this.sub_cats = this.$store.getters.tags.map((e) => e.name);
       } else if (
         this.$route.name === "main_media" ||
         this.$route.name == "media"

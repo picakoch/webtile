@@ -1,13 +1,13 @@
 export const TILE_NAMES = {
-  TileImageEntity: "image",
-  TileVideoEntity: "video",
-  TileAudioEntity: "audio",
-  TileTextEntity: "text",
+  TileImage: "image",
+  TileVideo: "video",
+  TileAudio: "audio",
+  TileText: "text",
 };
 
 export const TILE_ICONS = {
-  TileImageEntity: "images",
-  TileVideoEntity: "video",
-  TileAudioEntity: "music",
-  TileTextEntity: "file",
+  TileImage: "images",
+  TileVideo: "video",
+  TileAudio: "music",
+  TileText: "file",
 };

@@ -25,3 +25,7 @@ pnpm-debug.log*
 .env
 .env_dev
 .env_prod
+
+# update.sh builds here, then swaps it with dist
+/dist.new
+/dist.old

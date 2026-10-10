@@ -1,10 +1,12 @@
 <template>
   <div>
-    <TileImage v-if="item_cat === 'image'" :id="item_id"></TileImage>
-    <TileVideo v-else-if="item_cat === 'video'" :id="item_id"></TileVideo>
-    <TileAudio v-else-if="item_cat === 'audio'" :id="item_id"></TileAudio>
-    <TileText v-else-if="item_cat === 'text'" :id="item_id"></TileText>
-    <div v-else>Internal error {{ item_cat }}</div>
+    <template v-if="slug">
+      <TileImage v-if="type === 'image'" :slug="slug"></TileImage>
+      <TileVideo v-else-if="type === 'video'" :slug="slug"></TileVideo>
+      <TileAudio v-else-if="type === 'audio'" :slug="slug"></TileAudio>
+      <TileText v-else-if="type === 'text'" :slug="slug"></TileText>
+      <div v-else>Internal error {{ type }}</div>
+    </template>
   </div>
 </template>
 
@@ -13,25 +15,37 @@ import TileImage from "@/components/TileImage.vue";
 import TileVideo from "@/components/TileVideo.vue";
 import TileAudio from "@/components/TileAudio.vue";
 import TileText from "@/components/TileText.vue";
+import { LEGACY_Q } from "@/lib/queries";
 
 export default {
   name: "TileDetails",
   components: { TileText, TileVideo, TileImage, TileAudio },
   props: {
-    id: {
-      type: String,
-    },
+    // /time/audio/retour-a-la-mer
+    type: String,
+    slug: String,
+    // Old links: /time/audio_5 (Strapi 4 id)
+    id: String,
   },
-  data() {
-    return {};
-  },
-  computed: {
-    item_id() {
-      return this.id.split("_")[1];
-    },
-    item_cat() {
-      return this.id.split("_")[0];
-    },
+  async created() {
+    if (this.slug || !this.id) {
+      return;
+    }
+    const [type, legacyId] = this.id.split("_");
+    const query = LEGACY_Q[type];
+    const found =
+      query &&
+      /^\d+$/.test(legacyId || "") &&
+      (
+        await this.$apollo.query({
+          query,
+          variables: { id: Number(legacyId) },
+        })
+      ).data;
+    const slug = found && Object.values(found)[0]?.[0]?.slug;
+    // Same parent page, new tile URL
+    const parent = this.$route.path.replace(/\/[^/]*$/, "");
+    this.$router.replace(slug ? `${parent}/${type}/${slug}` : parent);
   },
 };
 </script>

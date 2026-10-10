@@ -4,12 +4,14 @@
 
 <script>
 import { VIDEO_Q } from "@/lib/queries";
+import metaManager from "@/mixins/metaManager";
 import uk from "uikit";
 
 export default {
   name: "TileVideo",
+  mixins: [metaManager],
   props: {
-    id: {
+    slug: {
       type: String,
     },
   },
@@ -38,15 +40,17 @@ export default {
       query: VIDEO_Q,
       variables() {
         return {
-          id: this.id,
+          slug: this.slug,
         };
       },
+      update: (data) => data.tileVideos[0] || null,
       result: function (res) {
-        const video =
-          res?.data?.tileVideo?.data?.attributes?.video?.data?.attributes?.url;
-        const description = res?.data?.tileVideo?.data?.attributes?.description;
+        const item = res?.data?.tileVideos?.[0];
+        this.updateTileMetaTags("video", item, item?.description);
+        const video = res?.data?.tileVideos?.[0]?.video?.url;
+        const description = res?.data?.tileVideos?.[0]?.description;
         this.openPanel({
-          id: "video_" + this.id,
+          id: "video_" + this.slug,
           items: [
             {
               source: this.$store.getters.backend_url + video,
