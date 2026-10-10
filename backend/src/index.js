@@ -54,7 +54,9 @@ async function reindexSearchFields(strapi) {
         if (text !== (row[target] ?? '')) data[target] = text;
       }
       if (Object.keys(data).length) {
-        await strapi.db.query(uid).update({ where: { id: row.id }, data });
+        // updateMany: unlike update, it doesn't touch updatedAt, which would
+        // make every tile show as "Modified" in the admin
+        await strapi.db.query(uid).updateMany({ where: { id: row.id }, data });
         updated++;
       }
     }

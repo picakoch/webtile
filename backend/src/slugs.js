@@ -69,8 +69,8 @@ async function ensureSlug(strapi, { uid, action, params }) {
 }
 
 // Bootstrap: give tiles without a slug one (existing tiles after the
-// migration). Writes through the query layer so draft and published rows get
-// the same value without republishing.
+// migration). Writes with the query layer's updateMany so draft and published
+// rows get the same value without republishing, and keep their updatedAt.
 async function backfill(strapi) {
   for (const uid of TILE_UIDS) {
     const rows = await strapi.db.query(uid).findMany({
