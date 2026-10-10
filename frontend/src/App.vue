@@ -247,7 +247,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: "Crimson Text", Times, sans-serif !important;
+  font-family: var(--font-title) !important;
 }
 
 .main-title {
