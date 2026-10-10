@@ -19,6 +19,7 @@ const tile = `
         url
         width
         height
+        size
     }
 }
 `;
@@ -172,6 +173,9 @@ export const AUDIO_Q = gql`
                     documentId
                     formats
                     url
+                    width
+                    height
+                    size
                     caption
                 }
                 media {
