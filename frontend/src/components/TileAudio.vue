@@ -1,12 +1,12 @@
 <template>
-  <div uk-modal :id="'audio_modal_' + id" class="uk-modal-full">
+  <div uk-modal :id="'audio_modal_' + slug" class="uk-modal-full">
     <div
       class="uk-modal-dialog uk-modal-body uk-light uk-background-secondary"
       style="min-height: 100vh"
     >
       <button class="uk-modal-close-default" type="button" uk-close></button>
       <h2 class="uk-modal-title">
-        {{ tileAudio?.data?.attributes?.title }}
+        {{ tileAudio?.title }}
       </h2>
       <div class="uk-grid-divider uk-child-width-1-2@m" uk-grid>
         <div>
@@ -21,14 +21,14 @@
               <a
                 class=""
                 :href="$store.getters.backend_url + current_image_full_url"
-                :data-caption="tileAudio?.data?.attributes?.title"
+                :data-caption="tileAudio?.title"
               >
                 <v-lazy-image
                   :src="$store.getters.backend_url + current_image_full_url"
                   :src-placeholder="
                     $store.getters.backend_url + current_image_url
                   "
-                  :alt="tileAudio?.data?.attributes?.title"
+                  :alt="tileAudio?.title"
                   style="height: 75vh; object-fit: contain"
                 />
               </a>
@@ -91,7 +91,7 @@
               v-if="player_track && player_playing"
               class="uk-margin-small-left uk-margin-small-top"
             >
-              {{ player_track_index }}. {{ player_track.attributes.name }}
+              {{ player_track_index }}. {{ player_track.name }}
             </div>
             <div
               class="uk-margin-small-left"
@@ -111,18 +111,18 @@
             ></audio>
 
             <div
-              v-for="track in tileAudio?.data?.attributes?.tracks?.data"
-              :key="track.id"
+              v-for="track in tileAudio?.tracks"
+              :key="track.documentId"
               class="uk-margin-small-top"
             >
               <audio
-                :id="`audio_track_${id}_${track.id}`"
+                :id="`audio_track_${slug}_${track.documentId}`"
                 controls
                 preload="metadata"
                 class="audio_player"
                 v-show="player_playing === false"
                 :controlsList="`noplaybackrate ${
-                  track.attributes.can_download === true ? '' : 'nodownload'
+                  track.can_download === true ? '' : 'nodownload'
                 }`"
                 :src="trackUrl(track)"
                 @play="trackPlay(track)"
@@ -130,7 +130,7 @@
                 Your browser does not support the audio element.
               </audio>
               <span v-show="player_playing === false" class="uk-margin-left">{{
-                track.attributes.name
+                track.name
               }}</span>
             </div>
             <div class="">
@@ -141,12 +141,10 @@
                 <StrapiBlocks :content="current_track_content"></StrapiBlocks>
               </div>
               <div
-                v-if="tileAudio?.data?.attributes?.content"
+                v-if="tileAudio?.content"
                 class="uk-margin-top uk-background-secondary"
               >
-                <StrapiBlocks
-                  :content="tileAudio?.data?.attributes?.content"
-                ></StrapiBlocks>
+                <StrapiBlocks :content="tileAudio?.content"></StrapiBlocks>
               </div>
             </div>
           </div>
@@ -165,7 +163,7 @@ import VLazyImage from "v-lazy-image";
 export default {
   name: "TileAudio",
   props: {
-    id: {
+    slug: {
       type: String,
     },
   },
@@ -184,10 +182,10 @@ export default {
     };
   },
   beforeMount() {
-    document.getElementById("audio_modal_" + this.id)?.remove();
+    document.getElementById("audio_modal_" + this.slug)?.remove();
   },
   mounted() {
-    uk.modal("#audio_modal_" + this.id).show();
+    uk.modal("#audio_modal_" + this.slug).show();
   },
   beforeUnmount() {
     // Pausing is not enough: detached media elements keep downloading and hold
@@ -202,21 +200,22 @@ export default {
   },
   computed: {
     tracks() {
-      return this.tileAudio?.data?.attributes?.tracks?.data || [];
+      return this.tileAudio?.tracks || [];
     },
     player_track_index() {
       if (this.player_playing && this.player_track) {
-        return this.tracks.findIndex((e) => e.id === this.player_track.id) + 1;
+        return (
+          this.tracks.findIndex(
+            (e) => e.documentId === this.player_track.documentId,
+          ) + 1
+        );
       }
       return 0;
     },
   },
   methods: {
     trackUrl(track) {
-      return (
-        this.$store.getters.backend_url +
-        track.attributes.media.data.attributes.url
-      );
+      return this.$store.getters.backend_url + track.media.url;
     },
     audioElements() {
       return [...(this.$el?.querySelectorAll?.("audio") || [])];
@@ -246,7 +245,9 @@ export default {
         return;
       }
       const n = this.tracks.length;
-      const index = this.tracks.findIndex((e) => e.id === this.player_track.id);
+      const index = this.tracks.findIndex(
+        (e) => e.documentId === this.player_track.documentId,
+      );
       this.player_track = this.tracks[(((index + d) % n) + n) % n];
       this.playerPlay();
     },
@@ -297,7 +298,7 @@ export default {
         this.playerStop();
       }
       this.audioElements().forEach((el) => {
-        if (el.id !== `audio_track_${this.id}_${track.id}`) {
+        if (el.id !== `audio_track_${this.slug}_${track.documentId}`) {
           el.pause();
           if (el.id) {
             el.currentTime = 0;
@@ -307,12 +308,11 @@ export default {
       this.showTrack(track);
     },
     showTrack(track) {
-      const song_image = track?.attributes?.image?.data?.attributes;
-      const album_image =
-        this.tileAudio?.data?.attributes?.tile?.image?.data?.attributes;
+      const song_image = track?.image;
+      const album_image = this.tileAudio?.tile?.image;
       const image = song_image || album_image;
-      this.current_album_content = this.tileAudio?.data?.attributes?.content;
-      this.current_track_content = track?.attributes?.content;
+      this.current_album_content = this.tileAudio?.content;
+      this.current_track_content = track?.content;
       this.current_track = track;
       if (image) {
         this.current_image_full_url = image.url;
@@ -329,9 +329,10 @@ export default {
       query: AUDIO_Q,
       variables() {
         return {
-          id: this.id,
+          slug: this.slug,
         };
       },
+      update: (data) => data.tileAudios[0] || null,
       result: function () {
         if (!this.current_track) {
           this.showTrack(null);

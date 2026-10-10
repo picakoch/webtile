@@ -76,19 +76,19 @@ export default {
   },
   computed: {
     thumb: function () {
-      return this.tile.image.data.attributes.formats.thumbnail;
+      return this.tile.image.formats?.thumbnail || this.orig;
     },
     orig: function () {
-      return this.tile.image.data.attributes;
+      return this.tile.image;
     },
     small: function () {
-      return this.tile?.image?.data?.attributes?.formats?.small || this.orig;
+      return this.tile?.image?.formats?.small || this.orig;
     },
     medium: function () {
-      return this.tile?.image?.data?.attributes?.formats?.medium || this.small;
+      return this.tile?.image?.formats?.medium || this.small;
     },
     large: function () {
-      return this.tile?.image?.data?.attributes?.formats?.large || this.medium;
+      return this.tile?.image?.formats?.large || this.medium;
     },
     tile_height: function () {
       return (this.thumb.height * this.tile_width) / this.thumb.width;

@@ -106,9 +106,9 @@ module.exports = ({env}) => ({
   },
   graphql: {
     config: {
-      // The frontend asks for up to 100 tracks/tiles per list
+      // The frontend lists up to 500 tiles/tags
       defaultLimit: 100,
-      maxLimit: 100,
+      maxLimit: 500,
       depthLimit: 10,
     },
   },

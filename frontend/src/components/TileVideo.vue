@@ -9,7 +9,7 @@ import uk from "uikit";
 export default {
   name: "TileVideo",
   props: {
-    id: {
+    slug: {
       type: String,
     },
   },
@@ -38,15 +38,15 @@ export default {
       query: VIDEO_Q,
       variables() {
         return {
-          id: this.id,
+          slug: this.slug,
         };
       },
+      update: (data) => data.tileVideos[0] || null,
       result: function (res) {
-        const video =
-          res?.data?.tileVideo?.data?.attributes?.video?.data?.attributes?.url;
-        const description = res?.data?.tileVideo?.data?.attributes?.description;
+        const video = res?.data?.tileVideos?.[0]?.video?.url;
+        const description = res?.data?.tileVideos?.[0]?.description;
         this.openPanel({
-          id: "video_" + this.id,
+          id: "video_" + this.slug,
           items: [
             {
               source: this.$store.getters.backend_url + video,

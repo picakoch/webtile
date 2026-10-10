@@ -12,7 +12,7 @@
     <div class="gutter-sizer"></div>
     <template v-for="item in all_items" :key="item.id">
       <TilePreview
-        :tile="item.tile.attributes.tile"
+        :tile="item.tile.tile"
         :type="item.tile.__typename"
         :title_id="item.id"
         @click="tileClicked(item)"
@@ -57,19 +57,12 @@ export default {
   },
   methods: {
     tileClicked: function (item) {
-      if (TILE_NAMES[item.__typename] === "text_url") {
-        window.open(
-          this.$store.getters.backend_url +
-            item.attributes.media.data.attributes.url,
-          "_blank"
-        );
-      } else {
-        this.$router.push({
-          path: `${this.$route.path}/${TILE_NAMES[item.tile.__typename]}_${
-            item.tile.id
-          }`,
-        });
-      }
+      // /time/audio/retour-a-la-mer
+      this.$router.push({
+        path: `${this.$route.path}/${TILE_NAMES[item.tile.__typename]}/${
+          item.tile.slug
+        }`,
+      });
     },
   },
   mounted() {

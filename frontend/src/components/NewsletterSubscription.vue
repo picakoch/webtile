@@ -136,12 +136,7 @@ export default {
                 createNewsletterSubscription(
                   data: { name: $name, email: $email }
                 ) {
-                  data {
-                    id
-                    attributes {
-                      email
-                    }
-                  }
+                  documentId
                 }
               }
             `,
@@ -178,71 +173,33 @@ export default {
     },
     unsubscribe() {
       this.resetMessage();
-      if (this.email_unscubscribe !== "") {
-        this.$apollo
-          .query({
-            query: gql`
-              query findnewsletterSubscriptions($email: String!) {
-                newsletterSubscriptions(filters: { email: { eq: $email } }) {
-                  data {
-                    id
-                    attributes {
-                      email
-                    }
-                  }
-                }
-              }
-            `,
-            variables: {
-              email: this.email_unscubscribe,
-            },
-            fetchPolicy: "no-cache",
-          })
-          .then((data) => {
-            this.$log.debug(data);
-            if (data?.data?.newsletterSubscriptions?.data[0]?.id) {
-              this.$apollo
-                .mutate({
-                  // Query
-                  mutation: gql`
-                    mutation deleteNewsletterSubscription($id: ID!) {
-                      deleteNewsletterSubscription(id: $id) {
-                        data {
-                          id
-                          attributes {
-                            email
-                          }
-                        }
-                      }
-                    }
-                  `,
-                  // Parameters
-                  variables: {
-                    id: data?.data?.newsletterSubscriptions?.data[0]?.id,
-                  },
-                  fetchPolicy: "no-cache",
-                })
-                .then((data2) => {
-                  this.unsubscription_message =
-                    "Vous êtes maintenant désinscrit.e à la newsletter.";
-                  this.resetForm();
-                  this.$log.debug(data2);
-                })
-                .catch((e) => {
-                  this.$log.error(e);
-                  this.unsubscription_message = "Vous n'êtes pas inscrit...";
-                });
-            } else {
-              this.unsubscription_message = "Vous n'êtes pas inscrit...";
-            }
-          })
-          .catch((e) => {
-            this.$log.error(e);
-            this.unsubscription_message = "Vous n'êtes pas inscrit...";
-          });
-      } else {
+      if (this.email_unscubscribe === "") {
         this.unsubscription_message = "Merci de remplir tous les champs.";
+        return;
       }
+      // Deleted on the server: the public API can't list subscriptions
+      fetch(
+        `${this.$store.getters.backend_url}/api/newsletter-subscriptions/unsubscribe`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: this.email_unscubscribe }),
+        },
+      )
+        .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+        .then(({ removed }) => {
+          if (removed) {
+            this.unsubscription_message =
+              "Vous êtes maintenant désinscrit.e à la newsletter.";
+            this.resetForm();
+          } else {
+            this.unsubscription_message = "Vous n'êtes pas inscrit...";
+          }
+        })
+        .catch((e) => {
+          this.$log.error(e);
+          this.unsubscription_message = "Vous n'êtes pas inscrit...";
+        });
     },
   },
 };

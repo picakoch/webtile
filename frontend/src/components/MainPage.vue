@@ -41,15 +41,15 @@ export default {
   data() {
     return {
       items: [],
-      tileImages: { data: [] },
-      tileVideos: { data: [] },
-      tileTexts: { data: [] },
-      tileAudios: { data: [] },
+      tileImages: [],
+      tileVideos: [],
+      tileTexts: [],
+      tileAudios: [],
       search: {
-        tileAudios: { data: [] },
-        tileImages: { data: [] },
-        tileVideos: { data: [] },
-        tileTexts: { data: [] },
+        tileAudios: { nodes: [] },
+        tileImages: { nodes: [] },
+        tileVideos: { nodes: [] },
+        tileTexts: { nodes: [] },
       },
     };
   },
@@ -57,7 +57,7 @@ export default {
     updatePath(e) {
       this.$log.debug("MODAL HIDDEN", e);
       // Modal closed because we already left the detail route (e.g. browser back)
-      if (!this.$route.params.id) {
+      if (!this.$route.params.slug) {
         return;
       }
       // get parent path property
@@ -81,8 +81,8 @@ export default {
     },
     sortTime(a, b) {
       return (
-        new Date(b?.attributes?.tile?.date) -
-        new Date(a?.attributes?.tile?.date)
+        new Date(b?.tile?.date) -
+        new Date(a?.tile?.date)
       );
     },
     compute_items() {
@@ -92,7 +92,7 @@ export default {
         const tags = this.$store.getters.tags;
         if (tags.length > 0) {
           this.$router.push(
-            "/t/" + slugify(this.$store.getters.tags[0]?.attributes?.name)
+            "/t/" + slugify(this.$store.getters.tags[0]?.name)
           );
           this.items = [];
           return;
@@ -108,16 +108,16 @@ export default {
         this.items = [];
         return;
       }
-      let image = this.tileImages.data;
-      let audio = this.tileAudios.data;
-      let video = this.tileVideos.data;
-      let text = this.tileTexts.data;
+      let image = this.tileImages;
+      let audio = this.tileAudios;
+      let video = this.tileVideos;
+      let text = this.tileTexts;
 
       if (this.q.length > 2) {
-        image = this.search.tileImages.data;
-        audio = this.search.tileAudios.data;
-        video = this.search.tileVideos.data;
-        text = this.search.tileTexts.data;
+        image = this.search.tileImages.nodes;
+        audio = this.search.tileAudios.nodes;
+        video = this.search.tileVideos.nodes;
+        text = this.search.tileTexts.nodes;
       }
       let ret_items = {};
       if (this.name === "type") {
@@ -141,16 +141,16 @@ export default {
         if (this.name === "time") {
           this.updateMetaTags(this.$store.getters.label_date);
           ret_items = Object.groupBy(allTiles, (e) =>
-            e?.attributes?.tile?.date
-              ? new Date(e.attributes.tile.date).getFullYear()
+            e?.tile?.date
+              ? new Date(e.tile.date).getFullYear()
               : new Date().getFullYear()
           );
         } else if (this.name === "theme") {
           this.$store.getters.tags.forEach((tag) => {
-            let tag_name = tag?.attributes?.name;
+            let tag_name = tag?.name;
             let fTiles = allTiles.filter((e) =>
-              e?.attributes?.tile?.tags?.data
-                .map((ee) => ee.attributes.name)
+              e?.tile?.tags
+                ?.map((ee) => ee.name)
                 .includes(tag_name)
             );
             if (fTiles.length > 0) {
@@ -160,10 +160,10 @@ export default {
         } else if (this.tag && this.tag.length > 1) {
           this.updateMetaTags(this.tag);
           this.$store.getters.tags.forEach((tag) => {
-            let tag_name = tag?.attributes?.name;
+            let tag_name = tag?.name;
             let fTiles = allTiles.filter((e) =>
-              e?.attributes?.tile?.tags?.data
-                .map((ee) => ee.attributes.name)
+              e?.tile?.tags
+                ?.map((ee) => ee.name)
                 .includes(tag_name)
             );
             if (fTiles.length > 0 && slugify(tag_name) === this.tag) {
@@ -185,7 +185,10 @@ export default {
       }
       Object.keys(ret_items).forEach((k) => {
         ret_items[k] = ret_items[k].map((e, i) => {
-          return { tile: e, id: i === 0 ? `tile_group_${k}` : `tile_${e.id}` };
+          return {
+            tile: e,
+            id: i === 0 ? `tile_group_${k}` : `tile_${e.documentId}`,
+          };
         });
       });
       this.items = ret_items;
