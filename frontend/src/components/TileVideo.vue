@@ -4,10 +4,12 @@
 
 <script>
 import { VIDEO_Q } from "@/lib/queries";
+import metaManager from "@/mixins/metaManager";
 import uk from "uikit";
 
 export default {
   name: "TileVideo",
+  mixins: [metaManager],
   props: {
     slug: {
       type: String,
@@ -43,6 +45,8 @@ export default {
       },
       update: (data) => data.tileVideos[0] || null,
       result: function (res) {
+        const item = res?.data?.tileVideos?.[0];
+        this.updateTileMetaTags("video", item, item?.description);
         const video = res?.data?.tileVideos?.[0]?.video?.url;
         const description = res?.data?.tileVideos?.[0]?.description;
         this.openPanel({

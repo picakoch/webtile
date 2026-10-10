@@ -5,12 +5,18 @@
     </div>
     <template v-else-if="$store.getters.category_break">
       <div v-for="group in sorted_items" :key="group" class="tile-group">
-        <TileGrid :items="group[1]" :title="group[0]" :key="group"></TileGrid>
+        <TileGrid
+          :items="group[1]"
+          :title="group[0]"
+          :base-path="tileBasePath"
+          :key="group"
+        ></TileGrid>
       </div>
     </template>
     <template v-else>
       <TileGrid
         :items="all_items"
+        :base-path="tileBasePath"
         :key="name + '_' + q.replace(' ', '') + '_' + tag + '_' + media"
       ></TileGrid>
     </template>
@@ -158,7 +164,11 @@ export default {
             }
           });
         } else if (this.tag && this.tag.length > 1) {
-          this.updateMetaTags(this.tag);
+          // The tag's real name, not its slug
+          this.updateMetaTags(
+            this.$store.getters.tags.find((t) => slugify(t.name) === this.tag)
+              ?.name || this.tag
+          );
           this.$store.getters.tags.forEach((tag) => {
             let tag_name = tag?.name;
             let fTiles = allTiles.filter((e) =>
@@ -171,7 +181,15 @@ export default {
             }
           });
         } else if (this.media && this.media.length > 1) {
-          this.updateMetaTags(this.media);
+          this.updateMetaTags(
+            [
+              this.$store.getters.label_music,
+              this.$store.getters.label_images,
+              this.$store.getters.label_video,
+              this.$store.getters.label_text,
+            ].find((label) => label && slugify(label) === this.media) ||
+              this.media
+          );
           if (this.media === slugify(this.$store.getters.label_music)) {
             ret_items[this.$store.getters.label_music] = audio;
           } else if (this.media === slugify(this.$store.getters.label_images)) {
@@ -195,6 +213,11 @@ export default {
     },
   },
   computed: {
+    tileBasePath() {
+      if (this.tag) return `/t/${this.tag}`;
+      if (this.media) return `/m/${this.media}`;
+      return "/time";
+    },
     sorted_items() {
       if (this.name === "time") {
         return Object.entries(this.items).sort((a, b) => -(a[0] - b[0]));
@@ -291,6 +314,12 @@ export default {
     },
     media() {
       this.compute_items();
+    },
+    // Back on the page after closing a tile: restore the page's <head> tags
+    "$route.params.slug"(slug) {
+      if (!slug) {
+        this.compute_items();
+      }
     },
     q: function () {
       this.$log.debug("Q changed...", this.q);

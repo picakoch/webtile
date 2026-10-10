@@ -156,12 +156,14 @@
 
 <script>
 import { AUDIO_Q } from "@/lib/queries";
+import metaManager from "@/mixins/metaManager";
 import uk from "uikit";
 import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 import VLazyImage from "v-lazy-image";
 
 export default {
   name: "TileAudio",
+  mixins: [metaManager],
   props: {
     slug: {
       type: String,
@@ -334,6 +336,11 @@ export default {
       },
       update: (data) => data.tileAudios[0] || null,
       result: function () {
+        this.updateTileMetaTags(
+          "audio",
+          this.tileAudio,
+          this.tileAudio?.content,
+        );
         if (!this.current_track) {
           this.showTrack(null);
         }

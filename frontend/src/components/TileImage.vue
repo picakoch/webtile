@@ -4,10 +4,12 @@
 
 <script>
 import { IMAGE_Q } from "@/lib/queries";
+import metaManager from "@/mixins/metaManager";
 import uk from "uikit";
 
 export default {
   name: "TileImage",
+  mixins: [metaManager],
   props: {
     slug: {
       type: String,
@@ -40,6 +42,8 @@ export default {
       query: IMAGE_Q,
       update: (data) => data.tileImages[0] || null,
       result: function (res) {
+        const item = res?.data?.tileImages?.[0];
+        this.updateTileMetaTags("image", item, item?.description);
         const description = res?.data?.tileImages?.[0]?.description;
         const images =
           res?.data?.tileImages?.[0]?.images?.map((e) => {

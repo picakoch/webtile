@@ -1,5 +1,8 @@
 <template>
-  <div
+  <!-- A real link so crawlers can follow it; opens in place (no reload) -->
+  <a
+    :href="href"
+    @click.prevent="$emit('open')"
     :id="tile_id"
     class="tile-preview grid-item"
     :class="{
@@ -35,7 +38,7 @@
         </p>
       </div>
     </div>
-  </div>
+  </a>
 </template>
 
 <script>
@@ -45,7 +48,11 @@ import { TILE_ICONS } from "../lib/constants";
 export default {
   name: "TilePreview",
   components: { VLazyImage },
+  emits: ["open"],
   props: {
+    href: {
+      type: String,
+    },
     tile: {
       type: Object,
     },
@@ -110,6 +117,11 @@ export default {
 </script>
 
 <style scoped>
+.tile-preview {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
 .tile-preview:hover {
   cursor: pointer;
 }

@@ -33,12 +33,14 @@
 
 <script>
 import { TEXT_Q } from "@/lib/queries";
+import metaManager from "@/mixins/metaManager";
 import uk from "uikit";
 import { VuePDF, usePDF } from "@tato30/vue-pdf";
 import { StrapiBlocks } from "vue-strapi-blocks-renderer";
 
 export default {
   name: "TileText",
+  mixins: [metaManager],
   props: {
     slug: {
       type: String,
@@ -74,6 +76,11 @@ export default {
       },
       update: (data) => data.tileTexts[0] || null,
       result: function () {
+        this.updateTileMetaTags(
+          "text",
+          this.tileText,
+          this.tileText?.description,
+        );
         if (this.tileText?.media?.url) {
           const { pdf, pages } = usePDF(
             this.$store.getters.backend_url + this.tileText.media.url,
