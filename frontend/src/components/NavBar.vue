@@ -6,7 +6,7 @@
       :style="`background-image: url(${
         $store.getters.backend_url +
         $store.getters?.config?.banner?.formats
-      }); height: 92px; width: 100%; opacity: 1`"
+      }); height: 120px; width: 100%; opacity: 1`"
     >
       <nav
         class="uk-navbar-container uk-margin-small-right"
@@ -62,7 +62,7 @@
           </ul>
         </div>
 
-        <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 92px">
+        <div class="uk-navbar-right uk-hidden@m uk-light" style="height: 120px">
           <ul class="uk-navbar-nav">
             <li>
               <a href="#"><span uk-icon="icon: menu"></span></a>
