@@ -24,7 +24,9 @@ jobs:
         username: ${{ secrets.OA_USERNAME }}
         key: ${{ secrets.OA_PRIVATE_KEY }}
         port: ${{ secrets.OA_PORT }}
+        # update.sh builds the backend image and the frontend before switching:
+        # it can take well over the 10 min default, and a cut-off deploy could
+        # leave a new backend with the old frontend
+        command_timeout: 30m
         script: |
-          cd ~/oa
-          git pull
-          ./update.sh
+          cd ~/oa && git pull && ./update.sh

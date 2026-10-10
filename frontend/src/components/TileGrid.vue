@@ -12,10 +12,11 @@
     <div class="gutter-sizer"></div>
     <template v-for="item in all_items" :key="item.id">
       <TilePreview
-        :tile="item.tile.attributes.tile"
+        :tile="item.tile.tile"
         :type="item.tile.__typename"
         :title_id="item.id"
-        @click="tileClicked(item)"
+        :href="tileUrl(item)"
+        @open="tileClicked(item)"
         v-if="item.hasOwnProperty('tile')"
       ></TilePreview>
       <div
@@ -54,22 +55,21 @@ export default {
     title: {
       type: String,
     },
+    // Page the tiles open from: /time, /t/<tag> or /m/<media>
+    basePath: {
+      type: String,
+      default: "/time",
+    },
   },
   methods: {
+    // /time/audio/retour-a-la-mer, /t/concerts/audio/retour-a-la-mer
+    tileUrl: function (item) {
+      return `${this.basePath}/${TILE_NAMES[item.tile.__typename]}/${
+        item.tile.slug
+      }`;
+    },
     tileClicked: function (item) {
-      if (TILE_NAMES[item.__typename] === "text_url") {
-        window.open(
-          this.$store.getters.backend_url +
-            item.attributes.media.data.attributes.url,
-          "_blank"
-        );
-      } else {
-        this.$router.push({
-          path: `${this.$route.path}/${TILE_NAMES[item.tile.__typename]}_${
-            item.tile.id
-          }`,
-        });
-      }
+      this.$router.push({ path: this.tileUrl(item) });
     },
   },
   mounted() {

@@ -38,6 +38,19 @@
     "description_search": {
       "type": "text",
       "private": true
+    },
+    "slug": {
+      "type": "string"
+    },
+    "legacy_id": {
+      "type": "integer"
+    }
+  },
+  "config": {
+    "attributes": {
+      "legacy_id": {
+        "hidden": true
+      }
     }
   }
 }

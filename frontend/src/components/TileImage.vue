@@ -1,15 +1,17 @@
 <template>
-  <div :id="'image_' + id" uk-lightbox></div>
+  <div :id="'image_' + slug" uk-lightbox></div>
 </template>
 
 <script>
 import { IMAGE_Q } from "@/lib/queries";
+import metaManager from "@/mixins/metaManager";
 import uk from "uikit";
 
 export default {
   name: "TileImage",
+  mixins: [metaManager],
   props: {
-    id: {
+    slug: {
       type: String,
     },
   },
@@ -38,20 +40,23 @@ export default {
   apollo: {
     tileImage: {
       query: IMAGE_Q,
+      update: (data) => data.tileImages[0] || null,
       result: function (res) {
-        const description = res?.data?.tileImage?.data?.attributes?.description;
+        const item = res?.data?.tileImages?.[0];
+        this.updateTileMetaTags("image", item, item?.description);
+        const description = res?.data?.tileImages?.[0]?.description;
         const images =
-          res?.data?.tileImage?.data?.attributes?.images?.data.map((e) => {
-            let url = e.attributes.formats.thumbnail.url;
-            let caption = e.attributes.caption;
-            if (e.attributes.formats?.small) {
-              url = e.attributes.formats.small.url;
+          res?.data?.tileImages?.[0]?.images?.map((e) => {
+            let url = e.formats?.thumbnail?.url || e.url;
+            let caption = e.caption;
+            if (e.formats?.small) {
+              url = e.formats.small.url;
             }
-            if (e.attributes.formats?.medium) {
-              url = e.attributes.formats.medium.url;
+            if (e.formats?.medium) {
+              url = e.formats.medium.url;
             }
-            if (e.attributes.formats?.large) {
-              url = e.attributes.formats.large.url;
+            if (e.formats?.large) {
+              url = e.formats.large.url;
             }
             return {
               source: this.$store.getters.backend_url + url,
@@ -66,7 +71,7 @@ export default {
       },
       variables() {
         return {
-          id: this.id,
+          slug: this.slug,
         };
       },
     },
