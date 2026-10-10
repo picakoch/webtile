@@ -4,11 +4,16 @@
       <div class="spinner" uk-spinner="ratio: 3"></div>
     </div>
     <template v-else-if="$store.getters.category_break">
-      <div v-for="group in sorted_items" :key="group" class="tile-group">
+      <div
+        v-for="(group, index) in sorted_items"
+        :key="group"
+        class="tile-group"
+      >
         <TileGrid
           :items="group[1]"
           :title="group[0]"
           :base-path="tileBasePath"
+          :priority-count="index === 0 ? 4 : 0"
           :key="group"
         ></TileGrid>
       </div>
@@ -17,6 +22,7 @@
       <TileGrid
         :items="all_items"
         :base-path="tileBasePath"
+        :priority-count="4"
         :key="name + '_' + q.replace(' ', '') + '_' + tag + '_' + media"
       ></TileGrid>
     </template>

@@ -1,0 +1,10 @@
+/* Augustus, bundled with the site (see fonts.config.js) */
+@font-face {
+  font-family: "Augustus";
+  src:
+    url("./Augustus.woff2") format("woff2"),
+    url("./Augustus.woff") format("woff");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
