@@ -1,5 +1,8 @@
 <template>
-  <div
+  <!-- A real link so crawlers can follow it; opens in place (no reload) -->
+  <a
+    :href="href"
+    @click="onClick"
     :id="tile_id"
     class="tile-preview grid-item"
     :class="{
@@ -35,7 +38,7 @@
         </p>
       </div>
     </div>
-  </div>
+  </a>
 </template>
 
 <script>
@@ -45,7 +48,11 @@ import { TILE_ICONS } from "../lib/constants";
 export default {
   name: "TilePreview",
   components: { VLazyImage },
+  emits: ["open"],
   props: {
+    href: {
+      type: String,
+    },
     tile: {
       type: Object,
     },
@@ -64,6 +71,21 @@ export default {
     };
   },
   methods: {
+    // Plain click: open in place. Modified/middle click: let the browser
+    // handle the link (new tab, new window...)
+    onClick(event) {
+      if (
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+      event.preventDefault();
+      this.$emit("open");
+    },
     onResize: function () {
       let base_width =
         document.getElementsByClassName("grid-sizer")[0].offsetWidth;
@@ -76,19 +98,19 @@ export default {
   },
   computed: {
     thumb: function () {
-      return this.tile.image.data.attributes.formats.thumbnail;
+      return this.tile.image.formats?.thumbnail || this.orig;
     },
     orig: function () {
-      return this.tile.image.data.attributes;
+      return this.tile.image;
     },
     small: function () {
-      return this.tile?.image?.data?.attributes?.formats?.small || this.orig;
+      return this.tile?.image?.formats?.small || this.orig;
     },
     medium: function () {
-      return this.tile?.image?.data?.attributes?.formats?.medium || this.small;
+      return this.tile?.image?.formats?.medium || this.small;
     },
     large: function () {
-      return this.tile?.image?.data?.attributes?.formats?.large || this.medium;
+      return this.tile?.image?.formats?.large || this.medium;
     },
     tile_height: function () {
       return (this.thumb.height * this.tile_width) / this.thumb.width;
@@ -110,6 +132,11 @@ export default {
 </script>
 
 <style scoped>
+.tile-preview {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
 .tile-preview:hover {
   cursor: pointer;
 }
