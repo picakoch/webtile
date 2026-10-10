@@ -575,6 +575,7 @@ export interface ApiTileAudioTileAudio extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    legacy_id: Schema.Attribute.Integer;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -583,6 +584,7 @@ export interface ApiTileAudioTileAudio extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     rank: Schema.Attribute.Integer;
+    slug: Schema.Attribute.String;
     tile: Schema.Attribute.Component<'main.tile', false> &
       Schema.Attribute.Required;
     tile_title: Schema.Attribute.String & Schema.Attribute.Private;
@@ -611,6 +613,7 @@ export interface ApiTileImageTileImage extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
     images: Schema.Attribute.Media<'images', true>;
+    legacy_id: Schema.Attribute.Integer;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -619,6 +622,7 @@ export interface ApiTileImageTileImage extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     rank: Schema.Attribute.Integer;
+    slug: Schema.Attribute.String;
     tile: Schema.Attribute.Component<'main.tile', false>;
     tile_title: Schema.Attribute.String & Schema.Attribute.Private;
     updatedAt: Schema.Attribute.DateTime;
@@ -644,6 +648,7 @@ export interface ApiTileTextTileText extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.Blocks;
     description_search: Schema.Attribute.Text & Schema.Attribute.Private;
+    legacy_id: Schema.Attribute.Integer;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -653,6 +658,7 @@ export interface ApiTileTextTileText extends Struct.CollectionTypeSchema {
     media: Schema.Attribute.Media<'files'>;
     publishedAt: Schema.Attribute.DateTime;
     rank: Schema.Attribute.Integer;
+    slug: Schema.Attribute.String;
     tile: Schema.Attribute.Component<'main.tile', false>;
     tile_title: Schema.Attribute.String & Schema.Attribute.Private;
     updatedAt: Schema.Attribute.DateTime;
@@ -677,6 +683,7 @@ export interface ApiTileVideoTileVideo extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
+    legacy_id: Schema.Attribute.Integer;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -685,6 +692,7 @@ export interface ApiTileVideoTileVideo extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     rank: Schema.Attribute.Integer;
+    slug: Schema.Attribute.String;
     tile: Schema.Attribute.Component<'main.tile', false>;
     tile_title: Schema.Attribute.String & Schema.Attribute.Private;
     updatedAt: Schema.Attribute.DateTime;

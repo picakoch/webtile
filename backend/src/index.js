@@ -1,6 +1,7 @@
 'use strict';
 
 const { getPlainText } = require('./api/util');
+const { ensureSlug, backfill } = require('./slugs');
 
 // Plain-text copies of tile fields, indexed by strapi-plugin-fuzzy-search
 // (see config/plugins.js): blocks field -> text field.
@@ -32,6 +33,8 @@ module.exports = {
           }
         }
 
+        await ensureSlug(strapi, context);
+
         if (uid === 'api::newsletter-subscription.newsletter-subscription' && action === 'create') {
           data.subscription_date = new Date();
         }
@@ -41,5 +44,7 @@ module.exports = {
     });
   },
 
-  bootstrap(/*{ strapi }*/) {},
+  async bootstrap({ strapi }) {
+    await backfill(strapi);
+  },
 };
