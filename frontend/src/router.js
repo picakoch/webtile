@@ -27,11 +27,12 @@ const routes = [
         name: "tag",
         children: [
           {
-            path: ":id",
+            path: ":type/:slug",
             name: "detail-tag",
             component: TileDetails,
             props: true,
           },
+          { path: ":id", component: TileDetails, props: true },
         ],
       },
     ],
@@ -55,11 +56,12 @@ const routes = [
         name: "media",
         children: [
           {
-            path: ":id",
+            path: ":type/:slug",
             name: "detail-media",
             component: TileDetails,
             props: true,
           },
+          { path: ":id", component: TileDetails, props: true },
         ],
       },
     ],
@@ -73,7 +75,14 @@ const routes = [
     props: { name: "time" },
     name: "main_time",
     children: [
-      { path: ":id", name: "detail-time", component: TileDetails, props: true },
+      {
+        path: ":type/:slug",
+        name: "detail-time",
+        component: TileDetails,
+        props: true,
+      },
+      // Old links: /time/audio_5 (Strapi 4 id), redirected by TileDetails
+      { path: ":id", component: TileDetails, props: true },
     ],
   },
   { path: "/:pathMatch(.*)*", name: "not-found", component: NotFound },

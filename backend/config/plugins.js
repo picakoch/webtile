@@ -30,7 +30,7 @@ module.exports = ({env}) => ({
           transliterate: false,
           fuzzysortOptions: {
             characterLimit: 512,
-            threshold: -1000,
+            threshold: 0, // fuzzysort 3 scores are 0..1; 0 accepts every match (was -1000)
             limit: 20,
             keys: [
               {
@@ -49,7 +49,7 @@ module.exports = ({env}) => ({
           transliterate: false,
           fuzzysortOptions: {
             characterLimit: 512,
-            threshold: -1000,
+            threshold: 0, // fuzzysort 3 scores are 0..1; 0 accepts every match (was -1000)
             limit: 20,
             keys: [
              {
@@ -68,7 +68,7 @@ module.exports = ({env}) => ({
           transliterate: false,
           fuzzysortOptions: {
             characterLimit: 512,
-            threshold: -1000,
+            threshold: 0, // fuzzysort 3 scores are 0..1; 0 accepts every match (was -1000)
             limit: 20,
             keys: [
              {
@@ -87,7 +87,7 @@ module.exports = ({env}) => ({
           transliterate: false,
           fuzzysortOptions: {
             characterLimit: 2000,
-            threshold: -1000,
+            threshold: 0, // fuzzysort 3 scores are 0..1; 0 accepts every match (was -1000)
             limit: 20,
             allowTypo: true,
             keys: [
@@ -102,6 +102,14 @@ module.exports = ({env}) => ({
           },
         },
       ],
+    },
+  },
+  graphql: {
+    config: {
+      // The frontend lists up to 500 tiles/tags
+      defaultLimit: 100,
+      maxLimit: 500,
+      depthLimit: 10,
     },
   },
   upload: {

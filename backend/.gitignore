@@ -116,3 +116,6 @@ build
 .strapi-updater.json
 
 db
+
+# Production backups loaded by scripts/load-backup.sh
+.backup

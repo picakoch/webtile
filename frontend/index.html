@@ -20,7 +20,9 @@
             font-family: "Abel", Arial;
         }
     </style>
-    <title>Loading...</title>
+    <!-- Title, description, canonical and Open Graph tags for this page,
+         included by nginx from the API (see nginx/vhost_frontend.conf) -->
+    <!--# include virtual="/__head$request_uri" -->
 </head>
 <body style="min-height: 100vh;" class="uk-background-secondary">
 <noscript>

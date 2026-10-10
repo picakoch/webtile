@@ -5,12 +5,18 @@
     </div>
     <template v-else-if="$store.getters.category_break">
       <div v-for="group in sorted_items" :key="group" class="tile-group">
-        <TileGrid :items="group[1]" :title="group[0]" :key="group"></TileGrid>
+        <TileGrid
+          :items="group[1]"
+          :title="group[0]"
+          :base-path="tileBasePath"
+          :key="group"
+        ></TileGrid>
       </div>
     </template>
     <template v-else>
       <TileGrid
         :items="all_items"
+        :base-path="tileBasePath"
         :key="name + '_' + q.replace(' ', '') + '_' + tag + '_' + media"
       ></TileGrid>
     </template>
@@ -41,23 +47,31 @@ export default {
   data() {
     return {
       items: [],
-      tileImages: { data: [] },
-      tileVideos: { data: [] },
-      tileTexts: { data: [] },
-      tileAudios: { data: [] },
+      tileImages: [],
+      tileVideos: [],
+      tileTexts: [],
+      tileAudios: [],
       search: {
-        tileAudios: { data: [] },
-        tileImages: { data: [] },
-        tileVideos: { data: [] },
-        tileTexts: { data: [] },
+        tileAudios: { nodes: [] },
+        tileImages: { nodes: [] },
+        tileVideos: { nodes: [] },
+        tileTexts: { nodes: [] },
       },
     };
   },
   methods: {
+    // The page's <head> tags, unless a tile is open: the tile sets its own,
+    // and the lists (which load after it) mustn't overwrite them
+    pageMetaTags(title) {
+      if (this.$route.params.slug || this.$route.params.id) {
+        return;
+      }
+      this.updateMetaTags(title);
+    },
     updatePath(e) {
       this.$log.debug("MODAL HIDDEN", e);
       // Modal closed because we already left the detail route (e.g. browser back)
-      if (!this.$route.params.id) {
+      if (!this.$route.params.slug) {
         return;
       }
       // get parent path property
@@ -65,7 +79,7 @@ export default {
         let path = this.$route.matched[this.$route.matched.length - 2].path;
         let realPath = path.replace(
           /:\w+/g,
-          (param) => this.$route.params[param.substr(1)]
+          (param) => this.$route.params[param.substr(1)],
         );
         this.$router.push(realPath);
       } else {
@@ -80,26 +94,21 @@ export default {
       });
     },
     sortTime(a, b) {
-      return (
-        new Date(b?.attributes?.tile?.date) -
-        new Date(a?.attributes?.tile?.date)
-      );
+      return new Date(b?.tile?.date) - new Date(a?.tile?.date);
     },
     compute_items() {
       this.$log.debug("Compute items", this.name, this.tag, this.media);
       if (this.name === "tag" && !this.tag) {
-        this.updateMetaTags(this.$store.getters.label_theme);
+        this.pageMetaTags(this.$store.getters.label_theme);
         const tags = this.$store.getters.tags;
         if (tags.length > 0) {
-          this.$router.push(
-            "/t/" + slugify(this.$store.getters.tags[0]?.attributes?.name)
-          );
+          this.$router.push("/t/" + slugify(this.$store.getters.tags[0]?.name));
           this.items = [];
           return;
         }
       }
       if (this.name === "media" && !this.media) {
-        this.updateMetaTags(this.$store.getters.label_music);
+        this.pageMetaTags(this.$store.getters.label_music);
         this.$router.push("/m/" + slugify(this.$store.getters.label_music));
         this.items = [];
         return;
@@ -108,16 +117,16 @@ export default {
         this.items = [];
         return;
       }
-      let image = this.tileImages.data;
-      let audio = this.tileAudios.data;
-      let video = this.tileVideos.data;
-      let text = this.tileTexts.data;
+      let image = this.tileImages;
+      let audio = this.tileAudios;
+      let video = this.tileVideos;
+      let text = this.tileTexts;
 
       if (this.q.length > 2) {
-        image = this.search.tileImages.data;
-        audio = this.search.tileAudios.data;
-        video = this.search.tileVideos.data;
-        text = this.search.tileTexts.data;
+        image = this.search.tileImages.nodes;
+        audio = this.search.tileAudios.nodes;
+        video = this.search.tileVideos.nodes;
+        text = this.search.tileTexts.nodes;
       }
       let ret_items = {};
       if (this.name === "type") {
@@ -139,39 +148,47 @@ export default {
           });
         }
         if (this.name === "time") {
-          this.updateMetaTags(this.$store.getters.label_date);
+          this.pageMetaTags(this.$store.getters.label_date);
           ret_items = Object.groupBy(allTiles, (e) =>
-            e?.attributes?.tile?.date
-              ? new Date(e.attributes.tile.date).getFullYear()
-              : new Date().getFullYear()
+            e?.tile?.date
+              ? new Date(e.tile.date).getFullYear()
+              : new Date().getFullYear(),
           );
         } else if (this.name === "theme") {
           this.$store.getters.tags.forEach((tag) => {
-            let tag_name = tag?.attributes?.name;
+            let tag_name = tag?.name;
             let fTiles = allTiles.filter((e) =>
-              e?.attributes?.tile?.tags?.data
-                .map((ee) => ee.attributes.name)
-                .includes(tag_name)
+              e?.tile?.tags?.map((ee) => ee.name).includes(tag_name),
             );
             if (fTiles.length > 0) {
               ret_items[tag_name] = fTiles;
             }
           });
         } else if (this.tag && this.tag.length > 1) {
-          this.updateMetaTags(this.tag);
+          // The tag's real name, not its slug
+          this.pageMetaTags(
+            this.$store.getters.tags.find((t) => slugify(t.name) === this.tag)
+              ?.name || this.tag,
+          );
           this.$store.getters.tags.forEach((tag) => {
-            let tag_name = tag?.attributes?.name;
+            let tag_name = tag?.name;
             let fTiles = allTiles.filter((e) =>
-              e?.attributes?.tile?.tags?.data
-                .map((ee) => ee.attributes.name)
-                .includes(tag_name)
+              e?.tile?.tags?.map((ee) => ee.name).includes(tag_name),
             );
             if (fTiles.length > 0 && slugify(tag_name) === this.tag) {
               ret_items[tag_name] = fTiles;
             }
           });
         } else if (this.media && this.media.length > 1) {
-          this.updateMetaTags(this.media);
+          this.pageMetaTags(
+            [
+              this.$store.getters.label_music,
+              this.$store.getters.label_images,
+              this.$store.getters.label_video,
+              this.$store.getters.label_text,
+            ].find((label) => label && slugify(label) === this.media) ||
+              this.media,
+          );
           if (this.media === slugify(this.$store.getters.label_music)) {
             ret_items[this.$store.getters.label_music] = audio;
           } else if (this.media === slugify(this.$store.getters.label_images)) {
@@ -185,13 +202,21 @@ export default {
       }
       Object.keys(ret_items).forEach((k) => {
         ret_items[k] = ret_items[k].map((e, i) => {
-          return { tile: e, id: i === 0 ? `tile_group_${k}` : `tile_${e.id}` };
+          return {
+            tile: e,
+            id: i === 0 ? `tile_group_${k}` : `tile_${e.documentId}`,
+          };
         });
       });
       this.items = ret_items;
     },
   },
   computed: {
+    tileBasePath() {
+      if (this.tag) return `/t/${this.tag}`;
+      if (this.media) return `/m/${this.media}`;
+      return "/time";
+    },
     sorted_items() {
       if (this.name === "time") {
         return Object.entries(this.items).sort((a, b) => -(a[0] - b[0]));
@@ -277,7 +302,7 @@ export default {
     sorted_items: function () {
       this.$emit(
         "nav",
-        this.sorted_items.map((e) => e[0])
+        this.sorted_items.map((e) => e[0]),
       );
     },
     name() {
@@ -288,6 +313,12 @@ export default {
     },
     media() {
       this.compute_items();
+    },
+    // Back on the page after closing a tile: restore the page's <head> tags
+    "$route.params.slug"(slug) {
+      if (!slug) {
+        this.compute_items();
+      }
     },
     q: function () {
       this.$log.debug("Q changed...", this.q);

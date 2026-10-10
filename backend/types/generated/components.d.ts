@@ -1,6 +1,6 @@
-import type { Attribute, Schema } from '@strapi/strapi';
+import type { Schema, Struct } from '@strapi/strapi';
 
-export interface MainTile extends Schema.Component {
+export interface MainTile extends Struct.ComponentSchema {
   collectionName: 'components_main_tiles';
   info: {
     description: '';
@@ -8,17 +8,17 @@ export interface MainTile extends Schema.Component {
     icon: 'book';
   };
   attributes: {
-    date: Attribute.Date & Attribute.Required;
-    image: Attribute.Media<'images'> & Attribute.Required;
-    large: Attribute.Boolean & Attribute.DefaultTo<false>;
-    tags: Attribute.Relation<'main.tile', 'oneToMany', 'api::tag.tag'>;
-    title: Attribute.String & Attribute.Required;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    large: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    tags: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
-declare module '@strapi/types' {
-  export module Shared {
-    export interface Components {
+declare module '@strapi/strapi' {
+  export namespace Public {
+    export interface ComponentSchemas {
       'main.tile': MainTile;
     }
   }
