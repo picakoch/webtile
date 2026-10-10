@@ -10,12 +10,13 @@
     <div class="grid-sizer"></div>
     <div class="grid-sizer2"></div>
     <div class="gutter-sizer"></div>
-    <template v-for="item in all_items" :key="item.id">
+    <template v-for="(item, index) in all_items" :key="item.id">
       <TilePreview
         :tile="item.tile.tile"
         :type="item.tile.__typename"
         :title_id="item.id"
         :href="tileUrl(item)"
+        :priority="index < priorityCount"
         @open="tileClicked(item)"
         v-if="item.hasOwnProperty('tile')"
       ></TilePreview>
@@ -59,6 +60,12 @@ export default {
     basePath: {
       type: String,
       default: "/time",
+    },
+    // How many of the first items load their image right away (the rest
+    // load when scrolled to)
+    priorityCount: {
+      type: Number,
+      default: 0,
     },
   },
   methods: {
