@@ -8,20 +8,8 @@
       <h2 class="uk-modal-title">
         {{ tileText?.tile?.title }}
       </h2>
-      <div class="" uk-grid v-if="pdf">
-        <div class="uk-width-1-1 uk-margin-top uk-text-center pdf-container">
-          <div v-for="page in pages" :key="page" class="uk-margin-bottom">
-            <VuePDF
-              v-if="pdf"
-              :pdf="pdf"
-              intent="display"
-              fit-parent
-              :page="page"
-            >
-              <div>Chargement du contenu...</div>
-            </VuePDF>
-          </div>
-        </div>
+      <div class="" uk-grid v-if="pdfUrl">
+        <PdfViewer :url="pdfUrl"></PdfViewer>
       </div>
       <StrapiBlocks
         v-else-if="tileText?.description"
@@ -35,8 +23,13 @@
 import { TEXT_Q } from "@/lib/queries";
 import metaManager from "@/mixins/metaManager";
 import uk from "uikit";
-import { VuePDF, usePDF } from "@tato30/vue-pdf";
+import { defineAsyncComponent } from "vue";
 import { StrapiBlocks } from "vue-strapi-blocks-renderer";
+
+// Downloaded only when a text has a PDF attached
+const PdfViewer = defineAsyncComponent(
+  () => import("@/components/PdfViewer.vue"),
+);
 
 export default {
   name: "TileText",
@@ -46,12 +39,10 @@ export default {
       type: String,
     },
   },
-  components: { StrapiBlocks, VuePDF },
+  components: { StrapiBlocks, PdfViewer },
   data() {
     return {
       tileText: {},
-      pdf: null,
-      pages: [],
     };
   },
   beforeMount() {
@@ -64,7 +55,12 @@ export default {
     // UIkit moved the modal to <body>, so Vue won't remove it: do it here
     uk.modal(this.$el).$destroy(true);
   },
-  computed: {},
+  computed: {
+    pdfUrl() {
+      const url = this.tileText?.media?.url;
+      return url ? this.$store.getters.backend_url + url : null;
+    },
+  },
   methods: {},
   apollo: {
     tileText: {
@@ -81,23 +77,10 @@ export default {
           this.tileText,
           this.tileText?.description,
         );
-        if (this.tileText?.media?.url) {
-          const { pdf, pages } = usePDF(
-            this.$store.getters.backend_url + this.tileText.media.url,
-          );
-          this.pdf = pdf;
-          this.pages = pages;
-        }
       },
     },
   },
 };
 </script>
 
-<style scoped>
-.pdf-container {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1000px;
-}
-</style>
+<style scoped></style>

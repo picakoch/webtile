@@ -105,12 +105,14 @@ render() {
       "$1"
 }
 
-# Turns a rendered HTTP-only template into HTTPS + an HTTP->HTTPS redirect.
+# Turns a rendered HTTP-only template into HTTPS (with HTTP/2: images load in
+# parallel instead of ~6 at a time) + an HTTP->HTTPS redirect.
 # $1: rendered config, $2: fullchain, $3: privkey, $4: server names
 with_https() {
   awk -v chain="$2" -v key="$3" '
     /^[ \t]*listen 80;/ {
       print "    listen 443 ssl;"
+      print "    http2 on;"
       print "    ssl_certificate " chain ";"
       print "    ssl_certificate_key " key ";"
       print "    include /etc/letsencrypt/options-ssl-nginx.conf;"
