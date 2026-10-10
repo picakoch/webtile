@@ -12,12 +12,21 @@
     :style="{ height: `${tile_height}px` }"
   >
     <div class="uk-inline-clip uk-transition-toggle" tabindex="0">
-      <v-lazy-image
-        :src="$store.getters.backend_url + medium.url"
-        :src-placeholder="$store.getters.backend_url + thumb.url"
+      <!-- One download per tile, sized for the screen; tiles below the
+           screen load when scrolled to, the first ones right away -->
+      <img
+        :src="src"
+        :srcset="srcset"
+        :sizes="sizes"
+        :width="thumb.width"
+        :height="thumb.height"
+        :loading="priority ? 'eager' : 'lazy'"
+        :fetchpriority="priority ? 'high' : 'auto'"
+        decoding="async"
         :alt="tile.title"
+        class="tile-image"
         :class="{ img_border: $store.getters.image_border }"
-        :width="`${tile_width}px`"
+        :style="{ width: `${tile_width}px`, height: 'auto' }"
       />
       <div
         class="uk-transition-slide-bottom uk-position-bottom uk-overlay uk-overlay-primary main-overlay"
@@ -42,12 +51,20 @@
 </template>
 
 <script>
-import VLazyImage from "v-lazy-image";
 import { TILE_ICONS } from "../lib/constants";
+import { imageSrc, imageSrcset } from "@/lib/images";
+
+// Rendered width of a tile, per breakpoint (same as .grid-item--width1/2 in
+// App.vue): lets the browser pick the right image size before layout
+const SIZES = {
+  normal:
+    "(min-width: 1600px) 19vw, (min-width: 1200px) 24vw, (min-width: 950px) 31vw, (min-width: 700px) 46vw, 93vw",
+  large:
+    "(min-width: 1600px) 39vw, (min-width: 1200px) 48vw, (min-width: 950px) 64vw, (min-width: 700px) 95vw, 93vw",
+};
 
 export default {
   name: "TilePreview",
-  components: { VLazyImage },
   emits: ["open"],
   props: {
     href: {
@@ -61,6 +78,11 @@ export default {
     },
     title_id: {
       type: String,
+    },
+    // First tiles of the page: loaded immediately, with high priority
+    priority: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -103,14 +125,18 @@ export default {
     orig: function () {
       return this.tile.image;
     },
-    small: function () {
-      return this.tile?.image?.formats?.small || this.orig;
+    src: function () {
+      return imageSrc(this.tile.image, this.$store.getters.backend_url, {
+        wide: this.tile?.large,
+      });
     },
-    medium: function () {
-      return this.tile?.image?.formats?.medium || this.small;
+    srcset: function () {
+      return imageSrcset(this.tile.image, this.$store.getters.backend_url, {
+        wide: this.tile?.large,
+      });
     },
-    large: function () {
-      return this.tile?.image?.formats?.large || this.medium;
+    sizes: function () {
+      return this.tile?.large ? SIZES.large : SIZES.normal;
     },
     tile_height: function () {
       return (this.thumb.height * this.tile_width) / this.thumb.width;
@@ -134,6 +160,8 @@ export default {
 <style scoped>
 .tile-preview {
   display: block;
+  /* Shown until the image arrives */
+  background-color: #1a1a1a;
   color: inherit;
   text-decoration: none;
 }

@@ -23,11 +23,20 @@
                 :href="$store.getters.backend_url + current_image_full_url"
                 :data-caption="tileAudio?.title"
               >
-                <v-lazy-image
-                  :src="$store.getters.backend_url + current_image_full_url"
-                  :src-placeholder="
-                    $store.getters.backend_url + current_image_url
+                <!-- Sized for the screen; the link opens the original -->
+                <img
+                  :src="
+                    imageSrc(current_image, $store.getters.backend_url, {
+                      wide: true,
+                    })
                   "
+                  :srcset="
+                    imageSrcset(current_image, $store.getters.backend_url, {
+                      wide: true,
+                    })
+                  "
+                  sizes="(min-width: 960px) 50vw, 100vw"
+                  fetchpriority="high"
                   :alt="tileAudio?.title"
                   style="height: 75vh; object-fit: contain"
                 />
@@ -159,7 +168,7 @@ import { AUDIO_Q } from "@/lib/queries";
 import metaManager from "@/mixins/metaManager";
 import uk from "uikit";
 import { StrapiBlocks } from "vue-strapi-blocks-renderer";
-import VLazyImage from "v-lazy-image";
+import { imageSrc, imageSrcset } from "@/lib/images";
 
 export default {
   name: "TileAudio",
@@ -169,13 +178,13 @@ export default {
       type: String,
     },
   },
-  components: { StrapiBlocks, VLazyImage },
+  components: { StrapiBlocks },
   data() {
     return {
       player_playing: false,
       player_track: null,
       current_track: null,
-      current_image_url: null,
+      current_image: null,
       current_album_content: null,
       current_track_content: null,
       current_image_full_url: null,
@@ -216,6 +225,8 @@ export default {
     },
   },
   methods: {
+    imageSrc,
+    imageSrcset,
     trackUrl(track) {
       return this.$store.getters.backend_url + track.media.url;
     },
@@ -318,11 +329,7 @@ export default {
       this.current_track = track;
       if (image) {
         this.current_image_full_url = image.url;
-        this.current_image_url =
-          image.formats?.medium?.url ||
-          image.formats?.small?.url ||
-          image.formats?.thumbnail?.url ||
-          image.url;
+        this.current_image = image;
       }
     },
   },

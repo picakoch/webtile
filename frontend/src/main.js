@@ -8,6 +8,8 @@ import uk from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import { VueMasonryPlugin } from "vue-masonry";
 import UniIcon from "@/components/UniIcon.vue";
+// This site's fonts (frontend/.env, see fonts.config.js)
+import "virtual:site-fonts";
 
 const isProduction = import.meta.env.PROD;
 

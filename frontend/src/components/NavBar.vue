@@ -483,7 +483,7 @@ export default {
 .nav-text-main {
   font-size: 2.2em !important;
   text-align: left !important;
-  font-family: Roboto, "Times New Roman", Times, sans-serif;
+  font-family: var(--font-title);
 }
 
 .nav-subtitle {
@@ -499,13 +499,13 @@ export default {
 }
 
 .nav-item > a {
-  font-family: Roboto, "Times New Roman", Times, sans-serif;
+  font-family: var(--font-title);
 }
 
 .uk-search-input {
   color: #fff;
   font-size: 2em;
-  font-family: Roboto, "Times New Roman", Times, sans-serif;
+  font-family: var(--font-text);
 }
 
 .uk-search-navbar .uk-search-input {
