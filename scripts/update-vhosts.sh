@@ -105,14 +105,27 @@ render() {
       "$1"
 }
 
+# HTTP/2 syntax: "http2 on;" since nginx 1.25.1, "listen ... http2" before
+# (e.g. Ubuntu 24.04's nginx 1.24)
+nginx_at_least() {
+  local version
+  version=$(nginx -v 2>&1 | sed -n 's#.*nginx/\([0-9.]*\).*#\1#p')
+  [ -n "$version" ] && [ "$(printf '%s\n%s\n' "$1" "$version" | sort -V | head -1)" = "$1" ]
+}
+if nginx_at_least 1.25.1; then
+  LISTEN_HTTPS="    listen 443 ssl;\n    http2 on;"
+else
+  LISTEN_HTTPS="    listen 443 ssl http2;"
+fi
+
 # Turns a rendered HTTP-only template into HTTPS (with HTTP/2: images load in
 # parallel instead of ~6 at a time) + an HTTP->HTTPS redirect.
 # $1: rendered config, $2: fullchain, $3: privkey, $4: server names
 with_https() {
-  awk -v chain="$2" -v key="$3" '
+  awk -v chain="$2" -v key="$3" -v listen="$LISTEN_HTTPS" '
     /^[ \t]*listen 80;/ {
-      print "    listen 443 ssl;"
-      print "    http2 on;"
+      gsub(/\\n/, "\n", listen)
+      print listen
       print "    ssl_certificate " chain ";"
       print "    ssl_certificate_key " key ";"
       print "    include /etc/letsencrypt/options-ssl-nginx.conf;"
@@ -206,6 +219,10 @@ if grep -qE '^[^#]*\bgzip[[:space:]]+on' "$NGINX_DIR/nginx.conf"; then
   echo "Remove 'gzip on;' from $NGINX_DIR/nginx.conf: it is now in $HTTP_CONF" >&2
   exit 1
 fi
+
+# Parent of the GraphQL cache (webtile-http.conf): nginx only creates the
+# last directory level, and Ubuntu's package has no /var/cache/nginx
+mkdir -p /var/cache/nginx
 
 BACKUP="$BACKUP_ROOT/$(date +%Y-%m-%d_%H%M%S)-$$"
 mkdir -p "$BACKUP"
