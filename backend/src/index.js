@@ -1,7 +1,7 @@
 'use strict';
 
 const { getPlainText } = require('./api/util');
-const { ensureSlug, backfill } = require('./slugs');
+const { ensureSlug, afterClone, backfill } = require('./slugs');
 
 // Plain-text copies of tile fields, indexed by strapi-plugin-fuzzy-search
 // (see config/plugins.js): blocks field -> text field.
@@ -33,13 +33,16 @@ async function restrictNewsletterPermissions(strapi) {
   }
 }
 
-// Recompute the search fields of every tile row (draft and published) from
-// its content. Under Strapi 4 they were often left empty (the lifecycles read
-// the raw admin request, and tile-audio wrote to a wrong field), so about half
-// the tiles couldn't be found by title. Only rows that differ are written.
-async function reindexSearchFields(strapi) {
+// Recompute the search fields of tile rows (draft and published) from their
+// content; all rows by default. Under Strapi 4 they were often left empty
+// (the lifecycles read the raw admin request, and tile-audio wrote to a
+// wrong field), so about half the tiles couldn't be found by title. Only rows
+// that differ are written.
+async function reindexSearchFields(strapi, only = {}) {
   for (const [uid, fields] of Object.entries(SEARCH_FIELDS)) {
+    if (only.uid && only.uid !== uid) continue;
     const rows = await strapi.db.query(uid).findMany({
+      where: only.where || {},
       select: ['id', 'tile_title', ...Object.keys(fields), ...Object.values(fields)],
       populate: { tile: { select: ['title'] } },
     });
@@ -60,7 +63,7 @@ async function reindexSearchFields(strapi) {
         updated++;
       }
     }
-    if (updated) strapi.log.info(`Search fields updated for ${updated} ${uid} row(s)`);
+    if (updated && !only.uid) strapi.log.info(`Search fields updated for ${updated} ${uid} row(s)`);
   }
 }
 
@@ -71,6 +74,17 @@ module.exports = {
     strapi.documents.use(async (context, next) => {
       const { uid, action, params } = context;
       const data = params?.data;
+
+      // The admin's "Duplicate" copies every field, slug included: give the
+      // copy its own slug, no legacy_id, and its own search fields
+      if (action === 'clone' && uid in SEARCH_FIELDS) {
+        const result = await next();
+        if (result?.documentId) {
+          await afterClone(strapi, uid, result.documentId);
+          await reindexSearchFields(strapi, { uid, where: { documentId: result.documentId } });
+        }
+        return result;
+      }
 
       if (data && (action === 'create' || action === 'update')) {
         if (uid in SEARCH_FIELDS) {

@@ -27,10 +27,12 @@ const escapeHtml = (text) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
+// Cut at the last space before the limit (or at the limit if there is none)
 const shorten = (text, max = DESCRIPTION_LENGTH) => {
   const clean = String(text || '').replace(/\s+/g, ' ').trim();
   if (clean.length <= max) return clean;
-  return clean.slice(0, clean.lastIndexOf(' ', max - 1)) + '…';
+  const cut = clean.lastIndexOf(' ', max - 1);
+  return clean.slice(0, cut > 0 ? cut : max - 1) + '…';
 };
 
 // Rich text (blocks) or plain text field -> plain text

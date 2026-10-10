@@ -4,26 +4,34 @@
 
 const DESCRIPTION_LENGTH = 160;
 
-// Plain text of a Strapi "blocks" (rich text) value, or of a plain string
+// Plain text of a Strapi "blocks" (rich text) value, or of a plain string.
+// Same as the backend's (backend/src/api/util.js): blocks separated by a
+// space, inline text and links joined as they are.
+const INLINE = new Set(["text", "link"]);
+
 export function plainText(value) {
   if (!Array.isArray(value)) {
     return String(value || "");
   }
   return value
-    .map((node) =>
-      node.type === "text" ? node.text : plainText(node.children),
-    )
-    .join(value.some((node) => node.type !== "text") ? " " : "")
+    .map((node) => {
+      const text =
+        node.type === "text" ? node.text || "" : plainText(node.children);
+      return INLINE.has(node.type) ? text : ` ${text} `;
+    })
+    .join("")
     .replace(/\s+/g, " ")
     .trim();
 }
 
+// Cut at the last space before the limit (or at the limit if there is none)
 function shorten(text) {
   const clean = String(text || "")
     .replace(/\s+/g, " ")
     .trim();
   if (clean.length <= DESCRIPTION_LENGTH) return clean;
-  return clean.slice(0, clean.lastIndexOf(" ", DESCRIPTION_LENGTH - 1)) + "…";
+  const cut = clean.lastIndexOf(" ", DESCRIPTION_LENGTH - 1);
+  return clean.slice(0, cut > 0 ? cut : DESCRIPTION_LENGTH - 1) + "…";
 }
 
 function setTag(selector, create, attribute, value) {

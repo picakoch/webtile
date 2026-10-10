@@ -2,7 +2,7 @@
   <!-- A real link so crawlers can follow it; opens in place (no reload) -->
   <a
     :href="href"
-    @click.prevent="$emit('open')"
+    @click="onClick"
     :id="tile_id"
     class="tile-preview grid-item"
     :class="{
@@ -71,6 +71,21 @@ export default {
     };
   },
   methods: {
+    // Plain click: open in place. Modified/middle click: let the browser
+    // handle the link (new tab, new window...)
+    onClick(event) {
+      if (
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+      event.preventDefault();
+      this.$emit("open");
+    },
     onResize: function () {
       let base_width =
         document.getElementsByClassName("grid-sizer")[0].offsetWidth;

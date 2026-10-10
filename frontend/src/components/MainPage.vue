@@ -60,6 +60,14 @@ export default {
     };
   },
   methods: {
+    // The page's <head> tags, unless a tile is open: the tile sets its own,
+    // and the lists (which load after it) mustn't overwrite them
+    pageMetaTags(title) {
+      if (this.$route.params.slug || this.$route.params.id) {
+        return;
+      }
+      this.updateMetaTags(title);
+    },
     updatePath(e) {
       this.$log.debug("MODAL HIDDEN", e);
       // Modal closed because we already left the detail route (e.g. browser back)
@@ -71,7 +79,7 @@ export default {
         let path = this.$route.matched[this.$route.matched.length - 2].path;
         let realPath = path.replace(
           /:\w+/g,
-          (param) => this.$route.params[param.substr(1)]
+          (param) => this.$route.params[param.substr(1)],
         );
         this.$router.push(realPath);
       } else {
@@ -86,26 +94,21 @@ export default {
       });
     },
     sortTime(a, b) {
-      return (
-        new Date(b?.tile?.date) -
-        new Date(a?.tile?.date)
-      );
+      return new Date(b?.tile?.date) - new Date(a?.tile?.date);
     },
     compute_items() {
       this.$log.debug("Compute items", this.name, this.tag, this.media);
       if (this.name === "tag" && !this.tag) {
-        this.updateMetaTags(this.$store.getters.label_theme);
+        this.pageMetaTags(this.$store.getters.label_theme);
         const tags = this.$store.getters.tags;
         if (tags.length > 0) {
-          this.$router.push(
-            "/t/" + slugify(this.$store.getters.tags[0]?.name)
-          );
+          this.$router.push("/t/" + slugify(this.$store.getters.tags[0]?.name));
           this.items = [];
           return;
         }
       }
       if (this.name === "media" && !this.media) {
-        this.updateMetaTags(this.$store.getters.label_music);
+        this.pageMetaTags(this.$store.getters.label_music);
         this.$router.push("/m/" + slugify(this.$store.getters.label_music));
         this.items = [];
         return;
@@ -145,19 +148,17 @@ export default {
           });
         }
         if (this.name === "time") {
-          this.updateMetaTags(this.$store.getters.label_date);
+          this.pageMetaTags(this.$store.getters.label_date);
           ret_items = Object.groupBy(allTiles, (e) =>
             e?.tile?.date
               ? new Date(e.tile.date).getFullYear()
-              : new Date().getFullYear()
+              : new Date().getFullYear(),
           );
         } else if (this.name === "theme") {
           this.$store.getters.tags.forEach((tag) => {
             let tag_name = tag?.name;
             let fTiles = allTiles.filter((e) =>
-              e?.tile?.tags
-                ?.map((ee) => ee.name)
-                .includes(tag_name)
+              e?.tile?.tags?.map((ee) => ee.name).includes(tag_name),
             );
             if (fTiles.length > 0) {
               ret_items[tag_name] = fTiles;
@@ -165,30 +166,28 @@ export default {
           });
         } else if (this.tag && this.tag.length > 1) {
           // The tag's real name, not its slug
-          this.updateMetaTags(
+          this.pageMetaTags(
             this.$store.getters.tags.find((t) => slugify(t.name) === this.tag)
-              ?.name || this.tag
+              ?.name || this.tag,
           );
           this.$store.getters.tags.forEach((tag) => {
             let tag_name = tag?.name;
             let fTiles = allTiles.filter((e) =>
-              e?.tile?.tags
-                ?.map((ee) => ee.name)
-                .includes(tag_name)
+              e?.tile?.tags?.map((ee) => ee.name).includes(tag_name),
             );
             if (fTiles.length > 0 && slugify(tag_name) === this.tag) {
               ret_items[tag_name] = fTiles;
             }
           });
         } else if (this.media && this.media.length > 1) {
-          this.updateMetaTags(
+          this.pageMetaTags(
             [
               this.$store.getters.label_music,
               this.$store.getters.label_images,
               this.$store.getters.label_video,
               this.$store.getters.label_text,
             ].find((label) => label && slugify(label) === this.media) ||
-              this.media
+              this.media,
           );
           if (this.media === slugify(this.$store.getters.label_music)) {
             ret_items[this.$store.getters.label_music] = audio;
@@ -303,7 +302,7 @@ export default {
     sorted_items: function () {
       this.$emit(
         "nav",
-        this.sorted_items.map((e) => e[0])
+        this.sorted_items.map((e) => e[0]),
       );
     },
     name() {

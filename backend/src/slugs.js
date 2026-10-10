@@ -68,6 +68,19 @@ async function ensureSlug(strapi, { uid, action, params }) {
   data.slug = await uniqueSlug(strapi, uid, source, params.documentId, `${type}-${Date.now()}`);
 }
 
+// After the admin's "Duplicate": the copy got the original's slug and
+// legacy_id. New slug from its title (made unique: "-2"), no legacy_id.
+async function afterClone(strapi, uid, documentId) {
+  const row = await strapi.db.query(uid).findOne({
+    where: { documentId },
+    populate: { tile: { select: ['title'] } },
+  });
+  if (!row) return;
+  const type = uid.split('.').pop().replace('tile-', '');
+  const slug = await uniqueSlug(strapi, uid, row.tile?.title, documentId, `${type}-${row.id}`);
+  await strapi.db.query(uid).updateMany({ where: { documentId }, data: { slug, legacy_id: null } });
+}
+
 // Bootstrap: give tiles without a slug one (existing tiles after the
 // migration). Writes with the query layer's updateMany so draft and published
 // rows get the same value without republishing, and keep their updatedAt.
@@ -94,4 +107,4 @@ async function backfill(strapi) {
   }
 }
 
-module.exports = { TILE_UIDS, slugify, ensureSlug, backfill };
+module.exports = { TILE_UIDS, slugify, ensureSlug, afterClone, backfill };

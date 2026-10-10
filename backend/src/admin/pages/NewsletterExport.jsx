@@ -11,8 +11,10 @@ const UID = 'api::newsletter-subscription.newsletter-subscription';
 const COLUMNS = ['name', 'email', 'subscription_date'];
 
 const csvCell = (value) => {
-  const text = value == null ? '' : String(value);
-  return /[",\n;]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  let text = value == null ? '' : String(value);
+  // Names come from the public form: stop Excel from running "=..." formulas
+  if (/^[=+\-@\t\r]/.test(text)) text = `'${text}`;
+  return /[",\r\n;]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 };
 
 const NewsletterExport = () => {
